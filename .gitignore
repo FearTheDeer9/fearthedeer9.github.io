@@ -1,0 +1,22 @@
+# Jekyll build output
+_site/
+
+# Ruby dependency lock file
+Gemfile.lock
+
+# Optional GitHub workflows/configs
+.github/
+
+# System files
+.DS_Store
+.env
+
+# IDE/Editor folders
+.vscode/
+.idea/
+*.swp
+*~
+
+# Jekyll metadata
+.jekyll-metadata
+.jekyll-cache/

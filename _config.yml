@@ -1,5 +1,15 @@
 remote_theme: "mmistakes/minimal-mistakes@4.24.0"
 title: Harel's Blog
+minimal_mistakes_skin: "default"
+
+url: "https://fearthedeer9.github.io"
+baseurl: ""
+
+include:
+  - _includes
+  - _layouts
+  - _pages
+
 plugins:
   - jekyll-include-cache
   - jekyll-paginate
@@ -9,9 +19,11 @@ plugins:
   - jemoji
 
 permalink: /:year/:month/:day/:title/
-paginate: 5 # Number of posts per page
+paginate: 5
 
-search: true
+markdown: kramdown
+kramdown:
+  math_engine: mathjax
 
 defaults:
   - scope:
@@ -20,29 +32,16 @@ defaults:
     values:
       layout: single
       read_time: true
-      author_profile: true
+      mathjax: true
 
 main:
   - title: "Wiki"
     url: "/wiki.fearthedeer9.github.io/"
 
-# Navigation
 navbar:
   - title: "Wiki"
     url: "/wiki.fearthedeer9.github.io/"
 
-# Site Author
 author:
   name: "Harel Lidar"
   bio: "Harel's Blog"
-  avatar: "/assets/images/bio-photo.jpg"
-
-# Defaults
-defaults:
-  - scope:
-      path: ""
-      type: posts
-    values:
-      layout: single
-      author_profile: true
-      read_time: true
