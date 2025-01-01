@@ -1,12 +1,27 @@
-title: Harel's Blog
-remote_theme: mmistakes/minimal-mistakes
-minimal_mistakes_skin: "dark"
+remote_theme: "mmistakes/minimal-mistakes@4.24.0"
+title: Your Blog
+plugins:
+  - jekyll-include-cache
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-gist
+  - jekyll-feed
+  - jemoji
+
 search: true
+
+# Navigation
+navbar:
+  - title: "Wiki"
+    url: https://wiki.your-username.github.io
+
+# Site Author
 author:
-  name: "Harel Lidar"
-  bio: "Harel's Blog"
+  name: "Your Name"
+  bio: "Your bio"
   avatar: "/assets/images/bio-photo.jpg"
 
+# Defaults
 defaults:
   - scope:
       path: ""
@@ -15,14 +30,3 @@ defaults:
       layout: single
       author_profile: true
       read_time: true
-      comments: true
-      share: true
-
-category_archive:
-  type: liquid
-  path: /categories/
-
-include: ["_pages"]
-aux_links:
-  "Wiki →": 
-    - "https://wiki.fearthedeer9.github.io"
