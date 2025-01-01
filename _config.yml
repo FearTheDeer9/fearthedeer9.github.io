@@ -13,7 +13,7 @@ search: true
 # Navigation
 navbar:
   - title: "Wiki"
-    url: https://wiki.fearthedeer9.github.io
+    url: "/wiki.fearthedeer9.github.io/"
 
 # Site Author
 author:
