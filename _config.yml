@@ -13,6 +13,15 @@ paginate: 5 # Number of posts per page
 
 search: true
 
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: single
+      read_time: true
+      author_profile: true
+
 main:
   - title: "Wiki"
     url: "/wiki.fearthedeer9.github.io/"
