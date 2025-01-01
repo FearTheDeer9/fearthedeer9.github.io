@@ -1,0 +1,28 @@
+title: Harel's Blog
+remote_theme: mmistakes/minimal-mistakes
+minimal_mistakes_skin: "dark"
+search: true
+author:
+  name: "Harel Lidar"
+  bio: "Harel's Blog"
+  avatar: "/assets/images/bio-photo.jpg"
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: true
+      share: true
+
+category_archive:
+  type: liquid
+  path: /categories/
+
+include: ["_pages"]
+aux_links:
+  "Wiki →": 
+    - "https://wiki.fearthedeer9.github.io"
