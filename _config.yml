@@ -8,6 +8,9 @@ plugins:
   - jekyll-feed
   - jemoji
 
+permalink: /:year/:month/:day/:title/
+paginate: 5 # Number of posts per page
+
 search: true
 
 main:
