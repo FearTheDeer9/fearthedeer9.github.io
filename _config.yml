@@ -1,5 +1,5 @@
 remote_theme: "mmistakes/minimal-mistakes@4.24.0"
-title: Your Blog
+title: Harel's Blog
 plugins:
   - jekyll-include-cache
   - jekyll-paginate
@@ -13,12 +13,12 @@ search: true
 # Navigation
 navbar:
   - title: "Wiki"
-    url: https://wiki.your-username.github.io
+    url: https://wiki.fearthedeer9.github.io
 
 # Site Author
 author:
-  name: "Your Name"
-  bio: "Your bio"
+  name: "Harel Lidar"
+  bio: "Harel's Blog"
   avatar: "/assets/images/bio-photo.jpg"
 
 # Defaults
