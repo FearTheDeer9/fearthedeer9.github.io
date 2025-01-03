@@ -13,6 +13,8 @@ tags:
 
 Many successful intellectuals mention a consistent writing schedule[^1] as an integral part of their daily routine and their success. I always found this a bit weird - there's something surprising about the notion that to learn, you need to sit in solitude, with no outside interaction, and put words on paper (or screen). If this is the case, why couldn't we just "know it"? Why do we need this whole ordeal of being alone and thinking?
 
+<!-- excerpt-end -->
+
 I know how naive this sounds. You can immediately think of plenty of reasons:
 
 - The act of writing requires us to structure loose thoughts into coherent arguments, find logical holes in our reasoning and make explicit connections in ideas we have.

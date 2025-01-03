@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: "Effects of Scale on Model Finetuning"
 date: 2024-01-01
 categories: [machine-learning, research]
@@ -7,9 +7,9 @@ tags: [llm, finetuning, scaling-laws]
 use_math: true
 ---
 
-# Background
-
 Finetuning is a type of [[knowledge editing for LLM]], it is required and widely adopted to unlock new and robust capabilities for creative tasks, get the most for focused downstream tasks, and align its value with human preferences. Whenever there is more annotated task-specific data that has been accumulated, the more finetuning is a good option. FInetuning performance is affected by pretraining conditions such as LLM model size and pretraining data size as well as finetuning conditions, such as downstream task, finetuning data size and finetuning methods. Intuitively, the pretraining controls the quality of the learned representation and knowledge in pretrained LLMS and the finetuning affects the degree of transfer to the downstream task. This paper explores whether and how LLM finetuning scales with the aforementioned factors.
+
+<!-- excerpt-end -->
 
 # Main Findings
 

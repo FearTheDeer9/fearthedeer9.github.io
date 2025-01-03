@@ -33,7 +33,7 @@ defaults:
       layout: single
       read_time: true
       mathjax: true
-
+      excerpt_separator: <!-- excerpt-end -->
 main:
   - title: "Wiki"
     url: "/wiki.fearthedeer9.github.io/"
