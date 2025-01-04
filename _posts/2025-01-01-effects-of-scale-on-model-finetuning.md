@@ -2,7 +2,7 @@
 layout: single
 title: "Effects of Scale on Model Finetuning"
 date: 2024-01-01
-categories: [machine-learning, research]
+categories: paper-summary machine-learning research
 tags: [llm, finetuning, scaling-laws]
 use_math: true
 ---

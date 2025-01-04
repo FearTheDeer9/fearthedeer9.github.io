@@ -4,6 +4,7 @@ title: "On Writing to Think"
 date: 2024-01-01
 categories:
   - thinking
+  - short-form
   - writing
 tags:
   - knowledge

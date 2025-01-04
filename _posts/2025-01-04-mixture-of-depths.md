@@ -4,6 +4,7 @@ title: "Mixture-of-Depths: Dynamically allocating compute in transformer-based l
 date: 2024-01-04
 categories:
   - AI
+  - paper-summary
 tags:
   - model compression
   - Dynamic compute allocation

@@ -1,10 +1,84 @@
 ---
-layout: home
-avatar: null
-author_profile: null
+layout: default
 ---
 
-{% for post in site.posts %}
-  <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-  {{ post.excerpt }}
-{% endfor %}
+<div class="posts-container">
+  {% for post in site.posts %}
+    <article class="post" data-categories="{% if post.categories %}{{ post.categories | join: ' ' }}{% else %}{{ post.category }}{% endif %}">
+      <h2 class="post-title">
+        <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+      </h2>
+
+      <div class="post-excerpt">
+        {{ post.excerpt }}
+      </div>
+
+      {% if post.categories %}
+      <div class="post-categories">
+        Categories: 
+        {% for category in post.categories %}
+          <span class="category-tag">{{ category }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="post-date">
+        Written on {{ post.date | date: "%B %e, %Y" }}
+      </div>
+    </article>
+  {% endfor %}
+</div>
+
+<style>
+.posts-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.post {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #eee;
+}
+
+.post:last-child {
+  border-bottom: none;
+}
+
+.post-title {
+  margin-bottom: 1rem;
+}
+
+.post-title a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.post-title a:hover {
+  text-decoration: underline;
+}
+
+.post-categories {
+  margin: 1rem 0;
+  font-size: 0.9rem;
+}
+
+.category-tag {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  margin-right: 0.5rem;
+  background-color: #f3f4f6;
+  border-radius: 0.25rem;
+  font-size: 0.8rem;
+}
+
+.post-date {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.post.hidden {
+  display: none;
+}
+</style>

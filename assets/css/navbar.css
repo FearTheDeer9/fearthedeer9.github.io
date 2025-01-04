@@ -1,0 +1,50 @@
+.post {
+    display: block;
+  }
+  
+  .post.hidden {
+    display: none !important;
+  }
+  
+  /* Rest of your navbar styles */
+  .navbar {
+    width: 100%;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .navbar-container {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  .nav-filters {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  .nav-btn {
+    display: inline-block;
+    padding: 1rem;
+    margin-right: 0.5rem;
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: none;
+    color: #4b5563;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .nav-btn:hover {
+    color: #1f2937;
+    border-bottom-color: #e5e7eb;
+  }
+  
+  .nav-btn.active {
+    color: #2563eb;
+    border-bottom-color: #2563eb;
+  }

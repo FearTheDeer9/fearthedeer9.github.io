@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="{{ site.locale | default: "en" }}" class="no-js">
  <head>
+  <link rel="stylesheet" href="/assets/css/navbar.css">
    {% include head.html %}
    {% include head/custom.html %}
  </head>
-
  <body class="layout--{{ page.layout | default: layout.layout }}{% if page.classes or layout.classes %}{{ page.classes | default: layout.classes | join: ' ' | prepend: ' ' }}{% endif %}">
    {% include_cached skip-links.html %}
    {% include_cached browser-upgrade.html %}
    {% include_cached masthead.html %}
+
+   {% include navbar.html %}
 
    <div class="initial-content">
      {{ content }}
@@ -37,5 +39,6 @@
    };
    </script>
    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+   <script src="/assets/js/filter.js"></script>
  </body>
 </html>
