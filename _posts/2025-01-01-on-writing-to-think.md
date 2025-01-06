@@ -1,7 +1,7 @@
 ---
 layout: single
 title: "On Writing to Think"
-date: 2024-01-01
+date: 2025-01-01
 categories:
   - thinking
   - short-form

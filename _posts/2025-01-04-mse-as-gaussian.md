@@ -1,7 +1,7 @@
 ---
 layout: single
 title: "The Mathematics and Philosophy Behind MSE"
-date: 2024-01-04
+date: 2025-01-04
 categories:
   - math
   - short-form

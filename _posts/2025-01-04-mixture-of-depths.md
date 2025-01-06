@@ -1,7 +1,7 @@
 ---
 layout: single
 title: "Mixture-of-Depths: Dynamically allocating compute in transformer-based language models"
-date: 2024-01-04
+date: 2025-01-04
 categories:
   - AI
   - paper-summary
