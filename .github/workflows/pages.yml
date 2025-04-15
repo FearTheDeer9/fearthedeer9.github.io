@@ -22,5 +22,22 @@ jobs:
           bundler-cache: true
       - name: Build site
         run: bundle exec jekyll build
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      # Use this version of upload-artifact that should be available
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-artifact@v2
+        with:
+          name: github-pages
+          path: _site/
+      # Add a deploy job
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
