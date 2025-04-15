@@ -4,8 +4,6 @@ _site/
 # Ruby dependency lock file
 Gemfile.lock
 
-# Optional GitHub workflows/configs
-.github/
 
 # System files
 .DS_Store
