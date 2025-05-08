@@ -1,13 +1,14 @@
 ---
 date: '2025-04-14'
 layout: single
+title: "Paper Review - Meta Statistical Learning"
 tags:
 - machine learning
 - statistics
 - neural networks
 - data analysis
 - meta-learning
-title: Algorithm Backgrounds
+- few-shot learning
 ---
 
 

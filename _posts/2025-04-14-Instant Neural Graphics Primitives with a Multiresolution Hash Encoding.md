@@ -1,13 +1,12 @@
 ---
+title: "Paper Review - Instant Neural Graphics Primitives with a Multiresolution Hash Encoding"
 date: '2025-04-14'
 layout: single
 tags:
 - neural rendering
-- neural graphics primitives
-- multiresolution hash encoding
-- real-time rendering
-- neural representations
-title: Implementation
+- 3D reconstruction
+- radiance fields
+- hash encoding
 ---
 
 Müller et al. introduced a versatile input encoding for neural networks that dramatically accelerates the training and inference of neural graphics primitives. By combining a multiresolution hash table structure with small MLPs, they achieved training speeds several orders of magnitude faster than previous approaches while maintaining high quality across diverse graphics applications. This approach enables real-time rendering and training of neural representations that previously required hours to converge.

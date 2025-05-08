@@ -1,13 +1,13 @@
 ---
 date: '2025-04-14'
 layout: single
+title: "Paper Review - OpenScene: 3D Scene Understanding with Open Vocabularies"
 tags:
 - 3D scene understanding
 - computer vision
 - semantic segmentation
 - zero-shot learning
 - open-vocabulary querying
-title: Core Innovations
 ---
 
 OpenScene presents a breakthrough approach to 3D scene understanding that eliminates reliance on labeled 3D data and enables open-vocabulary querying. By co-embedding 3D points with text and image pixels in the CLIP feature space, OpenScene can perform zero-shot 3D semantic segmentation and novel tasks like querying scenes for materials, affordances, and activities.

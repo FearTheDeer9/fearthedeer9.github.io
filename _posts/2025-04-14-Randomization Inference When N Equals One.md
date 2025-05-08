@@ -1,13 +1,13 @@
 ---
 date: '2025-04-14'
 layout: single
+title: "Paper Review - Randomization Inference When N Equals One"
 tags:
 - causal inference
 - time series analysis
 - personalized medicine
 - digital health
 - online experimentation
-title: Core Problem
 ---
 
 ## Core Problem

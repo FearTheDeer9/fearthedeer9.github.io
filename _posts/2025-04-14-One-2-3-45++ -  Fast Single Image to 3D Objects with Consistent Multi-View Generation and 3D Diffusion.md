@@ -1,13 +1,12 @@
 ---
 date: '2025-04-14'
+title: "Paper Review - One-2-3-45++: Fast Single Image to 3D Objects with Consistent Multi-View Generation and 3D Diffusion"
 layout: single
 tags:
-- 3D modeling
-- computer vision
+- single image to 3D
+- 3D generation
+- multi-view consistency
 - diffusion models
-- image-to-3D conversion
-- texture generation
-title: Key Innovation
 ---
 
 One-2-3-45++ presents a breakthrough approach for transforming a single image into a high-quality 3D textured mesh in approximately one minute. This method bridges the gap between image-based and 3D modeling by combining the power of 2D diffusion models with 3D native diffusion, offering both rapid generation and high fidelity to input images.

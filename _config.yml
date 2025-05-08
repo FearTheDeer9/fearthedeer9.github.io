@@ -2,6 +2,9 @@ remote_theme: "mmistakes/minimal-mistakes@4.24.0"
 title: Harel's Blog
 minimal_mistakes_skin: "default"
 
+# Allow posts with future dates to be published
+future: true
+
 url: "https://fearthedeer9.github.io"
 baseurl: ""
 

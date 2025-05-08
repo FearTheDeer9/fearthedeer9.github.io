@@ -1,13 +1,13 @@
 ---
 date: '2025-04-14'
 layout: single
+title: "Paper Review - TabPFN: Understanding and Advancing Tabular Foundation Models"
 tags:
 - machine learning
 - tabular data
 - deep learning
 - transformer architecture
 - distributional prediction
-title: The Core Problem
 ---
 
 ## The Core Problem

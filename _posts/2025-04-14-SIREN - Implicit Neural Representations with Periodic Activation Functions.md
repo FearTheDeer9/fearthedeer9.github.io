@@ -1,13 +1,12 @@
 ---
 date: '2025-04-14'
 layout: single
+title: "Paper Review - SIREN: Implicit Neural Representations with Periodic Activation Functions"
 tags:
 - neural networks
 - implicit neural representations
-- differential equations
-- 3D shape representation
-- signal modeling
-title: Implementation
+- signal processing
+- computer vision
 ---
 
 SIREN (Sinusoidal Representation Networks) introduced a groundbreaking approach for implicit neural representations using periodic activation functions. This architecture revolutionized how neural networks can represent complex natural signals and their derivatives, establishing a foundation for solving a wide range of problems involving differential equations, 3D shape representation, and complex signal modeling.

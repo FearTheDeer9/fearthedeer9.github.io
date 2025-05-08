@@ -1,13 +1,14 @@
 ---
 date: '2025-04-14'
 layout: single
+title: "Paper Review - pixelNeRF: Neural Radiance Fields from One or Few Images"
 tags:
 - 3D rendering
 - neural radiance fields
 - novel view synthesis
 - computer vision
 - machine learning
-title: Key Innovation
+
 ---
 
 pixelNeRF presents a learning framework that enables predicting Neural Radiance Fields (NeRF) from just one or a few images in a feed-forward manner. This approach overcomes key limitations of the original NeRF, which requires many calibrated views and significant per-scene optimization time, by introducing an architecture that conditions a neural radiance field on image features in a fully convolutional manner.

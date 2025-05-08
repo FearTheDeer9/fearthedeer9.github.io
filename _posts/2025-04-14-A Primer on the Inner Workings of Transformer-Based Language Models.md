@@ -1,13 +1,12 @@
 ---
 date: '2025-04-14'
 layout: single
+title: "Paper Review - A Primer on the Inner Workings of Transformer-Based Language Models"
 tags:
-- transformer models
-- interpretability
-- attention mechanism
+- transformers
 - language models
-- model architecture
-title: Transformer Architecture
+- attention mechanisms
+- NLP
 ---
 
 This work summarizes the current techniques used to interpret the inner workings of transformer language models. As such, summarizing a summary is a challenge, but we will give it a try nonetheless.

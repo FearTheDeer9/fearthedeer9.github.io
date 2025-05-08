@@ -1,13 +1,13 @@
 ---
 date: '2025-04-14'
 layout: single
+title: "Paper Review - 3D Gaussian Splatting for Real-Time Radiance Field Rendering"
 tags:
 - computer vision
 - 3D rendering
 - machine learning
 - graphics
 - neural rendering
-title: Key Innovation
 ---
 
 3D Gaussian Splatting introduces a groundbreaking approach to novel view synthesis that achieves both state-of-the-art quality and real-time rendering speeds. The method represents scenes using anisotropic 3D Gaussians that are optimized from multi-view images, combining the quality of neural volumetric rendering with the speed of traditional rasterization pipelines.
@@ -150,7 +150,7 @@ This paper represents a paradigm shift in neural rendering by showing that conti
 
 ## Q2: Explain how the adaptive density control in 3D Gaussian Splatting works and why it's important for optimization.
 
-**A2**: Adaptive density control dynamically adjusts the number and distribution of Gaussians during optimization by tracking view-space positional gradients. Large gradients indicate regions where the current representation struggles to match the ground truth. For small Gaussians with high gradients (under-reconstruction), the method clones them and moves the copy along the gradient direction. For large Gaussians with high gradients (over-reconstruction), it splits them into smaller Gaussians. This approach is crucial because it allows the representation to evolve from sparse initial points to a dense, accurate scene representation, automatically allocating more Gaussians to complex regions while keeping the representation efficient in simple areas. Without this adaptive process, the optimization would either be limited by the initial point density or waste resources with uniformly high density.
+**A2**: Adaptive density control dynamically adjusts the number and distribution of Gaussians during optimization by tracking view-space positional gradients. Large gradients indicate regions where the current representation struggled to match the ground truth. For small Gaussians with high gradients (under-reconstruction), the method clones them and moves the copy along the gradient direction. For large Gaussians with high gradients (over-reconstruction), it splits them into smaller Gaussians. This approach is crucial because it allows the representation to evolve from sparse initial points to a dense, accurate scene representation, automatically allocating more Gaussians to complex regions while keeping the representation efficient in simple areas. Without this adaptive process, the optimization would either be limited by the initial point density or waste resources with uniformly high density.
 
 ## Q3: What is the significance of the mathematical equivalence between alpha-blending and volumetric rendering demonstrated in the paper?
 

@@ -1,5 +1,6 @@
 ---
 date: '2025-04-14'
+title: "Paper Review - DreamFusion: Text-to-3D using 2D Diffusion"
 layout: single
 tags:
 - 3D synthesis
@@ -7,7 +8,6 @@ tags:
 - diffusion models
 - neural radiance fields
 - computer vision
-title: Key Innovation
 ---
 
 DreamFusion represents a breakthrough in text-to-3D synthesis by leveraging pretrained 2D text-to-image diffusion models to generate high-quality 3D assets without any 3D training data. This novel approach circumvents the limitation of scarce 3D datasets by distilling knowledge from large-scale 2D models, enabling the creation of coherent 3D objects and scenes from natural language descriptions.

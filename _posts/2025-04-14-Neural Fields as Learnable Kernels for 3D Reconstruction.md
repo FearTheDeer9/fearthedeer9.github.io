@@ -1,13 +1,12 @@
 ---
 date: '2025-04-14'
+title: "Paper Review - Neural Fields as Learnable Kernels for 3D Reconstruction"
 layout: single
 tags:
 - 3D reconstruction
-- neural networks
-- kernel methods
+- neural fields
+- machine learning
 - computer vision
-- geometry processing
-title: Key Innovation
 ---
 
 Neural Kernel Fields (NKF) introduced a novel approach to 3D reconstruction that bridges the gap between data-driven methods and traditional kernel techniques. This approach achieves state-of-the-art results when reconstructing 3D objects and scenes from sparse oriented points, with remarkable generalization capabilities to unseen shape categories and varying point densities.

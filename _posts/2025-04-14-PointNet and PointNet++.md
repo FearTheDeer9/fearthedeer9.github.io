@@ -1,13 +1,13 @@
 ---
 date: '2025-04-14'
 layout: single
+title: "Paper Review - PointNet and PointNet++"
 tags:
 - 3D deep learning
 - point cloud processing
 - neural networks
 - computer vision
 - geometric deep learning
-title: Implementation
 ---
 
 PointNet and its successor PointNet++ introduced groundbreaking approaches for directly processing point cloud data without intermediary representations, establishing a foundation for 3D deep learning. These architectures effectively addressed the fundamental challenges of permutation invariance, transformation invariance, and hierarchical feature learning on unordered point sets, achieving state-of-the-art performance across multiple 3D understanding tasks.

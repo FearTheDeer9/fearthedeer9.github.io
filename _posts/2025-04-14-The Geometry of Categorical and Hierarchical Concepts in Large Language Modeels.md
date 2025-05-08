@@ -1,13 +1,12 @@
 ---
+title: "Paper Review - The Geometry of Categorical and Hierarchical Concepts in Large Language Models"
 date: '2025-04-14'
 layout: single
 tags:
-- natural language processing
-- representation learning
-- concept representation
-- hierarchical concepts
-- geometric representations
-title: Preliminaries
+- language models
+- representation geometry
+- AI interpretability
+- concept learning
 ---
 
 In this work the authors attempt to extend the linear representation hypothesis to cases where the concepts no longer have natural binary contrasts and hence do not admit a straightforward notion of *direction* (i.e {male, female} vs. {is_animal}). They extend the theory for both binary concepts, categorical concepts and hierarchical representations. This is done by replacing the notion of a representation as a *direction* to representation as a *vector*. 
@@ -45,7 +44,7 @@ $\bar{\ell}_W^{\top}g(y) = 0 \quad \text{if } y \notin \mathcal{U}(w)$ (4.1)
 
 $\bar{\gamma}_0 = \sum_{i=0}^{d-1} \bar{\gamma}_0^{w_i}.$ (4.2)
 
-The theorem says that, if a (perfect) linear representation of the animal feature exists, then every token having the animal attribute has the same dot product with the representation vector; i.e., “cat” is exactly as much animal as “dog” is. If this weren’t true, then increasing the probability that the output is about an animal would also increase the relative probability that the output is about a dog rather than a cat.
+The theorem says that, if a (perfect) linear representation of the animal feature exists, then every token having the animal attribute has the same dot product with the representation vector; i.e., "cat" is exactly as much animal as "dog" is. If this weren't true, then increasing the probability that the output is about an animal would also increase the relative probability that the output is about a dog rather than a cat.
 
 Using this, the authors introduce the notion of a vector representation of an attribute:
 #### Vector representation 
@@ -53,7 +52,7 @@ We say that a binary feature $W$ for an attribute $w$ has a *vector representati
 
 * Now, using this they define the *Polytope representation* of a categorical concept $W={w_0,...w_{k-1}}$ as the convex hull of the vector representations of the elements of the concept
 ### Hierarchical Concepts 
-Next, the authors turn to the question of how hierarchical relationships between concepts are encoded in the representation space. Their core intuition is that manipulating the “animal” concept should not affect relative probabilities of the “mammal” and “bird” concepts, so we might expect the representations of animal and mammal ⇒ bird to be orthogonal. They formalize this by connecting the vector and semantic concepts in the theorem of Hierarchical Orthogonality 
+Next, the authors turn to the question of how hierarchical relationships between concepts are encoded in the representation space. Their core intuition is that manipulating the "animal" concept should not affect relative probabilities of the "mammal" and "bird" concepts, so we might expect the representations of animal and mammal ⇒ bird to be orthogonal. They formalize this by connecting the vector and semantic concepts in the theorem of Hierarchical Orthogonality 
 ####  (Hierarchical Orthogonality)
 *Suppose there exist the vector representations for all the following binary features. Then, we have that*
 *(a)* $\bar{\ell}_w \perp \bar{\ell}_z - \bar{\ell}_w$ *for* $z \prec w$;

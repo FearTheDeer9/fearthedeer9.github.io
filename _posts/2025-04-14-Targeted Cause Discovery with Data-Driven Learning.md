@@ -1,5 +1,6 @@
 ---
 date: '2025-04-14'
+title: "Paper Review - Targeted Cause Discovery with Data-Driven Learning"
 layout: single
 tags:
 - machine learning
@@ -7,7 +8,6 @@ tags:
 - gene regulatory networks
 - scalable algorithms
 - neural networks
-title: '**Key Components and Methodology**'
 ---
 
 The paper introduces **Targeted Cause Discovery with Data-Driven Learning (TCD-DL)**, a machine learning-based approach to identify all causal variables—direct and indirect—of a target variable in large-scale systems, such as gene regulatory networks (GRNs). Traditional causal discovery methods often falter due to scalability issues and error propagation when tracing indirect causes. TCD-DL overcomes these challenges by leveraging a pre-trained neural network and a scalable inference strategy.
