@@ -2,6 +2,8 @@
 date: '2025-04-14'
 layout: single
 title: "Paper Review - PointNet and PointNet++"
+categories:
+  - paper-summary
 tags:
 - 3D deep learning
 - point cloud processing

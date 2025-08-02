@@ -2,6 +2,8 @@
 date: '2025-04-14'
 layout: single
 title: "Paper Review - LION: Latent Point Diffusion Models for 3D Shape Generation"
+categories:
+  - paper-summary
 tags:
 - 3d shape generation
 - variational autoencoders

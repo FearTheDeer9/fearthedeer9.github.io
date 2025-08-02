@@ -1,0 +1,35 @@
+/* Pagination styles remain separate from cards */
+.post.hidden {
+  display: none;
+}
+
+.pagination {
+  margin-top: 2rem;
+  text-align: center;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 2rem;
+}
+
+.pagination a, .pagination span, .pagination em {
+  padding: 0.5rem 0.8rem;
+  margin: 0 0.25rem;
+  border: 1px solid #eee;
+  border-radius: 0.25rem;
+}
+
+.pagination em {
+  background-color: #2563eb;
+  color: white;
+  font-style: normal;
+}
+
+.pagination a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.pagination a:hover {
+  background-color: #f3f4f6;
+}

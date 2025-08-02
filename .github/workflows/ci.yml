@@ -1,0 +1,76 @@
+name: CI Quality Checks
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  quality-checks:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.1"
+          bundler-cache: true
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install HTML5 Validator
+        run: |
+          npm install -g html5-validator-cli
+          
+      - name: Build site for testing
+        run: bundle exec jekyll build
+        env:
+          JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Validate HTML
+        run: |
+          # Check a few key HTML files
+          html5-validator --root _site --file=index.html --verbose || echo "HTML validation warnings found"
+          
+      - name: Check for broken internal links
+        run: |
+          # Simple check for common broken link patterns
+          grep -r "href.*404" _site/ && echo "Found potential broken links" && exit 1 || echo "No obvious broken links found"
+          
+      - name: Validate post frontmatter
+        run: |
+          echo "Checking post frontmatter consistency..."
+          # Check that all posts have required frontmatter
+          for file in _posts/*.md; do
+            if ! grep -q "^title:" "$file"; then
+              echo "Missing title in $file"
+              exit 1
+            fi
+            if ! grep -q "^date:" "$file"; then
+              echo "Missing date in $file" 
+              exit 1
+            fi
+            if ! grep -q "^layout:" "$file"; then
+              echo "Missing layout in $file"
+              exit 1
+            fi
+          done
+          echo "All posts have required frontmatter"
+          
+      - name: Check for duplicate post titles
+        run: |
+          echo "Checking for duplicate post titles..."
+          grep -h "^title:" _posts/*.md | sort | uniq -d > duplicates.txt
+          if [ -s duplicates.txt ]; then
+            echo "Found duplicate titles:"
+            cat duplicates.txt
+            exit 1
+          fi
+          echo "No duplicate titles found"

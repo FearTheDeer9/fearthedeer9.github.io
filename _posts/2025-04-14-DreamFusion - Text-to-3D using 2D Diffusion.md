@@ -2,6 +2,8 @@
 date: '2025-04-14'
 title: "Paper Review - DreamFusion: Text-to-3D using 2D Diffusion"
 layout: single
+categories:
+  - paper-summary
 tags:
 - 3D synthesis
 - text-to-3D

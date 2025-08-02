@@ -22,7 +22,7 @@ plugins:
   - jemoji
 
 permalink: /:year/:month/:day/:title/
-paginate: 5
+paginate: 50
 
 markdown: kramdown
 kramdown:
@@ -48,3 +48,8 @@ navbar:
 author:
   name: "Harel Lidar"
   bio: "Harel's Blog"
+  tagline: "AI Researcher • Machine Learning Engineer"
+  description: "Exploring the frontiers of artificial intelligence through research and implementation. Specializing in neural architectures, 3D vision, and transformer models."
+  github: "fearthedeer9"
+  linkedin: "harel-lidar-3759b518a"  # Update this with your actual LinkedIn username
+  email: "rllidar9@gmail.com"  # Update this with your actual email

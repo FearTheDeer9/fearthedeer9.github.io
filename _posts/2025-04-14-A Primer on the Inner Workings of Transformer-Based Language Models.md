@@ -2,6 +2,8 @@
 date: '2025-04-14'
 layout: single
 title: "Paper Review - A Primer on the Inner Workings of Transformer-Based Language Models"
+categories:
+  - paper-summary
 tags:
 - transformers
 - language models

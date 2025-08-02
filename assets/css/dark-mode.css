@@ -1,0 +1,118 @@
+/* Dark mode variables */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --link-color: #2563eb;
+  --border-color: #eee;
+  --accent-bg: #f3f4f6;
+  --hover-bg: #f9fafb;
+}
+
+[data-theme="dark"] {
+  --bg-color: #1a1a1a;
+  --text-color: #e5e5e5;
+  --link-color: #60a5fa;
+  --border-color: #404040;
+  --accent-bg: #2d2d2d;
+  --hover-bg: #333333;
+}
+
+/* Apply theme variables */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Update existing styles to use CSS variables */
+.post {
+  border-bottom-color: var(--border-color);
+}
+
+.post-title a {
+  color: var(--link-color);
+}
+
+.category-tag {
+  background-color: var(--accent-bg);
+  color: var(--text-color);
+}
+
+.pagination a, .pagination span, .pagination em {
+  border-color: var(--border-color);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.pagination em {
+  background-color: var(--link-color);
+  color: var(--bg-color);
+}
+
+.pagination a {
+  color: var(--link-color);
+}
+
+.pagination a:hover {
+  background-color: var(--hover-bg);
+}
+
+.nav-btn {
+  color: var(--text-color);
+  border-bottom-color: transparent;
+}
+
+.nav-btn:hover {
+  color: var(--text-color);
+  border-bottom-color: var(--border-color);
+}
+
+.nav-btn.active {
+  color: var(--link-color);
+  border-bottom-color: var(--link-color);
+}
+
+.navbar {
+  border-bottom-color: var(--border-color);
+}
+
+/* Dark mode toggle button */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--accent-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.theme-toggle:hover {
+  background: var(--hover-bg);
+  transform: scale(1.05);
+}
+
+/* Icons for theme toggle */
+.theme-toggle .sun-icon {
+  display: none;
+}
+
+.theme-toggle .moon-icon {
+  display: block;
+}
+
+[data-theme="dark"] .theme-toggle .sun-icon {
+  display: block;
+}
+
+[data-theme="dark"] .theme-toggle .moon-icon {
+  display: none;
+}

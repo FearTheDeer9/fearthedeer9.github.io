@@ -2,6 +2,8 @@
 date: '2025-04-14'
 layout: single
 title: "Paper Review - SIREN: Implicit Neural Representations with Periodic Activation Functions"
+categories:
+  - paper-summary
 tags:
 - neural networks
 - implicit neural representations

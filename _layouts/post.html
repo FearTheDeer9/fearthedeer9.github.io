@@ -19,6 +19,9 @@ layout: default
   
   <div class="date">
     Written on {{ page.date | date: "%B %e, %Y" }}
+    {% assign words = content | number_of_words %}
+    {% assign reading_time = words | divided_by: 200 | plus: 1 %}
+    • {{ reading_time }} min read
   </div>
 </article>
 

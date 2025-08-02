@@ -13,7 +13,6 @@ Gemfile.lock
 .vscode/
 .idea/
 *.swp
-*~
 
 # Jekyll metadata
 .jekyll-metadata
