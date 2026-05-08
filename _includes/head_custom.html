@@ -1,12 +1,12 @@
 <!-- SEO Meta Tags -->
-<meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description | default: 'Harel\'s Blog - Thoughts on machine learning, AI research, and technology' }}{% endif %}">
+<meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description | default: 'Harel Lidar - AI Researcher & ML Engineer' }}{% endif %}">
 <meta name="author" content="{{ site.author.name | default: 'Harel Lidar' }}">
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
 <meta property="og:url" content="{{ page.url | absolute_url }}">
 <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
-<meta property="og:description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description | default: 'Harel\'s Blog - Thoughts on machine learning, AI research, and technology' }}{% endif %}">
+<meta property="og:description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description | default: 'Harel Lidar - AI Researcher & ML Engineer' }}{% endif %}">
 <meta property="og:site_name" content="{{ site.title }}">
 {% if page.date %}<meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">{% endif %}
 {% if page.tags %}<meta property="article:tag" content="{{ page.tags | join: ',' }}">{% endif %}
@@ -15,7 +15,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:url" content="{{ page.url | absolute_url }}">
 <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
-<meta name="twitter:description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description | default: 'Harel\'s Blog - Thoughts on machine learning, AI research, and technology' }}{% endif %}">
+<meta name="twitter:description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description | default: 'Harel Lidar - AI Researcher & ML Engineer' }}{% endif %}">
 
 <!-- Canonical URL -->
 <link rel="canonical" href="{{ page.url | absolute_url }}">
@@ -26,7 +26,7 @@
   "@context": "https://schema.org",
   "@type": "{% if page.layout == 'post' %}BlogPosting{% else %}WebSite{% endif %}",
   "headline": "{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}",
-  "description": "{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description | default: 'Harel\'s Blog - Thoughts on machine learning, AI research, and technology' }}{% endif %}",
+  "description": "{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description | default: 'Harel Lidar - AI Researcher & ML Engineer' }}{% endif %}",
   "url": "{{ page.url | absolute_url }}",
   {% if page.layout == 'post' %}
   "datePublished": "{{ page.date | date_to_xmlschema }}",
@@ -43,15 +43,3 @@
 }
 </script>
 
-<!-- MathJax Configuration -->
-<script>
-  MathJax = {
-    tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']],
-      displayMath: [['$$', '$$'], ['\\[', '\\]']]
-  }
-  };
-  </script>
-  <script id="MathJax-script" async
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
-  </script>

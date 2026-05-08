@@ -1,0 +1,8 @@
+[     579ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://alexzhang13.github.io/assets/img/az-800.webp:0
+[     672ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://alexzhang13.github.io/assets/img/publication_preview/rlm-480.webp:0
+[     696ms] ReferenceError: $ is not defined
+    at HTMLImageElement.onerror (https://alexzhang13.github.io/:410:158)
+[     728ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://alexzhang13.github.io/assets/img/publication_preview/kernelbot-480.webp:0
+[     744ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://alexzhang13.github.io/assets/img/publication_preview/videogamebench-480.webp:0
+[     745ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://alexzhang13.github.io/assets/img/publication_preview/kernelbench-480.webp:0
+[     748ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://alexzhang13.github.io/assets/img/publication_preview/teaser_mm-480.webp:0

@@ -1,9 +1,13 @@
 remote_theme: "mmistakes/minimal-mistakes@4.24.0"
-title: Harel's Blog
-minimal_mistakes_skin: "default"
 
-# Allow posts with future dates to be published
+title: "Harel Lidar"
+subtitle: "AI Researcher & ML Engineer"
+name: "Harel Lidar"
+description: "Exploring the frontiers of artificial intelligence through research and implementation. Specializing in neural architectures, 3D vision, and transformer models."
+minimal_mistakes_skin: "air"
+
 future: true
+search: true
 
 url: "https://fearthedeer9.github.io"
 baseurl: ""
@@ -23,7 +27,8 @@ plugins:
   - jemoji
 
 permalink: /:year/:month/:day/:title/
-paginate: 50
+paginate: 10
+paginate_path: /blog/page:num/
 
 markdown: kramdown
 kramdown:
@@ -37,20 +42,31 @@ defaults:
       layout: single
       read_time: true
       mathjax: true
+      toc: true
+      toc_sticky: true
+      toc_label: "Contents"
+      author_profile: true
+      share: false
+      related: true
       excerpt_separator: <!-- excerpt-end -->
-main:
-  - title: "Wiki"
-    url: "/wiki.fearthedeer9.github.io/"
-
-navbar:
-  - title: "Wiki"
-    url: "/wiki.fearthedeer9.github.io/"
+  - scope:
+      path: "_pages"
+      type: pages
+    values:
+      layout: single
+      author_profile: false
 
 author:
   name: "Harel Lidar"
-  bio: "Harel's Blog"
-  tagline: "AI Researcher • Machine Learning Engineer"
-  description: "Exploring the frontiers of artificial intelligence through research and implementation. Specializing in neural architectures, 3D vision, and transformer models."
-  github: "fearthedeer9"
-  linkedin: "harel-lidar-3759b518a"  # Update this with your actual LinkedIn username
-  email: "rllidar9@gmail.com"  # Update this with your actual email
+  bio: "AI Researcher & ML Engineer"
+  location: "Israel"
+  links:
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/fearthedeer9"
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://linkedin.com/in/harel-lidar-3759b518a"
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope-square"
+      url: "mailto:rllidar9@gmail.com"

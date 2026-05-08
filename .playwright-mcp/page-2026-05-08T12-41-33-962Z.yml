@@ -1,0 +1,1033 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - generic [ref=e4]:
+        - link "Lil'Log" [ref=e5] [cursor=pointer]:
+          - /url: https://lilianweng.github.io/
+        - generic [ref=e6]:
+          - button "(Alt + T)" [ref=e7] [cursor=pointer]:
+            - img [ref=e8]
+          - list [ref=e10]:
+            - listitem [ref=e11]: "|"
+      - list [ref=e12]:
+        - listitem [ref=e13]:
+          - link "Posts" [ref=e14] [cursor=pointer]:
+            - /url: https://lilianweng.github.io/
+        - listitem [ref=e15]:
+          - link "Archive" [ref=e16] [cursor=pointer]:
+            - /url: https://lilianweng.github.io/archives
+        - listitem [ref=e17]:
+          - link "Search" [ref=e18] [cursor=pointer]:
+            - /url: https://lilianweng.github.io/search/
+        - listitem [ref=e19]:
+          - link "Tags" [ref=e20] [cursor=pointer]:
+            - /url: https://lilianweng.github.io/tags/
+        - listitem [ref=e21]:
+          - link "FAQ" [ref=e22] [cursor=pointer]:
+            - /url: https://lilianweng.github.io/faq
+  - main [ref=e23]:
+    - article [ref=e24]:
+      - generic [ref=e25]:
+        - heading "LLM Powered Autonomous Agents" [level=1] [ref=e26]
+        - generic [ref=e27]: "Date: June 23, 2023 | Estimated Reading Time: 31 min | Author: Lilian Weng"
+      - group [ref=e29]:
+        - generic "Table of Contents" [ref=e30]
+      - generic [ref=e31]:
+        - paragraph [ref=e32]:
+          - text: Building agents with LLM (large language model) as its core controller is a cool concept. Several proof-of-concepts demos, such as
+          - link "AutoGPT" [ref=e33] [cursor=pointer]:
+            - /url: https://github.com/Significant-Gravitas/Auto-GPT
+          - text: ","
+          - link "GPT-Engineer" [ref=e34] [cursor=pointer]:
+            - /url: https://github.com/AntonOsika/gpt-engineer
+          - text: and
+          - link "BabyAGI" [ref=e35] [cursor=pointer]:
+            - /url: https://github.com/yoheinakajima/babyagi
+          - text: ", serve as inspiring examples. The potentiality of LLM extends beyond generating well-written copies, stories, essays and programs; it can be framed as a powerful general problem solver."
+        - heading "Agent System Overview" [level=1] [ref=e36]
+        - paragraph [ref=e37]: "In a LLM-powered autonomous agent system, LLM functions as the agent’s brain, complemented by several key components:"
+        - list [ref=e38]:
+          - listitem [ref=e39]:
+            - strong [ref=e40]: Planning
+            - list [ref=e41]:
+              - listitem [ref=e42]: "Subgoal and decomposition: The agent breaks down large tasks into smaller, manageable subgoals, enabling efficient handling of complex tasks."
+              - listitem [ref=e43]: "Reflection and refinement: The agent can do self-criticism and self-reflection over past actions, learn from mistakes and refine them for future steps, thereby improving the quality of final results."
+          - listitem [ref=e44]:
+            - strong [ref=e45]: Memory
+            - list [ref=e46]:
+              - listitem [ref=e47]:
+                - text: "Short-term memory: I would consider all the in-context learning (See"
+                - link "Prompt Engineering" [ref=e48] [cursor=pointer]:
+                  - /url: https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/
+                - text: ) as utilizing short-term memory of the model to learn.
+              - listitem [ref=e49]: "Long-term memory: This provides the agent with the capability to retain and recall (infinite) information over extended periods, often by leveraging an external vector store and fast retrieval."
+          - listitem [ref=e50]:
+            - strong [ref=e51]: Tool use
+            - list [ref=e52]:
+              - listitem [ref=e53]: The agent learns to call external APIs for extra information that is missing from the model weights (often hard to change after pre-training), including current information, code execution capability, access to proprietary information sources and more.
+        - figure "Overview of a LLM-powered autonomous agent system." [ref=e54]:
+          - img [ref=e55]
+          - generic [ref=e56]: Overview of a LLM-powered autonomous agent system.
+        - 'heading "Component One: Planning" [level=1] [ref=e57]'
+        - paragraph [ref=e58]: A complicated task usually involves many steps. An agent needs to know what they are and plan ahead.
+        - heading "Task Decomposition" [level=2] [ref=e59]
+        - paragraph [ref=e60]:
+          - link "Chain of thought" [ref=e61] [cursor=pointer]:
+            - /url: https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/#chain-of-thought-cot
+            - strong [ref=e62]: Chain of thought
+          - text: (CoT;
+          - link "Wei et al. 2022" [ref=e63] [cursor=pointer]:
+            - /url: https://arxiv.org/abs/2201.11903
+          - text: ) has become a standard prompting technique for enhancing model performance on complex tasks. The model is instructed to “think step by step” to utilize more test-time computation to decompose hard tasks into smaller and simpler steps. CoT transforms big tasks into multiple manageable tasks and shed lights into an interpretation of the model’s thinking process.
+        - paragraph [ref=e64]:
+          - strong [ref=e65]: Tree of Thoughts
+          - text: (
+          - link "Yao et al. 2023" [ref=e66] [cursor=pointer]:
+            - /url: https://arxiv.org/abs/2305.10601
+          - text: ) extends CoT by exploring multiple reasoning possibilities at each step. It first decomposes the problem into multiple thought steps and generates multiple thoughts per step, creating a tree structure. The search process can be BFS (breadth-first search) or DFS (depth-first search) with each state evaluated by a classifier (via a prompt) or majority vote.
+        - paragraph [ref=e67]:
+          - text: Task decomposition can be done (1) by LLM with simple prompting like
+          - code [ref=e68]: "\"Steps for XYZ.\\n1.\""
+          - text: ","
+          - code [ref=e69]: "\"What are the subgoals for achieving XYZ?\""
+          - text: ", (2) by using task-specific instructions; e.g."
+          - code [ref=e70]: "\"Write a story outline.\""
+          - text: for writing a novel, or (3) with human inputs.
+        - paragraph [ref=e71]:
+          - text: Another quite distinct approach,
+          - strong [ref=e72]: LLM+P
+          - text: (
+          - link "Liu et al. 2023" [ref=e73] [cursor=pointer]:
+            - /url: https://arxiv.org/abs/2304.11477
+          - text: ), involves relying on an external classical planner to do long-horizon planning. This approach utilizes the Planning Domain Definition Language (PDDL) as an intermediate interface to describe the planning problem. In this process, LLM (1) translates the problem into “Problem PDDL”, then (2) requests a classical planner to generate a PDDL plan based on an existing “Domain PDDL”, and finally (3) translates the PDDL plan back into natural language. Essentially, the planning step is outsourced to an external tool, assuming the availability of domain-specific PDDL and a suitable planner which is common in certain robotic setups but not in many other domains.
+        - heading "Self-Reflection" [level=2] [ref=e74]
+        - paragraph [ref=e75]: Self-reflection is a vital aspect that allows autonomous agents to improve iteratively by refining past action decisions and correcting previous mistakes. It plays a crucial role in real-world tasks where trial and error are inevitable.
+        - paragraph [ref=e76]:
+          - strong [ref=e77]: ReAct
+          - text: (
+          - link "Yao et al. 2023" [ref=e78] [cursor=pointer]:
+            - /url: https://arxiv.org/abs/2210.03629
+          - text: ) integrates reasoning and acting within LLM by extending the action space to be a combination of task-specific discrete actions and the language space. The former enables LLM to interact with the environment (e.g. use Wikipedia search API), while the latter prompting LLM to generate reasoning traces in natural language.
+        - paragraph [ref=e79]: "The ReAct prompt template incorporates explicit steps for LLM to think, roughly formatted as:"
+        - code [ref=e81]: "Thought: ... Action: ... Observation: ... ... (Repeated many times)"
+        - 'figure "Examples of reasoning trajectories for knowledge-intensive tasks (e.g. HotpotQA, FEVER) and decision-making tasks (e.g. AlfWorld Env, WebShop). (Image source: Yao et al. 2023)." [ref=e82]':
+          - img [ref=e83]
+          - generic [ref=e84]:
+            - text: "Examples of reasoning trajectories for knowledge-intensive tasks (e.g. HotpotQA, FEVER) and decision-making tasks (e.g. AlfWorld Env, WebShop). (Image source:"
+            - link "Yao et al. 2023" [ref=e85] [cursor=pointer]:
+              - /url: https://arxiv.org/abs/2210.03629
+            - text: ).
+        - paragraph [ref=e86]:
+          - text: In both experiments on knowledge-intensive tasks and decision-making tasks,
+          - code [ref=e87]: ReAct
+          - text: works better than the
+          - code [ref=e88]: Act
+          - text: "-only baseline where"
+          - code [ref=e89]: "Thought: …"
+          - text: step is removed.
+        - paragraph [ref=e90]:
+          - strong [ref=e91]: Reflexion
+          - text: (
+          - link "Shinn & Labash 2023" [ref=e92] [cursor=pointer]:
+            - /url: https://arxiv.org/abs/2303.11366
+          - text: ) is a framework to equip agents with dynamic memory and self-reflection capabilities to improve reasoning skills. Reflexion has a standard RL setup, in which the reward model provides a simple binary reward and the action space follows the setup in ReAct where the task-specific action space is augmented with language to enable complex reasoning steps. After each action
+          - generic [ref=e93]:
+            - generic [ref=e95]:
+              - generic [ref=e97]: a
+              - generic [ref=e100]: t
+            - math [ref=e102]:
+              - generic [ref=e103]:
+                - generic [ref=e104]: a
+                - generic [ref=e105]: t
+          - text: ", the agent computes a heuristic"
+          - generic [ref=e106]:
+            - generic [ref=e108]:
+              - generic [ref=e110]: h
+              - generic [ref=e113]: t
+            - math [ref=e115]:
+              - generic [ref=e116]:
+                - generic [ref=e117]: h
+                - generic [ref=e118]: t
+          - text: and optionally may
+          - emphasis [ref=e119]: decide to reset
+          - text: the environment to start a new trial depending on the self-reflection results.
+        - 'figure "Illustration of the Reflexion framework. (Image source: Shinn & Labash, 2023)" [ref=e120]':
+          - img [ref=e121]
+          - generic [ref=e122]:
+            - text: "Illustration of the Reflexion framework. (Image source:"
+            - link "Shinn & Labash, 2023" [ref=e123] [cursor=pointer]:
+              - /url: https://arxiv.org/abs/2303.11366
+            - text: )
+        - paragraph [ref=e124]: The heuristic function determines when the trajectory is inefficient or contains hallucination and should be stopped. Inefficient planning refers to trajectories that take too long without success. Hallucination is defined as encountering a sequence of consecutive identical actions that lead to the same observation in the environment.
+        - paragraph [ref=e125]: Self-reflection is created by showing two-shot examples to LLM and each example is a pair of (failed trajectory, ideal reflection for guiding future changes in the plan). Then reflections are added into the agent’s working memory, up to three, to be used as context for querying LLM.
+        - 'figure "Experiments on AlfWorld Env and HotpotQA. Hallucination is a more common failure than inefficient planning in AlfWorld. (Image source: Shinn & Labash, 2023)" [ref=e126]':
+          - img [ref=e127]
+          - generic [ref=e128]:
+            - text: "Experiments on AlfWorld Env and HotpotQA. Hallucination is a more common failure than inefficient planning in AlfWorld. (Image source:"
+            - link "Shinn & Labash, 2023" [ref=e129] [cursor=pointer]:
+              - /url: https://arxiv.org/abs/2303.11366
+            - text: )
+        - paragraph [ref=e130]:
+          - strong [ref=e131]: Chain of Hindsight
+          - text: (CoH;
+          - link "Liu et al. 2023" [ref=e132] [cursor=pointer]:
+            - /url: https://arxiv.org/abs/2302.02676
+          - text: ) encourages the model to improve on its own outputs by explicitly presenting it with a sequence of past outputs, each annotated with feedback. Human feedback data is a collection of
+          - generic [ref=e133]:
+            - generic [ref=e134]:
+              - generic [ref=e135]:
+                - generic [ref=e137]: D
+                - generic [ref=e140]: h
+              - generic [ref=e142]: =
+              - generic [ref=e144]: "{"
+              - generic [ref=e146]: (
+              - generic [ref=e148]: x
+              - generic [ref=e150]: ","
+              - generic [ref=e151]:
+                - generic [ref=e153]: "y"
+                - generic [ref=e156]: i
+              - generic [ref=e158]: ","
+              - generic [ref=e159]:
+                - generic [ref=e161]: r
+                - generic [ref=e164]: i
+              - generic [ref=e166]: ","
+              - generic [ref=e167]:
+                - generic [ref=e169]: z
+                - generic [ref=e172]: i
+              - generic [ref=e174]: )
+              - generic [ref=e175]:
+                - generic [ref=e177]: "}"
+                - generic [ref=e178]:
+                  - generic [ref=e180]: "n"
+                  - generic [ref=e181]:
+                    - generic [ref=e183]: i
+                    - generic [ref=e185]: =
+                    - generic [ref=e187]: "1"
+            - math [ref=e189]:
+              - generic [ref=e190]:
+                - generic [ref=e191]: D
+                - generic [ref=e192]: h
+              - generic [ref=e193]: =
+              - generic [ref=e194]: "{"
+              - generic [ref=e195]: (
+              - generic [ref=e196]: x
+              - generic [ref=e197]: ","
+              - generic [ref=e198]:
+                - generic [ref=e199]: "y"
+                - generic [ref=e200]: i
+              - generic [ref=e201]: ","
+              - generic [ref=e202]:
+                - generic [ref=e203]: r
+                - generic [ref=e204]: i
+              - generic [ref=e205]: ","
+              - generic [ref=e206]:
+                - generic [ref=e207]: z
+                - generic [ref=e208]: i
+              - generic [ref=e209]: )
+              - generic [ref=e210]:
+                - generic [ref=e211]: "}"
+                - generic [ref=e212]:
+                  - generic [ref=e213]: i
+                  - generic [ref=e214]: =
+                  - generic [ref=e215]: "1"
+                - generic [ref=e216]: "n"
+          - text: ", where"
+          - generic [ref=e217]:
+            - generic [ref=e220]: x
+            - math [ref=e222]:
+              - generic [ref=e223]: x
+          - text: is the prompt, each
+          - generic [ref=e224]:
+            - generic [ref=e226]:
+              - generic [ref=e228]: "y"
+              - generic [ref=e231]: i
+            - math [ref=e233]:
+              - generic [ref=e234]:
+                - generic [ref=e235]: "y"
+                - generic [ref=e236]: i
+          - text: is a model completion,
+          - generic [ref=e237]:
+            - generic [ref=e239]:
+              - generic [ref=e241]: r
+              - generic [ref=e244]: i
+            - math [ref=e246]:
+              - generic [ref=e247]:
+                - generic [ref=e248]: r
+                - generic [ref=e249]: i
+          - text: is the human rating of
+          - generic [ref=e250]:
+            - generic [ref=e252]:
+              - generic [ref=e254]: "y"
+              - generic [ref=e257]: i
+            - math [ref=e259]:
+              - generic [ref=e260]:
+                - generic [ref=e261]: "y"
+                - generic [ref=e262]: i
+          - text: ", and"
+          - generic [ref=e263]:
+            - generic [ref=e265]:
+              - generic [ref=e267]: z
+              - generic [ref=e270]: i
+            - math [ref=e272]:
+              - generic [ref=e273]:
+                - generic [ref=e274]: z
+                - generic [ref=e275]: i
+          - text: is the corresponding human-provided hindsight feedback. Assume the feedback tuples are ranked by reward,
+          - generic [ref=e276]:
+            - generic [ref=e277]:
+              - generic [ref=e278]:
+                - generic [ref=e280]: r
+                - generic [ref=e283]: "n"
+              - generic [ref=e285]: ≥
+              - generic [ref=e286]:
+                - generic [ref=e288]: r
+                - generic [ref=e290]:
+                  - generic [ref=e292]: "n"
+                  - generic [ref=e294]: −
+                  - generic [ref=e296]: "1"
+              - generic [ref=e298]: ≥
+              - generic [ref=e300]: ⋯
+              - generic [ref=e302]: ≥
+              - generic [ref=e303]:
+                - generic [ref=e305]: r
+                - generic [ref=e308]: "1"
+            - math [ref=e310]:
+              - generic [ref=e311]:
+                - generic [ref=e312]: r
+                - generic [ref=e313]: "n"
+              - generic [ref=e314]: ≥
+              - generic [ref=e315]:
+                - generic [ref=e316]: r
+                - generic [ref=e317]:
+                  - generic [ref=e318]: "n"
+                  - generic [ref=e319]: −
+                  - generic [ref=e320]: "1"
+              - generic [ref=e321]: ≥
+              - generic [ref=e322]: ⋯
+              - generic [ref=e323]: ≥
+              - generic [ref=e324]:
+                - generic [ref=e325]: r
+                - generic [ref=e326]: "1"
+          - text: The process is supervised fine-tuning where the data is a sequence in the form of
+          - generic [ref=e327]:
+            - generic [ref=e328]:
+              - generic [ref=e329]:
+                - generic [ref=e331]: τ
+                - generic [ref=e334]: h
+              - generic [ref=e336]: =
+              - generic [ref=e338]: (
+              - generic [ref=e340]: x
+              - generic [ref=e342]: ","
+              - generic [ref=e343]:
+                - generic [ref=e345]: z
+                - generic [ref=e348]: i
+              - generic [ref=e350]: ","
+              - generic [ref=e351]:
+                - generic [ref=e353]: "y"
+                - generic [ref=e356]: i
+              - generic [ref=e358]: ","
+              - generic [ref=e359]:
+                - generic [ref=e361]: z
+                - generic [ref=e364]: j
+              - generic [ref=e366]: ","
+              - generic [ref=e367]:
+                - generic [ref=e369]: "y"
+                - generic [ref=e372]: j
+              - generic [ref=e374]: ","
+              - generic [ref=e376]: …
+              - generic [ref=e378]: ","
+              - generic [ref=e379]:
+                - generic [ref=e381]: z
+                - generic [ref=e384]: "n"
+              - generic [ref=e386]: ","
+              - generic [ref=e387]:
+                - generic [ref=e389]: "y"
+                - generic [ref=e392]: "n"
+              - generic [ref=e394]: )
+            - math [ref=e396]:
+              - generic [ref=e397]:
+                - generic [ref=e398]: τ
+                - generic [ref=e399]: h
+              - generic [ref=e400]: =
+              - generic [ref=e401]: (
+              - generic [ref=e402]: x
+              - generic [ref=e403]: ","
+              - generic [ref=e404]:
+                - generic [ref=e405]: z
+                - generic [ref=e406]: i
+              - generic [ref=e407]: ","
+              - generic [ref=e408]:
+                - generic [ref=e409]: "y"
+                - generic [ref=e410]: i
+              - generic [ref=e411]: ","
+              - generic [ref=e412]:
+                - generic [ref=e413]: z
+                - generic [ref=e414]: j
+              - generic [ref=e415]: ","
+              - generic [ref=e416]:
+                - generic [ref=e417]: "y"
+                - generic [ref=e418]: j
+              - generic [ref=e419]: ","
+              - generic [ref=e420]: …
+              - generic [ref=e421]: ","
+              - generic [ref=e422]:
+                - generic [ref=e423]: z
+                - generic [ref=e424]: "n"
+              - generic [ref=e425]: ","
+              - generic [ref=e426]:
+                - generic [ref=e427]: "y"
+                - generic [ref=e428]: "n"
+              - generic [ref=e429]: )
+          - text: ", where"
+          - generic [ref=e430]:
+            - generic [ref=e431]:
+              - generic [ref=e433]: ≤
+              - generic [ref=e435]: i
+              - generic [ref=e437]: ≤
+              - generic [ref=e439]: j
+              - generic [ref=e441]: ≤
+              - generic [ref=e443]: "n"
+            - math [ref=e445]:
+              - generic [ref=e446]: ≤
+              - generic [ref=e447]: i
+              - generic [ref=e448]: ≤
+              - generic [ref=e449]: j
+              - generic [ref=e450]: ≤
+              - generic [ref=e451]: "n"
+          - text: . The model is finetuned to only predict
+          - generic [ref=e452]:
+            - generic [ref=e454]:
+              - generic [ref=e456]: "y"
+              - generic [ref=e459]: "n"
+            - math [ref=e461]:
+              - generic [ref=e462]:
+                - generic [ref=e463]: "y"
+                - generic [ref=e464]: "n"
+          - text: where conditioned on the sequence prefix, such that the model can self-reflect to produce better output based on the feedback sequence. The model can optionally receive multiple rounds of instructions with human annotators at test time.
+        - paragraph [ref=e465]: To avoid overfitting, CoH adds a regularization term to maximize the log-likelihood of the pre-training dataset. To avoid shortcutting and copying (because there are many common words in feedback sequences), they randomly mask 0% - 5% of past tokens during training.
+        - paragraph [ref=e466]:
+          - text: The training dataset in their experiments is a combination of
+          - link "WebGPT comparisons" [ref=e467] [cursor=pointer]:
+            - /url: https://huggingface.co/datasets/openai/webgpt_comparisons
+          - text: ","
+          - link "summarization from human feedback" [ref=e468] [cursor=pointer]:
+            - /url: https://github.com/openai/summarize-from-feedback
+          - text: and
+          - link "human preference dataset" [ref=e469] [cursor=pointer]:
+            - /url: https://github.com/anthropics/hh-rlhf
+          - text: .
+        - 'figure "After fine-tuning with CoH, the model can follow instructions to produce outputs with incremental improvement in a sequence. (Image source: Liu et al. 2023)" [ref=e470]':
+          - img [ref=e471]
+          - generic [ref=e472]:
+            - text: "After fine-tuning with CoH, the model can follow instructions to produce outputs with incremental improvement in a sequence. (Image source:"
+            - link "Liu et al. 2023" [ref=e473] [cursor=pointer]:
+              - /url: https://arxiv.org/abs/2302.02676
+            - text: )
+        - paragraph [ref=e474]:
+          - text: The idea of CoH is to present a history of sequentially improved outputs in context and train the model to take on the trend to produce better outputs.
+          - strong [ref=e475]: Algorithm Distillation
+          - text: (AD;
+          - link "Laskin et al. 2023" [ref=e476] [cursor=pointer]:
+            - /url: https://arxiv.org/abs/2210.14215
+          - text: ) applies the same idea to cross-episode trajectories in reinforcement learning tasks, where an
+          - emphasis [ref=e477]: algorithm
+          - text: is encapsulated in a long history-conditioned policy. Considering that an agent interacts with the environment many times and in each episode the agent gets a little better, AD concatenates this learning history and feeds that into the model. Hence we should expect the next predicted action to lead to better performance than previous trials. The goal is to learn the process of RL instead of training a task-specific policy itself.
+        - 'figure "Illustration of how Algorithm Distillation (AD) works. (Image source: Laskin et al. 2023)." [ref=e478]':
+          - img [ref=e479]
+          - generic [ref=e480]:
+            - text: Illustration of how Algorithm Distillation (AD) works.
+            - text: "(Image source:"
+            - link "Laskin et al. 2023" [ref=e481] [cursor=pointer]:
+              - /url: https://arxiv.org/abs/2210.14215
+            - text: ).
+        - paragraph [ref=e482]: The paper hypothesizes that any algorithm that generates a set of learning histories can be distilled into a neural network by performing behavioral cloning over actions. The history data is generated by a set of source policies, each trained for a specific task. At the training stage, during each RL run, a random task is sampled and a subsequence of multi-episode history is used for training, such that the learned policy is task-agnostic.
+        - paragraph [ref=e483]: In reality, the model has limited context window length, so episodes should be short enough to construct multi-episode history. Multi-episodic contexts of 2-4 episodes are necessary to learn a near-optimal in-context RL algorithm. The emergence of in-context RL requires long enough context.
+        - paragraph [ref=e484]:
+          - text: In comparison with three baselines, including ED (expert distillation, behavior cloning with expert trajectories instead of learning history), source policy (used for generating trajectories for distillation by
+          - link "UCB" [ref=e485] [cursor=pointer]:
+            - /url: https://lilianweng.github.io/posts/2018-01-23-multi-armed-bandit/#upper-confidence-bounds
+          - text: ), RL^2 (
+          - link "Duan et al. 2017" [ref=e486] [cursor=pointer]:
+            - /url: https://arxiv.org/abs/1611.02779
+          - text: ; used as upper bound since it needs online RL), AD demonstrates in-context RL with performance getting close to RL^2 despite only using offline RL and learns much faster than other baselines. When conditioned on partial training history of the source policy, AD also improves much faster than ED baseline.
+        - 'figure "Comparison of AD, ED, source policy and RL^2 on environments that require memory and exploration. Only binary reward is assigned. The source policies are trained with A3C for \"dark\" environments and DQN for watermaze. (Image source: Laskin et al. 2023)" [ref=e487]':
+          - img [ref=e488]
+          - generic [ref=e489]:
+            - text: Comparison of AD, ED, source policy and RL^2 on environments that require memory and exploration. Only binary reward is assigned. The source policies are trained with
+            - link "A3C" [ref=e490] [cursor=pointer]:
+              - /url: https://lilianweng.github.io/posts/2018-04-08-policy-gradient/#a3c
+            - text: for "dark" environments and
+            - link "DQN" [ref=e491] [cursor=pointer]:
+              - /url: http://lilianweng.github.io/posts/2018-02-19-rl-overview/#deep-q-network
+            - text: for watermaze.
+            - text: "(Image source:"
+            - link "Laskin et al. 2023" [ref=e492] [cursor=pointer]:
+              - /url: https://arxiv.org/abs/2210.14215
+            - text: )
+        - 'heading "Component Two: Memory" [level=1] [ref=e493]'
+        - paragraph [ref=e494]:
+          - text: (Big thank you to ChatGPT for helping me draft this section. I’ve learned a lot about the human brain and data structure for fast MIPS in my
+          - link "conversations" [ref=e495] [cursor=pointer]:
+            - /url: https://chat.openai.com/share/46ff149e-a4c7-4dd7-a800-fc4a642ea389
+          - text: with ChatGPT.)
+        - heading "Types of Memory" [level=2] [ref=e496]
+        - paragraph [ref=e497]: Memory can be defined as the processes used to acquire, store, retain, and later retrieve information. There are several types of memory in human brains.
+        - list [ref=e498]:
+          - listitem [ref=e499]:
+            - paragraph [ref=e500]:
+              - strong [ref=e501]: Sensory Memory
+              - text: ": This is the earliest stage of memory, providing the ability to retain impressions of sensory information (visual, auditory, etc) after the original stimuli have ended. Sensory memory typically only lasts for up to a few seconds. Subcategories include iconic memory (visual), echoic memory (auditory), and haptic memory (touch)."
+          - listitem [ref=e502]:
+            - paragraph [ref=e503]:
+              - strong [ref=e504]: Short-Term Memory
+              - text: (STM) or
+              - strong [ref=e505]: Working Memory
+              - text: ": It stores information that we are currently aware of and needed to carry out complex cognitive tasks such as learning and reasoning. Short-term memory is believed to have the capacity of about 7 items ("
+              - link "Miller 1956" [ref=e506] [cursor=pointer]:
+                - /url: psychclassics.yorku.ca/Miller/
+              - text: ) and lasts for 20-30 seconds.
+          - listitem [ref=e507]:
+            - paragraph [ref=e508]:
+              - strong [ref=e509]: Long-Term Memory
+              - text: "(LTM): Long-term memory can store information for a remarkably long time, ranging from a few days to decades, with an essentially unlimited storage capacity. There are two subtypes of LTM:"
+            - list [ref=e510]:
+              - listitem [ref=e511]: "Explicit / declarative memory: This is memory of facts and events, and refers to those memories that can be consciously recalled, including episodic memory (events and experiences) and semantic memory (facts and concepts)."
+              - listitem [ref=e512]: "Implicit / procedural memory: This type of memory is unconscious and involves skills and routines that are performed automatically, like riding a bike or typing on a keyboard."
+        - figure "Categorization of human memory." [ref=e513]:
+          - img [ref=e514]
+          - generic [ref=e515]: Categorization of human memory.
+        - paragraph [ref=e516]: "We can roughly consider the following mappings:"
+        - list [ref=e517]:
+          - listitem [ref=e518]: Sensory memory as learning embedding representations for raw inputs, including text, image or other modalities;
+          - listitem [ref=e519]: Short-term memory as in-context learning. It is short and finite, as it is restricted by the finite context window length of Transformer.
+          - listitem [ref=e520]: Long-term memory as the external vector store that the agent can attend to at query time, accessible via fast retrieval.
+        - heading "Maximum Inner Product Search (MIPS)" [level=2] [ref=e521]
+        - paragraph [ref=e522]:
+          - text: The external memory can alleviate the restriction of finite attention span. A standard practice is to save the embedding representation of information into a vector store database that can support fast maximum inner-product search (
+          - link "MIPS" [ref=e523] [cursor=pointer]:
+            - /url: https://en.wikipedia.org/wiki/Maximum_inner-product_search
+          - text: ). To optimize the retrieval speed, the common choice is the
+          - emphasis [ref=e524]: approximate nearest neighbors (ANN)
+          - text: algorithm to return approximately top k nearest neighbors to trade off a little accuracy lost for a huge speedup.
+        - paragraph [ref=e525]: "A couple common choices of ANN algorithms for fast MIPS:"
+        - list [ref=e526]:
+          - listitem [ref=e527]:
+            - link "LSH" [ref=e528] [cursor=pointer]:
+              - /url: https://en.wikipedia.org/wiki/Locality-sensitive_hashing
+              - strong [ref=e529]: LSH
+            - text: "(Locality-Sensitive Hashing): It introduces a"
+            - emphasis [ref=e530]: hashing
+            - text: function such that similar input items are mapped to the same buckets with high probability, where the number of buckets is much smaller than the number of inputs.
+          - listitem [ref=e531]:
+            - link "ANNOY" [ref=e532] [cursor=pointer]:
+              - /url: https://github.com/spotify/annoy
+              - strong [ref=e533]: ANNOY
+            - text: "(Approximate Nearest Neighbors Oh Yeah): The core data structure are"
+            - emphasis [ref=e534]: random projection trees
+            - text: ", a set of binary trees where each non-leaf node represents a hyperplane splitting the input space into half and each leaf stores one data point. Trees are built independently and at random, so to some extent, it mimics a hashing function. ANNOY search happens in all the trees to iteratively search through the half that is closest to the query and then aggregates the results. The idea is quite related to KD tree but a lot more scalable."
+          - listitem [ref=e535]:
+            - link "HNSW" [ref=e536] [cursor=pointer]:
+              - /url: https://arxiv.org/abs/1603.09320
+              - strong [ref=e537]: HNSW
+            - text: "(Hierarchical Navigable Small World): It is inspired by the idea of"
+            - link "small world networks" [ref=e538] [cursor=pointer]:
+              - /url: https://en.wikipedia.org/wiki/Small-world_network
+            - text: where most nodes can be reached by any other nodes within a small number of steps; e.g. “six degrees of separation” feature of social networks. HNSW builds hierarchical layers of these small-world graphs, where the bottom layers contain the actual data points. The layers in the middle create shortcuts to speed up search. When performing a search, HNSW starts from a random node in the top layer and navigates towards the target. When it can’t get any closer, it moves down to the next layer, until it reaches the bottom layer. Each move in the upper layers can potentially cover a large distance in the data space, and each move in the lower layers refines the search quality.
+          - listitem [ref=e539]:
+            - link "FAISS" [ref=e540] [cursor=pointer]:
+              - /url: https://github.com/facebookresearch/faiss
+              - strong [ref=e541]: FAISS
+            - text: "(Facebook AI Similarity Search): It operates on the assumption that in high dimensional space, distances between nodes follow a Gaussian distribution and thus there should exist"
+            - emphasis [ref=e542]: clustering
+            - text: of data points. FAISS applies vector quantization by partitioning the vector space into clusters and then refining the quantization within clusters. Search first looks for cluster candidates with coarse quantization and then further looks into each cluster with finer quantization.
+          - listitem [ref=e543]:
+            - link "ScaNN" [ref=e544] [cursor=pointer]:
+              - /url: https://github.com/google-research/google-research/tree/master/scann
+              - strong [ref=e545]: ScaNN
+            - text: "(Scalable Nearest Neighbors): The main innovation in ScaNN is"
+            - emphasis [ref=e546]: anisotropic vector quantization
+            - text: . It quantizes a data point
+            - generic [ref=e547]:
+              - generic [ref=e549]:
+                - generic [ref=e551]: x
+                - generic [ref=e554]: i
+              - math [ref=e556]:
+                - generic [ref=e557]:
+                  - generic [ref=e558]: x
+                  - generic [ref=e559]: i
+            - text: to
+            - generic [ref=e560]:
+              - generic [ref=e562]:
+                - generic [ref=e564]:
+                  - generic [ref=e566]: ~
+                  - generic [ref=e569]: x
+                - generic [ref=e572]: i
+              - math [ref=e574]:
+                - generic [ref=e575]:
+                  - generic [ref=e577]:
+                    - generic [ref=e578]: x
+                    - generic [ref=e579]: ~
+                  - generic [ref=e580]: i
+            - text: such that the inner product
+            - generic [ref=e581]:
+              - generic [ref=e582]:
+                - generic [ref=e584]: ⟨
+                - generic [ref=e586]: q
+                - generic [ref=e588]: ","
+                - generic [ref=e589]:
+                  - generic [ref=e591]: x
+                  - generic [ref=e594]: i
+                - generic [ref=e596]: ⟩
+              - math [ref=e598]:
+                - generic [ref=e599]: ⟨
+                - generic [ref=e600]: q
+                - generic [ref=e601]: ","
+                - generic [ref=e602]:
+                  - generic [ref=e603]: x
+                  - generic [ref=e604]: i
+                - generic [ref=e605]: ⟩
+            - text: is as similar to the original distance of
+            - generic [ref=e606]:
+              - generic [ref=e607]:
+                - generic [ref=e609]: ∠
+                - generic [ref=e611]: q
+                - generic [ref=e613]: ","
+                - generic [ref=e614]:
+                  - generic [ref=e616]:
+                    - generic [ref=e618]: ~
+                    - generic [ref=e621]: x
+                  - generic [ref=e624]: i
+              - math [ref=e626]:
+                - generic [ref=e627]: ∠
+                - generic [ref=e628]: q
+                - generic [ref=e629]: ","
+                - generic [ref=e630]:
+                  - generic [ref=e632]:
+                    - generic [ref=e633]: x
+                    - generic [ref=e634]: ~
+                  - generic [ref=e635]: i
+            - text: as possible, instead of picking the closet quantization centroid points.
+        - 'figure "Comparison of MIPS algorithms, measured in recall@10. (Image source: Google Blog, 2020)" [ref=e636]':
+          - img [ref=e637]
+          - generic [ref=e638]:
+            - text: "Comparison of MIPS algorithms, measured in recall@10. (Image source:"
+            - link "Google Blog, 2020" [ref=e639] [cursor=pointer]:
+              - /url: https://ai.googleblog.com/2020/07/announcing-scann-efficient-vector.html
+            - text: )
+        - paragraph [ref=e640]:
+          - text: Check more MIPS algorithms and performance comparison in
+          - link "ann-benchmarks.com" [ref=e641] [cursor=pointer]:
+            - /url: https://ann-benchmarks.com/
+          - text: .
+        - 'heading "Component Three: Tool Use" [level=1] [ref=e642]'
+        - paragraph [ref=e643]: Tool use is a remarkable and distinguishing characteristic of human beings. We create, modify and utilize external objects to do things that go beyond our physical and cognitive limits. Equipping LLMs with external tools can significantly extend the model capabilities.
+        - 'figure "A picture of a sea otter using rock to crack open a seashell, while floating in the water. While some other animals can use tools, the complexity is not comparable with humans. (Image source: Animals using tools)" [ref=e644]':
+          - img [ref=e645]
+          - generic [ref=e646]:
+            - text: "A picture of a sea otter using rock to crack open a seashell, while floating in the water. While some other animals can use tools, the complexity is not comparable with humans. (Image source:"
+            - link "Animals using tools" [ref=e647] [cursor=pointer]:
+              - /url: https://www.popularmechanics.com/science/animals/g39714258/animals-using-tools/
+            - text: )
+        - paragraph [ref=e648]:
+          - strong [ref=e649]: MRKL
+          - text: (
+          - link "Karpas et al. 2022" [ref=e650] [cursor=pointer]:
+            - /url: https://arxiv.org/abs/2205.00445
+          - text: ), short for “Modular Reasoning, Knowledge and Language”, is a neuro-symbolic architecture for autonomous agents. A MRKL system is proposed to contain a collection of “expert” modules and the general-purpose LLM works as a router to route inquiries to the best suitable expert module. These modules can be neural (e.g. deep learning models) or symbolic (e.g. math calculator, currency converter, weather API).
+        - paragraph [ref=e651]:
+          - text: They did an experiment on fine-tuning LLM to call a calculator, using arithmetic as a test case. Their experiments showed that it was harder to solve verbal math problems than explicitly stated math problems because LLMs (7B Jurassic1-large model) failed to extract the right arguments for the basic arithmetic reliably. The results highlight when the external symbolic tools can work reliably,
+          - emphasis [ref=e652]: knowing when to and how to use the tools are crucial
+          - text: ", determined by the LLM capability."
+        - paragraph [ref=e653]:
+          - text: Both
+          - strong [ref=e654]: TALM
+          - text: (Tool Augmented Language Models;
+          - link "Parisi et al. 2022" [ref=e655] [cursor=pointer]:
+            - /url: https://arxiv.org/abs/2205.12255
+          - text: ) and
+          - strong [ref=e656]: Toolformer
+          - text: (
+          - link "Schick et al. 2023" [ref=e657] [cursor=pointer]:
+            - /url: https://arxiv.org/abs/2302.04761
+          - text: ) fine-tune a LM to learn to use external tool APIs. The dataset is expanded based on whether a newly added API call annotation can improve the quality of model outputs. See more details in the
+          - link "“External APIs” section" [ref=e658] [cursor=pointer]:
+            - /url: https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/#external-apis
+          - text: of Prompt Engineering.
+        - paragraph [ref=e659]:
+          - text: ChatGPT
+          - link "Plugins" [ref=e660] [cursor=pointer]:
+            - /url: https://openai.com/blog/chatgpt-plugins
+          - text: and OpenAI API
+          - link "function calling" [ref=e661] [cursor=pointer]:
+            - /url: https://platform.openai.com/docs/guides/gpt/function-calling
+          - text: are good examples of LLMs augmented with tool use capability working in practice. The collection of tool APIs can be provided by other developers (as in Plugins) or self-defined (as in function calls).
+        - paragraph [ref=e662]:
+          - strong [ref=e663]: HuggingGPT
+          - text: (
+          - link "Shen et al. 2023" [ref=e664] [cursor=pointer]:
+            - /url: https://arxiv.org/abs/2303.17580
+          - text: ) is a framework to use ChatGPT as the task planner to select models available in HuggingFace platform according to the model descriptions and summarize the response based on the execution results.
+        - 'figure "Illustration of how HuggingGPT works. (Image source: Shen et al. 2023)" [ref=e665]':
+          - img [ref=e666]
+          - generic [ref=e667]:
+            - text: "Illustration of how HuggingGPT works. (Image source:"
+            - link "Shen et al. 2023" [ref=e668] [cursor=pointer]:
+              - /url: https://arxiv.org/abs/2303.17580
+            - text: )
+        - paragraph [ref=e669]: "The system comprises of 4 stages:"
+        - paragraph [ref=e670]:
+          - strong [ref=e671]: (1) Task planning
+          - text: ": LLM works as the brain and parses the user requests into multiple tasks. There are four attributes associated with each task: task type, ID, dependencies, and arguments. They use few-shot examples to guide LLM to do task parsing and planning."
+        - paragraph [ref=e672]: "Instruction:"
+        - generic [ref=e673]: "The AI assistant can parse user input to several tasks: [{\"task\": task, \"id\", task_id, \"dep\": dependency_task_ids, \"args\": {\"text\": text, \"image\": URL, \"audio\": URL, \"video\": URL}}]. The \"dep\" field denotes the id of the previous task which generates a new resource that the current task relies on. A special tag \"-task_id\" refers to the generated text image, audio and video in the dependency task with id as task_id. The task MUST be selected from the following options: {{ Available Task List }}. There is a logical relationship between tasks, please note their order. If the user input can't be parsed, you need to reply empty JSON. Here are several cases for your reference: {{ Demonstrations }}. The chat history is recorded as {{ Chat History }}. From this chat history, you can find the path of the user-mentioned resources for your task planning."
+        - paragraph [ref=e674]:
+          - strong [ref=e675]: (2) Model selection
+          - text: ": LLM distributes the tasks to expert models, where the request is framed as a multiple-choice question. LLM is presented with a list of models to choose from. Due to the limited context length, task type based filtration is needed."
+        - paragraph [ref=e676]: "Instruction:"
+        - generic [ref=e677]: "Given the user request and the call command, the AI assistant helps the user to select a suitable model from a list of models to process the user request. The AI assistant merely outputs the model id of the most appropriate model. The output must be in a strict JSON format: \"id\": \"id\", \"reason\": \"your detail reason for the choice\". We have a list of models for you to choose from {{ Candidate Models }}. Please select one model from the list."
+        - paragraph [ref=e678]:
+          - strong [ref=e679]: (3) Task execution
+          - text: ": Expert models execute on the specific tasks and log results."
+        - paragraph [ref=e680]: "Instruction:"
+        - generic [ref=e681]: "With the input and the inference results, the AI assistant needs to describe the process and results. The previous stages can be formed as - User Input: {{ User Input }}, Task Planning: {{ Tasks }}, Model Selection: {{ Model Assignment }}, Task Execution: {{ Predictions }}. You must first answer the user's request in a straightforward manner. Then describe the task process and show your analysis and model inference results to the user in the first person. If inference results contain a file path, must tell the user the complete file path."
+        - paragraph [ref=e682]:
+          - strong [ref=e683]: (4) Response generation
+          - text: ": LLM receives the execution results and provides summarized results to users."
+        - paragraph [ref=e684]: "To put HuggingGPT into real world usage, a couple challenges need to solve: (1) Efficiency improvement is needed as both LLM inference rounds and interactions with other models slow down the process; (2) It relies on a long context window to communicate over complicated task content; (3) Stability improvement of LLM outputs and external model services."
+        - paragraph [ref=e685]:
+          - strong [ref=e686]: API-Bank
+          - text: (
+          - link "Li et al. 2023" [ref=e687] [cursor=pointer]:
+            - /url: https://arxiv.org/abs/2304.08244
+          - text: ) is a benchmark for evaluating the performance of tool-augmented LLMs. It contains 53 commonly used API tools, a complete tool-augmented LLM workflow, and 264 annotated dialogues that involve 568 API calls. The selection of APIs is quite diverse, including search engines, calculator, calendar queries, smart home control, schedule management, health data management, account authentication workflow and more. Because there are a large number of APIs, LLM first has access to API search engine to find the right API to call and then uses the corresponding documentation to make a call.
+        - 'figure "Pseudo code of how LLM makes an API call in API-Bank. (Image source: Li et al. 2023)" [ref=e688]':
+          - img [ref=e689]
+          - generic [ref=e690]:
+            - text: "Pseudo code of how LLM makes an API call in API-Bank. (Image source:"
+            - link "Li et al. 2023" [ref=e691] [cursor=pointer]:
+              - /url: https://arxiv.org/abs/2304.08244
+            - text: )
+        - paragraph [ref=e692]: "In the API-Bank workflow, LLMs need to make a couple of decisions and at each step we can evaluate how accurate that decision is. Decisions include:"
+        - list [ref=e693]:
+          - listitem [ref=e694]: Whether an API call is needed.
+          - listitem [ref=e695]: "Identify the right API to call: if not good enough, LLMs need to iteratively modify the API inputs (e.g. deciding search keywords for Search Engine API)."
+          - listitem [ref=e696]: "Response based on the API results: the model can choose to refine and call again if results are not satisfied."
+        - paragraph [ref=e697]: "This benchmark evaluates the agent’s tool use capabilities at three levels:"
+        - list [ref=e698]:
+          - listitem [ref=e699]:
+            - text: Level-1 evaluates the ability to
+            - emphasis [ref=e700]: call the API
+            - text: . Given an API’s description, the model needs to determine whether to call a given API, call it correctly, and respond properly to API returns.
+          - listitem [ref=e701]:
+            - text: Level-2 examines the ability to
+            - emphasis [ref=e702]: retrieve the API
+            - text: . The model needs to search for possible APIs that may solve the user’s requirement and learn how to use them by reading documentation.
+          - listitem [ref=e703]:
+            - text: Level-3 assesses the ability to
+            - emphasis [ref=e704]: plan API beyond retrieve and call
+            - text: . Given unclear user requests (e.g. schedule group meetings, book flight/hotel/restaurant for a trip), the model may have to conduct multiple API calls to solve it.
+        - heading "Case Studies" [level=1] [ref=e705]
+        - heading "Scientific Discovery Agent" [level=2] [ref=e706]
+        - paragraph [ref=e707]:
+          - strong [ref=e708]: ChemCrow
+          - text: (
+          - link "Bran et al. 2023" [ref=e709] [cursor=pointer]:
+            - /url: https://arxiv.org/abs/2304.05376
+          - text: ) is a domain-specific example in which LLM is augmented with 13 expert-designed tools to accomplish tasks across organic synthesis, drug discovery, and materials design. The workflow, implemented in
+          - link "LangChain" [ref=e710] [cursor=pointer]:
+            - /url: https://github.com/hwchase17/langchain
+          - text: ", reflects what was previously described in the"
+          - link "ReAct" [ref=e711] [cursor=pointer]:
+            - /url: "#react"
+          - text: and
+          - link "MRKLs" [ref=e712] [cursor=pointer]:
+            - /url: "#mrkl"
+          - text: "and combines CoT reasoning with tools relevant to the tasks:"
+        - list [ref=e713]:
+          - listitem [ref=e714]: The LLM is provided with a list of tool names, descriptions of their utility, and details about the expected input/output.
+          - listitem [ref=e715]:
+            - text: It is then instructed to answer a user-given prompt using the tools provided when necessary. The instruction suggests the model to follow the ReAct format -
+            - code [ref=e716]: Thought, Action, Action Input, Observation
+            - text: .
+        - paragraph [ref=e717]: One interesting observation is that while the LLM-based evaluation concluded that GPT-4 and ChemCrow perform nearly equivalently, human evaluations with experts oriented towards the completion and chemical correctness of the solutions showed that ChemCrow outperforms GPT-4 by a large margin. This indicates a potential problem with using LLM to evaluate its own performance on domains that requires deep expertise. The lack of expertise may cause LLMs not knowing its flaws and thus cannot well judge the correctness of task results.
+        - paragraph [ref=e718]:
+          - link "Boiko et al. (2023)" [ref=e719] [cursor=pointer]:
+            - /url: https://arxiv.org/abs/2304.05332
+          - text: also looked into LLM-empowered agents for scientific discovery, to handle autonomous design, planning, and performance of complex scientific experiments. This agent can use tools to browse the Internet, read documentation, execute code, call robotics experimentation APIs and leverage other LLMs.
+        - paragraph [ref=e720]:
+          - text: For example, when requested to
+          - code [ref=e721]: "\"develop a novel anticancer drug\""
+          - text: ", the model came up with the following reasoning steps:"
+        - list [ref=e722]:
+          - listitem [ref=e723]: inquired about current trends in anticancer drug discovery;
+          - listitem [ref=e724]: selected a target;
+          - listitem [ref=e725]: requested a scaffold targeting these compounds;
+          - listitem [ref=e726]: Once the compound was identified, the model attempted its synthesis.
+        - paragraph [ref=e727]: They also discussed the risks, especially with illicit drugs and bioweapons. They developed a test set containing a list of known chemical weapon agents and asked the agent to synthesize them. 4 out of 11 requests (36%) were accepted to obtain a synthesis solution and the agent attempted to consult documentation to execute the procedure. 7 out of 11 were rejected and among these 7 rejected cases, 5 happened after a Web search while 2 were rejected based on prompt only.
+        - heading "Generative Agents Simulation" [level=2] [ref=e728]
+        - paragraph [ref=e729]:
+          - strong [ref=e730]: Generative Agents
+          - text: (
+          - link "Park, et al. 2023" [ref=e731] [cursor=pointer]:
+            - /url: https://arxiv.org/abs/2304.03442
+          - text: ) is super fun experiment where 25 virtual characters, each controlled by a LLM-powered agent, are living and interacting in a sandbox environment, inspired by The Sims. Generative agents create believable simulacra of human behavior for interactive applications.
+        - paragraph [ref=e732]: The design of generative agents combines LLM with memory, planning and reflection mechanisms to enable agents to behave conditioned on past experience, as well as to interact with other agents.
+        - list [ref=e733]:
+          - listitem [ref=e734]:
+            - strong [ref=e735]: Memory
+            - text: "stream: is a long-term memory module (external database) that records a comprehensive list of agents’ experience in natural language."
+            - list [ref=e736]:
+              - listitem [ref=e737]:
+                - text: Each element is an
+                - emphasis [ref=e738]: observation
+                - text: ", an event directly provided by the agent. - Inter-agent communication can trigger new natural language statements."
+          - listitem [ref=e739]:
+            - strong [ref=e740]: Retrieval
+            - text: "model: surfaces the context to inform the agent’s behavior, according to relevance, recency and importance."
+            - list [ref=e741]:
+              - listitem [ref=e742]: "Recency: recent events have higher scores"
+              - listitem [ref=e743]: "Importance: distinguish mundane from core memories. Ask LM directly."
+              - listitem [ref=e744]: "Relevance: based on how related it is to the current situation / query."
+          - listitem [ref=e745]:
+            - strong [ref=e746]: Reflection
+            - text: "mechanism: synthesizes memories into higher level inferences over time and guides the agent’s future behavior. They are"
+            - emphasis [ref=e747]: higher-level summaries of past events
+            - text: (<- note that this is a bit different from
+            - link "self-reflection" [ref=e748] [cursor=pointer]:
+              - /url: "#self-reflection"
+            - text: above)
+            - list [ref=e749]:
+              - listitem [ref=e750]: Prompt LM with 100 most recent observations and to generate 3 most salient high-level questions given a set of observations/statements. Then ask LM to answer those questions.
+          - listitem [ref=e751]:
+            - strong [ref=e752]: Planning & Reacting
+            - text: ": translate the reflections and the environment information into actions"
+            - list [ref=e753]:
+              - listitem [ref=e754]: Planning is essentially in order to optimize believability at the moment vs in time.
+              - listitem [ref=e755]:
+                - text: "Prompt template:"
+                - code [ref=e756]: "{Intro of an agent X}. Here is X's plan today in broad strokes: 1)"
+              - listitem [ref=e757]: Relationships between agents and observations of one agent by another are all taken into consideration for planning and reacting.
+              - listitem [ref=e758]: Environment information is present in a tree structure.
+        - 'figure "The generative agent architecture. (Image source: Park et al. 2023)" [ref=e759]':
+          - img [ref=e760]
+          - generic [ref=e761]:
+            - text: "The generative agent architecture. (Image source:"
+            - link "Park et al. 2023" [ref=e762] [cursor=pointer]:
+              - /url: https://arxiv.org/abs/2304.03442
+            - text: )
+        - paragraph [ref=e763]: This fun simulation results in emergent social behavior, such as information diffusion, relationship memory (e.g. two agents continuing the conversation topic) and coordination of social events (e.g. host a party and invite many others).
+        - heading "Proof-of-Concept Examples" [level=2] [ref=e764]
+        - paragraph [ref=e765]:
+          - link "AutoGPT" [ref=e766] [cursor=pointer]:
+            - /url: https://github.com/Significant-Gravitas/Auto-GPT
+          - text: has drawn a lot of attention into the possibility of setting up autonomous agents with LLM as the main controller. It has quite a lot of reliability issues given the natural language interface, but nevertheless a cool proof-of-concept demo. A lot of code in AutoGPT is about format parsing.
+        - paragraph [ref=e767]:
+          - text: Here is the system message used by AutoGPT, where
+          - code [ref=e768]: "{{...}}"
+          - text: "are user inputs:"
+        - code [ref=e770]: "You are {{ai-name}}, {{user-provided AI bot description}}. Your decisions must always be made independently without seeking user assistance. Play to your strengths as an LLM and pursue simple strategies with no legal complications. GOALS: 1. {{user-provided goal 1}} 2. {{user-provided goal 2}} 3. ... 4. ... 5. ... Constraints: 1. ~4000 word limit for short term memory. Your short term memory is short, so immediately save important information to files. 2. If you are unsure how you previously did something or want to recall past events, thinking about similar events will help you remember. 3. No user assistance 4. Exclusively use the commands listed in double quotes e.g. \"command name\" 5. Use subprocesses for commands that will not terminate within a few minutes Commands: 1. Google Search: \"google\", args: \"input\": \"<search>\" 2. Browse Website: \"browse_website\", args: \"url\": \"<url>\", \"question\": \"<what_you_want_to_find_on_website>\" 3. Start GPT Agent: \"start_agent\", args: \"name\": \"<name>\", \"task\": \"<short_task_desc>\", \"prompt\": \"<prompt>\" 4. Message GPT Agent: \"message_agent\", args: \"key\": \"<key>\", \"message\": \"<message>\" 5. List GPT Agents: \"list_agents\", args: 6. Delete GPT Agent: \"delete_agent\", args: \"key\": \"<key>\" 7. Clone Repository: \"clone_repository\", args: \"repository_url\": \"<url>\", \"clone_path\": \"<directory>\" 8. Write to file: \"write_to_file\", args: \"file\": \"<file>\", \"text\": \"<text>\" 9. Read file: \"read_file\", args: \"file\": \"<file>\" 10. Append to file: \"append_to_file\", args: \"file\": \"<file>\", \"text\": \"<text>\" 11. Delete file: \"delete_file\", args: \"file\": \"<file>\" 12. Search Files: \"search_files\", args: \"directory\": \"<directory>\" 13. Analyze Code: \"analyze_code\", args: \"code\": \"<full_code_string>\" 14. Get Improved Code: \"improve_code\", args: \"suggestions\": \"<list_of_suggestions>\", \"code\": \"<full_code_string>\" 15. Write Tests: \"write_tests\", args: \"code\": \"<full_code_string>\", \"focus\": \"<list_of_focus_areas>\" 16. Execute Python File: \"execute_python_file\", args: \"file\": \"<file>\" 17. Generate Image: \"generate_image\", args: \"prompt\": \"<prompt>\" 18. Send Tweet: \"send_tweet\", args: \"text\": \"<text>\" 19. Do Nothing: \"do_nothing\", args: 20. Task Complete (Shutdown): \"task_complete\", args: \"reason\": \"<reason>\" Resources: 1. Internet access for searches and information gathering. 2. Long Term memory management. 3. GPT-3.5 powered Agents for delegation of simple tasks. 4. File output. Performance Evaluation: 1. Continuously review and analyze your actions to ensure you are performing to the best of your abilities. 2. Constructively self-criticize your big-picture behavior constantly. 3. Reflect on past decisions and strategies to refine your approach. 4. Every command has a cost, so be smart and efficient. Aim to complete tasks in the least number of steps. You should only respond in JSON format as described below Response Format: { \"thoughts\": { \"text\": \"thought\", \"reasoning\": \"reasoning\", \"plan\": \"- short bulleted\\n- list that conveys\\n- long-term plan\", \"criticism\": \"constructive self-criticism\", \"speak\": \"thoughts summary to say to user\" }, \"command\": { \"name\": \"command name\", \"args\": { \"arg name\": \"value\" } } } Ensure the response can be parsed by Python json.loads"
+        - paragraph [ref=e771]:
+          - link "GPT-Engineer" [ref=e772] [cursor=pointer]:
+            - /url: https://github.com/AntonOsika/gpt-engineer
+          - text: is another project to create a whole repository of code given a task specified in natural language. The GPT-Engineer is instructed to think over a list of smaller components to build and ask for user input to clarify questions as needed.
+        - paragraph [ref=e773]:
+          - text: Here are a sample conversation for task clarification sent to OpenAI ChatCompletion endpoint used by GPT-Engineer. The user inputs are wrapped in
+          - code [ref=e774]: "{{user input text}}"
+          - text: .
+        - code [ref=e776]: "[ { \"role\": \"system\", \"content\": \"You will read instructions and not carry them out, only seek to clarify them.\\nSpecifically you will first summarise a list of super short bullets of areas that need clarification.\\nThen you will pick one clarifying question, and wait for an answer from the user.\\n\" }, { \"role\": \"user\", \"content\": \"We are writing {{a Super Mario game in python. MVC components split in separate files. Keyboard control.}}\\n\" }, { \"role\": \"assistant\", \"content\": \"Summary of areas that need clarification:\\n1. Specifics of the Super Mario game (e.g. level design, characters, gameplay mechanics)\\n2. Details about the MVC components (e.g. which components are in each file)\\n3. Keyboard control implementation (e.g. which keys to use, how to handle input)\\n\\nClarifying question:\\nCan you provide more details about the Super Mario game, such as level design, characters, and gameplay mechanics?\" }, { \"role\": \"user\", \"content\": \"{{There are 10 levels in total. The main character is a plumber named Mario, who can walk and jump. It is a classical platform game just like Super Mario. The main character moves from left to right, trying to get to the destination, where there are many obstacles and attacks from enemies in the process.}}\\n\\nIs anything else unclear? If yes, only answer in the form:\\n{remaining unclear areas} remaining questions.\\n{Next question}\\nIf everything is sufficiently clear, only answer \\\"Nothing more to clarify.\\\".\" }, { \"role\": \"assistant\", \"content\": \"Remaining unclear areas: 2 remaining questions.\\nCan you provide more information about how the MVC components are split into separate files?\" }, { \"role\": \"user\", \"content\": \"{{Make your own assumptions and state them explicitly before starting}}\" } ]"
+        - paragraph [ref=e777]: "Then after these clarification, the agent moved into the code writing mode with a different system message. System message:"
+        - generic [ref=e778]:
+          - text: You will get instructions for code to write. You will write a very long answer. Make sure that every detail of the architecture is, in the end, implemented as code. Make sure that every detail of the architecture is, in the end, implemented as code.
+          - paragraph [ref=e779]: Think step by step and reason yourself to the right decisions to make sure we get it right. You will first lay out the names of the core classes, functions, methods that will be necessary, as well as a quick comment on their purpose.
+          - paragraph [ref=e780]: "Then you will output the content of each file including ALL code. Each file must strictly follow a markdown code block format, where the following tokens must be replaced such that FILENAME is the lowercase file name including the file extension, LANG is the markup code block language for the code’s language, and CODE is the code:"
+          - paragraph [ref=e781]: FILENAME
+          - code [ref=e783]: CODE
+          - paragraph [ref=e784]: You will start with the “entrypoint” file, then go to the ones that are imported by that file, and so on. Please note that the code should be fully functional. No placeholders.
+          - paragraph [ref=e785]: Follow a language and framework appropriate best practice file naming convention. Make sure that files contain all imports, types etc. Make sure that code in different files are compatible with each other. Ensure to implement all code, if you are unsure, write a plausible implementation. Include module dependency or package manager dependency definition file. Before you finish, double check that all parts of the architecture is present in the files.
+          - paragraph [ref=e786]: "Useful to know: You almost always put different classes in different files. For Python, you always create an appropriate requirements.txt file. For NodeJS, you always create an appropriate package.json file. You always add a comment briefly describing the purpose of the function definition. You try to add comments explaining very complex bits of logic. You always follow the best practices for the requested languages in terms of describing the code written as a defined package/project."
+          - paragraph [ref=e787]: "Python toolbelt preferences:"
+          - list [ref=e788]:
+            - listitem [ref=e789]: pytest
+            - listitem [ref=e790]: dataclasses
+        - paragraph [ref=e791]: "Conversatin samples:"
+        - code [ref=e793]: "[ { \"role\": \"system\", \"content\": \"You will get instructions for code to write.\\nYou will write a very long answer. Make sure that every detail of the architecture is, in the end, implemented as code.\\nMake sure that every detail of the architecture is, in the end, implemented as code.\\n\\nThink step by step and reason yourself to the right decisions to make sure we get it right.\\nYou will first lay out the names of the core classes, functions, methods that will be necessary, as well as a quick comment on their purpose.\\n\\nThen you will output the content of each file including ALL code.\\nEach file must strictly follow a markdown code block format, where the following tokens must be replaced such that\\nFILENAME is the lowercase file name including the file extension,\\nLANG is the markup code block language for the code's language, and CODE is the code:\\n\\nFILENAME\\n```LANG\\nCODE\\n```\\n\\nYou will start with the \\\"entrypoint\\\" file, then go to the ones that are imported by that file, and so on.\\nPlease note that the code should be fully functional. No placeholders.\\n\\nFollow a language and framework appropriate best practice file naming convention.\\nMake sure that files contain all imports, types etc. Make sure that code in different files are compatible with each other.\\nEnsure to implement all code, if you are unsure, write a plausible implementation.\\nInclude module dependency or package manager dependency definition file.\\nBefore you finish, double check that all parts of the architecture is present in the files.\\n\\nUseful to know:\\nYou almost always put different classes in different files.\\nFor Python, you always create an appropriate requirements.txt file.\\nFor NodeJS, you always create an appropriate package.json file.\\nYou always add a comment briefly describing the purpose of the function definition.\\nYou try to add comments explaining very complex bits of logic.\\nYou always follow the best practices for the requested languages in terms of describing the code written as a defined\\npackage/project.\\n\\n\\nPython toolbelt preferences:\\n- pytest\\n- dataclasses\\n\" }, # … same conversation as earlier, ended with \"Make your own assumptions and state them explicitly before starting\". { \"role\": \"assistant\", \"content\": \"Assumptions:\\n1. Model: The model will contain the game's data, such as level information, character states, and enemy positions.\\n2. View: The view will handle the game's visuals, including rendering the game objects, backgrounds, and updating the display.\\n3. Controller: The controller will manage user input, such as keyboard controls, and update the model accordingly.\\n\\nWith these assumptions in mind, is there any specific aspect of the keyboard control implementation you would like me to clarify?\" }, { \"role\": \"user\", \"content\": \"Please now remember the steps:\\n\\nThink step by step and reason yourself to the right decisions to make sure we get it right.\\nFirst lay out the names of the core classes, functions, methods that will be necessary, As well as a quick comment on their purpose.\\n\\nThen you will output the content of each file including ALL code.\\nEach file must strictly follow a markdown code block format, where the following tokens must be replaced such that\\nFILENAME is the lowercase file name including the file extension,\\nLANG is the markup code block language for the code's language, and CODE is the code:\\n\\nFILENAME\\n```LANG\\nCODE\\n```\\n\\nPlease note that the code should be fully functional. No placeholders.\\n\\nYou will start with the \\\"entrypoint\\\" file, then go to the ones that are imported by that file, and so on.\\nFollow a language and framework appropriate best practice file naming convention.\\nMake sure that files contain all imports, types etc. The code should be fully functional. Make sure that code in different files are compatible with each other.\\nBefore you finish, double check that all parts of the architecture is present in the files.\\n\" } ]"
+        - heading "Challenges" [level=1] [ref=e794]
+        - paragraph [ref=e795]: "After going through key ideas and demos of building LLM-centered agents, I start to see a couple common limitations:"
+        - list [ref=e796]:
+          - listitem [ref=e797]:
+            - paragraph [ref=e798]:
+              - strong [ref=e799]: Finite context length
+              - text: ": The restricted context capacity limits the inclusion of historical information, detailed instructions, API call context, and responses. The design of the system has to work with this limited communication bandwidth, while mechanisms like self-reflection to learn from past mistakes would benefit a lot from long or infinite context windows. Although vector stores and retrieval can provide access to a larger knowledge pool, their representation power is not as powerful as full attention."
+          - listitem [ref=e800]:
+            - paragraph [ref=e801]:
+              - strong [ref=e802]: Challenges in long-term planning and task decomposition
+              - text: ": Planning over a lengthy history and effectively exploring the solution space remain challenging. LLMs struggle to adjust plans when faced with unexpected errors, making them less robust compared to humans who learn from trial and error."
+          - listitem [ref=e803]:
+            - paragraph [ref=e804]:
+              - strong [ref=e805]: Reliability of natural language interface
+              - text: ": Current agent system relies on natural language as an interface between LLMs and external components such as memory and tools. However, the reliability of model outputs is questionable, as LLMs may make formatting errors and occasionally exhibit rebellious behavior (e.g. refuse to follow an instruction). Consequently, much of the agent demo code focuses on parsing model output."
+        - heading "Citation" [level=1] [ref=e806]
+        - paragraph [ref=e807]: "Cited as:"
+        - blockquote [ref=e808]:
+          - paragraph [ref=e809]: Weng, Lilian. (Jun 2023). “LLM-powered Autonomous Agents”. Lil’Log. https://lilianweng.github.io/posts/2023-06-23-agent/.
+        - paragraph [ref=e810]: Or
+        - code [ref=e812]: "@article{weng2023agent, title = \"LLM-powered Autonomous Agents\", author = \"Weng, Lilian\", journal = \"lilianweng.github.io\", year = \"2023\", month = \"Jun\", url = \"https://lilianweng.github.io/posts/2023-06-23-agent/\" }"
+        - heading "References" [level=1] [ref=e813]
+        - paragraph [ref=e814]:
+          - text: "[1] Wei et al."
+          - link "“Chain of thought prompting elicits reasoning in large language models.”" [ref=e815] [cursor=pointer]:
+            - /url: https://arxiv.org/abs/2201.11903
+          - text: NeurIPS 2022
+        - paragraph [ref=e816]:
+          - text: "[2] Yao et al."
+          - 'link "“Tree of Thoughts: Dliberate Problem Solving with Large Language Models.”" [ref=e817] [cursor=pointer]':
+            - /url: https://arxiv.org/abs/2305.10601
+          - text: arXiv preprint arXiv:2305.10601 (2023).
+        - paragraph [ref=e818]:
+          - text: "[3] Liu et al."
+          - link "“Chain of Hindsight Aligns Language Models with Feedback “" [ref=e819] [cursor=pointer]:
+            - /url: https://arxiv.org/abs/2302.02676
+          - text: arXiv preprint arXiv:2302.02676 (2023).
+        - paragraph [ref=e820]:
+          - text: "[4] Liu et al."
+          - 'link "“LLM+P: Empowering Large Language Models with Optimal Planning Proficiency”" [ref=e821] [cursor=pointer]':
+            - /url: https://arxiv.org/abs/2304.11477
+          - text: arXiv preprint arXiv:2304.11477 (2023).
+        - paragraph [ref=e822]:
+          - text: "[5] Yao et al."
+          - 'link "“ReAct: Synergizing reasoning and acting in language models.”" [ref=e823] [cursor=pointer]':
+            - /url: https://arxiv.org/abs/2210.03629
+          - text: ICLR 2023.
+        - paragraph [ref=e824]:
+          - text: "[6] Google Blog."
+          - 'link "“Announcing ScaNN: Efficient Vector Similarity Search”" [ref=e825] [cursor=pointer]':
+            - /url: https://ai.googleblog.com/2020/07/announcing-scann-efficient-vector.html
+          - text: July 28, 2020.
+        - paragraph [ref=e826]:
+          - text: "[7]"
+          - link "https://chat.openai.com/share/46ff149e-a4c7-4dd7-a800-fc4a642ea389" [ref=e827] [cursor=pointer]:
+            - /url: https://chat.openai.com/share/46ff149e-a4c7-4dd7-a800-fc4a642ea389
+        - paragraph [ref=e828]:
+          - text: "[8] Shinn & Labash."
+          - 'link "“Reflexion: an autonomous agent with dynamic memory and self-reflection”" [ref=e829] [cursor=pointer]':
+            - /url: https://arxiv.org/abs/2303.11366
+          - text: arXiv preprint arXiv:2303.11366 (2023).
+        - paragraph [ref=e830]:
+          - text: "[9] Laskin et al."
+          - link "“In-context Reinforcement Learning with Algorithm Distillation”" [ref=e831] [cursor=pointer]:
+            - /url: https://arxiv.org/abs/2210.14215
+          - text: ICLR 2023.
+        - paragraph [ref=e832]:
+          - text: "[10] Karpas et al."
+          - link "“MRKL Systems A modular, neuro-symbolic architecture that combines large language models, external knowledge sources and discrete reasoning.”" [ref=e833] [cursor=pointer]:
+            - /url: https://arxiv.org/abs/2205.00445
+          - text: arXiv preprint arXiv:2205.00445 (2022).
+        - paragraph [ref=e834]:
+          - text: "[11] Nakano et al."
+          - 'link "“Webgpt: Browser-assisted question-answering with human feedback.”" [ref=e835] [cursor=pointer]':
+            - /url: https://arxiv.org/abs/2112.09332
+          - text: arXiv preprint arXiv:2112.09332 (2021).
+        - paragraph [ref=e836]:
+          - text: "[12] Parisi et al."
+          - 'link "“TALM: Tool Augmented Language Models”" [ref=e837] [cursor=pointer]':
+            - /url: https://arxiv.org/abs/2205.12255
+        - paragraph [ref=e838]:
+          - text: "[13] Schick et al."
+          - 'link "“Toolformer: Language Models Can Teach Themselves to Use Tools.”" [ref=e839] [cursor=pointer]':
+            - /url: https://arxiv.org/abs/2302.04761
+          - text: arXiv preprint arXiv:2302.04761 (2023).
+        - paragraph [ref=e840]:
+          - text: "[14] Weaviate Blog."
+          - link "Why is Vector Search so fast?" [ref=e841] [cursor=pointer]:
+            - /url: https://weaviate.io/blog/why-is-vector-search-so-fast
+          - text: Sep 13, 2022.
+        - paragraph [ref=e842]:
+          - text: "[15] Li et al."
+          - 'link "“API-Bank: A Benchmark for Tool-Augmented LLMs”" [ref=e843] [cursor=pointer]':
+            - /url: https://arxiv.org/abs/2304.08244
+          - text: arXiv preprint arXiv:2304.08244 (2023).
+        - paragraph [ref=e844]:
+          - text: "[16] Shen et al."
+          - 'link "“HuggingGPT: Solving AI Tasks with ChatGPT and its Friends in HuggingFace”" [ref=e845] [cursor=pointer]':
+            - /url: https://arxiv.org/abs/2303.17580
+          - text: arXiv preprint arXiv:2303.17580 (2023).
+        - paragraph [ref=e846]:
+          - text: "[17] Bran et al."
+          - 'link "“ChemCrow: Augmenting large-language models with chemistry tools.”" [ref=e847] [cursor=pointer]':
+            - /url: https://arxiv.org/abs/2304.05376
+          - text: arXiv preprint arXiv:2304.05376 (2023).
+        - paragraph [ref=e848]:
+          - text: "[18] Boiko et al."
+          - link "“Emergent autonomous scientific research capabilities of large language models.”" [ref=e849] [cursor=pointer]:
+            - /url: https://arxiv.org/abs/2304.05332
+          - text: arXiv preprint arXiv:2304.05332 (2023).
+        - paragraph [ref=e850]:
+          - text: "[19] Joon Sung Park, et al."
+          - 'link "“Generative Agents: Interactive Simulacra of Human Behavior.”" [ref=e851] [cursor=pointer]':
+            - /url: https://arxiv.org/abs/2304.03442
+          - text: arXiv preprint arXiv:2304.03442 (2023).
+        - paragraph [ref=e852]:
+          - text: "[20] AutoGPT."
+          - link "https://github.com/Significant-Gravitas/Auto-GPT" [ref=e853] [cursor=pointer]:
+            - /url: https://github.com/Significant-Gravitas/Auto-GPT
+        - paragraph [ref=e854]:
+          - text: "[21] GPT-Engineer."
+          - link "https://github.com/AntonOsika/gpt-engineer" [ref=e855] [cursor=pointer]:
+            - /url: https://github.com/AntonOsika/gpt-engineer
+      - generic [ref=e856]:
+        - list [ref=e857]:
+          - listitem [ref=e858]:
+            - link "Nlp" [ref=e859] [cursor=pointer]:
+              - /url: https://lilianweng.github.io/tags/nlp/
+          - listitem [ref=e860]:
+            - link "Language-Model" [ref=e861] [cursor=pointer]:
+              - /url: https://lilianweng.github.io/tags/language-model/
+          - listitem [ref=e862]:
+            - link "Agent" [ref=e863] [cursor=pointer]:
+              - /url: https://lilianweng.github.io/tags/agent/
+          - listitem [ref=e864]:
+            - link "Steerability" [ref=e865] [cursor=pointer]:
+              - /url: https://lilianweng.github.io/tags/steerability/
+          - listitem [ref=e866]:
+            - link "Prompting" [ref=e867] [cursor=pointer]:
+              - /url: https://lilianweng.github.io/tags/prompting/
+        - navigation [ref=e868]:
+          - link "« Adversarial Attacks on LLMs" [ref=e869] [cursor=pointer]:
+            - /url: https://lilianweng.github.io/posts/2023-10-25-adv-attack-llm/
+            - text: «
+            - text: Adversarial Attacks on LLMs
+          - link "» Prompt Engineering" [ref=e870] [cursor=pointer]:
+            - /url: https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/
+            - text: »
+            - text: Prompt Engineering
+        - generic [ref=e871]:
+          - link "share LLM Powered Autonomous Agents on twitter" [ref=e872] [cursor=pointer]:
+            - /url: https://twitter.com/intent/tweet/?text=LLM%20Powered%20Autonomous%20Agents&url=https%3a%2f%2flilianweng.github.io%2fposts%2f2023-06-23-agent%2f&hashtags=nlp%2clanguage-model%2cagent%2csteerability%2cprompting
+            - img [ref=e873]
+          - link "share LLM Powered Autonomous Agents on linkedin" [ref=e875] [cursor=pointer]:
+            - /url: https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2flilianweng.github.io%2fposts%2f2023-06-23-agent%2f&title=LLM%20Powered%20Autonomous%20Agents&summary=LLM%20Powered%20Autonomous%20Agents&source=https%3a%2f%2flilianweng.github.io%2fposts%2f2023-06-23-agent%2f
+            - img [ref=e876]
+          - link "share LLM Powered Autonomous Agents on reddit" [ref=e878] [cursor=pointer]:
+            - /url: https://reddit.com/submit?url=https%3a%2f%2flilianweng.github.io%2fposts%2f2023-06-23-agent%2f&title=LLM%20Powered%20Autonomous%20Agents
+            - img [ref=e879]
+          - link "share LLM Powered Autonomous Agents on facebook" [ref=e881] [cursor=pointer]:
+            - /url: https://facebook.com/sharer/sharer.php?u=https%3a%2f%2flilianweng.github.io%2fposts%2f2023-06-23-agent%2f
+            - img [ref=e882]
+          - link "share LLM Powered Autonomous Agents on whatsapp" [ref=e884] [cursor=pointer]:
+            - /url: https://api.whatsapp.com/send?text=LLM%20Powered%20Autonomous%20Agents%20-%20https%3a%2f%2flilianweng.github.io%2fposts%2f2023-06-23-agent%2f
+            - img [ref=e885]
+          - link "share LLM Powered Autonomous Agents on telegram" [ref=e887] [cursor=pointer]:
+            - /url: https://telegram.me/share/url?text=LLM%20Powered%20Autonomous%20Agents&url=https%3a%2f%2flilianweng.github.io%2fposts%2f2023-06-23-agent%2f
+            - img [ref=e888]
+  - contentinfo [ref=e890]:
+    - generic [ref=e891]:
+      - text: © 2025
+      - link "Lil'Log" [ref=e892] [cursor=pointer]:
+        - /url: https://lilianweng.github.io/
+    - generic [ref=e893]:
+      - text: Powered by
+      - link "Hugo" [ref=e894] [cursor=pointer]:
+        - /url: https://gohugo.io/
+      - text: "&"
+      - link "PaperMod" [ref=e895] [cursor=pointer]:
+        - /url: https://git.io/hugopapermod

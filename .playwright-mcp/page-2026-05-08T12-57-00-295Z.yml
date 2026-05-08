@@ -1,0 +1,52 @@
+- generic [ref=e1]:
+  - navigation:
+    - list:
+      - listitem:
+        - link "Skip to primary navigation" [ref=e2] [cursor=pointer]:
+          - /url: "#site-nav"
+      - listitem:
+        - link "Skip to content" [ref=e3] [cursor=pointer]:
+          - /url: "#main"
+      - listitem:
+        - link "Skip to footer" [ref=e4] [cursor=pointer]:
+          - /url: "#footer"
+  - navigation [ref=e8]:
+    - link "Harel Lidar AI Researcher & ML Engineer" [ref=e9] [cursor=pointer]:
+      - /url: /
+      - text: Harel Lidar
+      - generic [ref=e10]: AI Researcher & ML Engineer
+    - list [ref=e11]:
+      - listitem [ref=e12]:
+        - link "About" [ref=e13] [cursor=pointer]:
+          - /url: /about/
+      - listitem [ref=e14]:
+        - link "Blog" [ref=e15] [cursor=pointer]:
+          - /url: /blog/
+      - listitem [ref=e16]:
+        - link "Writing" [ref=e17] [cursor=pointer]:
+          - /url: /writing/
+      - listitem [ref=e18]:
+        - link "Tags" [ref=e19] [cursor=pointer]:
+          - /url: /tags/
+    - button "Toggle search " [ref=e20] [cursor=pointer]:
+      - generic [ref=e21]: Toggle search
+      - generic [ref=e22]: 
+    - button "Toggle dark mode" [ref=e23] [cursor=pointer]: 🌙
+  - generic [ref=e103]:
+    - generic [ref=e104] [cursor=pointer]: Enter your search term...
+    - searchbox "Enter your search term..." [active] [ref=e105]
+  - contentinfo [ref=e92]:
+    - list [ref=e94]:
+      - listitem [ref=e95]:
+        - link "Feed" [ref=e96] [cursor=pointer]:
+          - /url: /feed.xml
+          - generic [ref=e97]: 
+          - text: Feed
+    - generic [ref=e98]:
+      - text: © 2026 Harel Lidar. Powered by
+      - link "Jekyll" [ref=e99] [cursor=pointer]:
+        - /url: https://jekyllrb.com
+      - text: "&"
+      - link "Minimal Mistakes" [ref=e100] [cursor=pointer]:
+        - /url: https://mademistakes.com/work/minimal-mistakes-jekyll-theme/
+      - text: .

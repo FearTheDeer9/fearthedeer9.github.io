@@ -1,0 +1,17 @@
+[    1696ms] [WARNING] yui: NOT loaded: squarespace-visitor_site_error_reporter @ https://assets.squarespace.com/universal/scripts-compressed/common-vendors-stable-b8d716935110c7b2-min.en-US.js:7
+[    1696ms] [WARNING] yui: NOT loaded: squarespace-cldr_resource_pack @ https://assets.squarespace.com/universal/scripts-compressed/common-vendors-stable-b8d716935110c7b2-min.en-US.js:7
+[    1696ms] [WARNING] yui: NOT loaded: squarespace-common_vendors_stable @ https://assets.squarespace.com/universal/scripts-compressed/common-vendors-stable-b8d716935110c7b2-min.en-US.js:7
+[    1696ms] [WARNING] yui: NOT loaded: squarespace-common_vendors @ https://assets.squarespace.com/universal/scripts-compressed/common-vendors-stable-b8d716935110c7b2-min.en-US.js:7
+[    1697ms] [WARNING] yui: NOT loaded: squarespace-performance @ https://assets.squarespace.com/universal/scripts-compressed/common-vendors-stable-b8d716935110c7b2-min.en-US.js:7
+[    1741ms] [ERROR] Controller 'BlogImageLoader' in section '5ed9281a6f8e241f17631a0b' threw upon initialization TypeError: Cannot read properties of undefined (reading 'node')
+    at n (https://static1.squarespace.com/static/vta/5c5a519771c10ba3470d8101/scripts/blog-image-loader.2638e8a080d6ae444909.js:1:263)
+    at l (https://static1.squarespace.com/static/vta/5c5a519771c10ba3470d8101/scripts/blog-image-loader.2638e8a080d6ae444909.js:1:411)
+    at l (https://static1.squarespace.com/static/vta/5c5a519771c10ba3470d8101/scripts/blog-image-loader.2638e8a080d6ae444909.js:1:495)
+    at b._createController (https://static1.squarespace.com/static/vta/5c5a519771c10ba3470d8101/scripts/site-bundle.24618f321442829cf50ddb341e64781c.js:2:60413)
+    at async https://static1.squarespace.com/static/vta/5c5a519771c10ba3470d8101/scripts/site-bundle.24618f321442829cf50ddb341e64781c.js:2:58391
+    at async Promise.all (index 1)
+    at async b.create (https://static1.squarespace.com/static/vta/5c5a519771c10ba3470d8101/scripts/site-bundle.24618f321442829cf50ddb341e64781c.js:2:58298)
+    at async Promise.all (index 0)
+    at async Promise.all (index 0)
+    at async c (https://static1.squarespace.com/static/vta/5c5a519771c10ba3470d8101/scripts/site-bundle.24618f321442829cf50ddb341e64781c.js:2:122898) @ https://static1.squarespace.com/static/vta/5c5a519771c10ba3470d8101/scripts/site-bundle.24618f321442829cf50ddb341e64781c.js:1
+[    2442ms] [LOG] [Visitor Sentry] Initialized and sending events @ https://assets.squarespace.com/universal/scripts-compressed/7041-ab5682cb407bceb3-min.en-US.js:484

@@ -1,0 +1,128 @@
+- generic [active] [ref=e1]:
+  - navigation:
+    - list:
+      - listitem:
+        - link "Skip to primary navigation" [ref=e2] [cursor=pointer]:
+          - /url: "#site-nav"
+      - listitem:
+        - link "Skip to content" [ref=e3] [cursor=pointer]:
+          - /url: "#main"
+      - listitem:
+        - link "Skip to footer" [ref=e4] [cursor=pointer]:
+          - /url: "#footer"
+  - navigation [ref=e8]:
+    - link "Harel Lidar AI Researcher & ML Engineer" [ref=e9] [cursor=pointer]:
+      - /url: /
+      - text: Harel Lidar
+      - generic [ref=e10]: AI Researcher & ML Engineer
+    - list [ref=e11]:
+      - listitem [ref=e12]:
+        - link "About" [ref=e13] [cursor=pointer]:
+          - /url: /about/
+    - button "Toggle search " [ref=e14] [cursor=pointer]:
+      - generic [ref=e15]: Toggle search
+      - generic [ref=e16]: 
+    - button [ref=e17] [cursor=pointer]
+    - button "Toggle dark mode" [ref=e18] [cursor=pointer]: 🌙
+  - generic [ref=e20]:
+    - generic [ref=e21]:
+      - heading "Harel Lidar" [level=1] [ref=e22]
+      - paragraph [ref=e23]: AI Researcher & Machine Learning Engineer
+      - paragraph [ref=e24]: I explore the frontiers of artificial intelligence through research and implementation. My work focuses on neural architectures, 3D vision, and transformer models. I write about papers I read and ideas I explore.
+      - generic [ref=e25]:
+        - link "GitHub" [ref=e26] [cursor=pointer]:
+          - /url: https://github.com/fearthedeer9
+        - link "LinkedIn" [ref=e27] [cursor=pointer]:
+          - /url: https://linkedin.com/in/harel-lidar-3759b518a
+        - link "Email" [ref=e28] [cursor=pointer]:
+          - /url: mailto:rllidar9@gmail.com
+    - generic [ref=e29]:
+      - heading "Research Interests" [level=2] [ref=e30]
+      - list [ref=e31]:
+        - listitem [ref=e32]:
+          - strong [ref=e33]: Neural Architectures
+          - text: — Transformer variants, mixture-of-experts, efficient attention
+        - listitem [ref=e34]:
+          - strong [ref=e35]: 3D Vision
+          - text: — Gaussian splatting, neural radiance fields, scene reconstruction
+        - listitem [ref=e36]:
+          - strong [ref=e37]: Language Models
+          - text: — Scaling laws, alignment (DPO, PPO), mechanistic interpretability
+        - listitem [ref=e38]:
+          - strong [ref=e39]: Efficient ML
+          - text: — Model compression, pruning, knowledge distillation
+    - generic [ref=e40]:
+      - heading "Recent Posts" [level=2] [ref=e41]
+      - list [ref=e42]:
+        - listitem [ref=e43]:
+          - 'link "Paper Review - CAASL: Amortized Active Causal Induction with Deep Reinforcement Learning" [ref=e44] [cursor=pointer]':
+            - /url: /2025/05/08/CAASL-Amortized-Active-Causal-Induction-with-Deep-Reinforcement-Learning/
+          - generic [ref=e45]: May 2025
+        - listitem [ref=e46]:
+          - 'link "Paper Review - pixelNeRF: Neural Radiance Fields from One or Few Images" [ref=e47] [cursor=pointer]':
+            - /url: /2025/04/14/pixelNeRF-Neural-Radiance-Fields-from-One-or-Few-Images/
+          - generic [ref=e48]: Apr 2025
+        - listitem [ref=e49]:
+          - link "Paper Review - The Geometry of Categorical and Hierarchical Concepts in Large Language Models" [ref=e50] [cursor=pointer]:
+            - /url: /2025/04/14/The-Geometry-of-Categorical-and-Hierarchical-Concepts-in-Large-Language-Modeels/
+          - generic [ref=e51]: Apr 2025
+        - listitem [ref=e52]:
+          - link "Paper Review - Targeted Cause Discovery with Data-Driven Learning" [ref=e53] [cursor=pointer]:
+            - /url: /2025/04/14/Targeted-Cause-Discovery-with-Data-Driven-Learning/
+          - generic [ref=e54]: Apr 2025
+        - listitem [ref=e55]:
+          - 'link "Paper Review - TabPFN: Understanding and Advancing Tabular Foundation Models" [ref=e56] [cursor=pointer]':
+            - /url: /2025/04/14/TabPFN-Understanding-and-Advancing-Tabular-Foundation-Models/
+          - generic [ref=e57]: Apr 2025
+        - listitem [ref=e58]:
+          - 'link "Paper Review - SIREN: Implicit Neural Representations with Periodic Activation Functions" [ref=e59] [cursor=pointer]':
+            - /url: /2025/04/14/SIREN-Implicit-Neural-Representations-with-Periodic-Activation-Functions/
+          - generic [ref=e60]: Apr 2025
+        - listitem [ref=e61]:
+          - link "Paper Review - Randomization Inference When N Equals One" [ref=e62] [cursor=pointer]:
+            - /url: /2025/04/14/Randomization-Inference-When-N-Equals-One/
+          - generic [ref=e63]: Apr 2025
+        - listitem [ref=e64]:
+          - link "Paper Review - PointNet and PointNet++" [ref=e65] [cursor=pointer]:
+            - /url: /2025/04/14/PointNet-and-PointNet++/
+          - generic [ref=e66]: Apr 2025
+      - paragraph [ref=e67]:
+        - link "View all posts →" [ref=e68] [cursor=pointer]:
+          - /url: /blog/
+    - generic [ref=e69]:
+      - heading "Selected Writing" [level=2] [ref=e70]
+      - list [ref=e71]:
+        - listitem [ref=e72]:
+          - link "3D Gaussian Splatting for Real-Time Radiance Field Rendering" [ref=e73] [cursor=pointer]:
+            - /url: /2025/04/14/3D%20Gaussian%20Splatting%20for%20Real-Time%20Radiance%20Field%20Rendering/
+          - generic [ref=e74]: 3D Vision
+        - listitem [ref=e75]:
+          - link "A Primer on the Inner Workings of Transformer-Based Language Models" [ref=e76] [cursor=pointer]:
+            - /url: /2025/04/14/A%20Primer%20on%20the%20Inner%20Workings%20of%20Transformer-Based%20Language%20Models/
+          - generic [ref=e77]: Transformers
+        - listitem [ref=e78]:
+          - link "Is DPO Superior to PPO for LLM Alignment?" [ref=e79] [cursor=pointer]:
+            - /url: /2025/01/05/is-dpo-superior-to-ppo-for-alignment-%3F-a-comprehensive-study/
+          - generic [ref=e80]: Alignment
+        - listitem [ref=e81]:
+          - link "The Mathematics and Philosophy Behind MSE" [ref=e82] [cursor=pointer]:
+            - /url: /2025/01/04/mse-as-gaussian/
+          - generic [ref=e83]: Foundations
+      - paragraph [ref=e84]:
+        - link "View all selected writing →" [ref=e85] [cursor=pointer]:
+          - /url: /writing/
+  - contentinfo [ref=e87]:
+    - list [ref=e89]:
+      - listitem [ref=e90]:
+        - link "Feed" [ref=e91] [cursor=pointer]:
+          - /url: /feed.xml
+          - generic [ref=e92]: 
+          - text: Feed
+    - generic [ref=e93]:
+      - text: © 2026 Harel Lidar. Powered by
+      - link "Jekyll" [ref=e94] [cursor=pointer]:
+        - /url: https://jekyllrb.com
+      - text: "&"
+      - link "Minimal Mistakes" [ref=e95] [cursor=pointer]:
+        - /url: https://mademistakes.com/work/minimal-mistakes-jekyll-theme/
+      - text: .

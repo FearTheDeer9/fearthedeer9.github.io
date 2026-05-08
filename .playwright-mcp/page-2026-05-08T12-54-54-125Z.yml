@@ -1,0 +1,288 @@
+- generic [active] [ref=e1]:
+  - navigation:
+    - list:
+      - listitem:
+        - link "Skip to primary navigation" [ref=e2] [cursor=pointer]:
+          - /url: "#site-nav"
+      - listitem:
+        - link "Skip to content" [ref=e3] [cursor=pointer]:
+          - /url: "#main"
+      - listitem:
+        - link "Skip to footer" [ref=e4] [cursor=pointer]:
+          - /url: "#footer"
+  - navigation [ref=e8]:
+    - link "Harel Lidar AI Researcher & ML Engineer" [ref=e9] [cursor=pointer]:
+      - /url: /
+      - text: Harel Lidar
+      - generic [ref=e10]: AI Researcher & ML Engineer
+    - list [ref=e11]:
+      - listitem [ref=e12]:
+        - link "About" [ref=e13] [cursor=pointer]:
+          - /url: /about/
+      - listitem [ref=e14]:
+        - link "Blog" [ref=e15] [cursor=pointer]:
+          - /url: /blog/
+      - listitem [ref=e16]:
+        - link "Writing" [ref=e17] [cursor=pointer]:
+          - /url: /writing/
+      - listitem [ref=e18]:
+        - link "Tags" [ref=e19] [cursor=pointer]:
+          - /url: /tags/
+    - button "Toggle search " [ref=e20] [cursor=pointer]:
+      - generic [ref=e21]: Toggle search
+      - generic [ref=e22]: 
+    - button "Toggle dark mode" [ref=e23] [cursor=pointer]: 🌙
+  - main [ref=e25]:
+    - generic [ref=e26]:
+      - heading "Blog" [level=1] [ref=e27]
+      - heading "Recent Posts" [level=3] [ref=e28]
+      - generic [ref=e29]:
+        - article [ref=e31]:
+          - 'heading "Paper Review - CAASL: Amortized Active Causal Induction with Deep Reinforcement Learning" [level=2] [ref=e32]':
+            - 'link "Paper Review - CAASL: Amortized Active Causal Induction with Deep Reinforcement Learning" [ref=e33] [cursor=pointer]':
+              - /url: /2025/05/08/CAASL-Amortized-Active-Causal-Induction-with-Deep-Reinforcement-Learning/
+          - paragraph [ref=e34]:
+            - generic [ref=e35]:
+              - generic [ref=e36]: 
+              - text: 4 minute read
+          - paragraph [ref=e37]: "CAASL: Amortized Active Causal Induction with Deep Reinforcement Learning CAASL (Causal Amortized Active Structure Learning) presents a breakthrough approach..."
+        - article [ref=e39]:
+          - 'heading "Paper Review - pixelNeRF: Neural Radiance Fields from One or Few Images" [level=2] [ref=e40]':
+            - 'link "Paper Review - pixelNeRF: Neural Radiance Fields from One or Few Images" [ref=e41] [cursor=pointer]':
+              - /url: /2025/04/14/pixelNeRF-Neural-Radiance-Fields-from-One-or-Few-Images/
+          - paragraph [ref=e42]:
+            - generic [ref=e43]:
+              - generic [ref=e44]: 
+              - text: 7 minute read
+          - paragraph [ref=e45]: pixelNeRF presents a learning framework that enables predicting Neural Radiance Fields (NeRF) from just one or a few images in a feed-forward manner. This ap...
+        - article [ref=e47]:
+          - heading "Paper Review - The Geometry of Categorical and Hierarchical Concepts in Large Language Models" [level=2] [ref=e48]:
+            - link "Paper Review - The Geometry of Categorical and Hierarchical Concepts in Large Language Models" [ref=e49] [cursor=pointer]:
+              - /url: /2025/04/14/The-Geometry-of-Categorical-and-Hierarchical-Concepts-in-Large-Language-Modeels/
+          - paragraph [ref=e50]:
+            - generic [ref=e51]:
+              - generic [ref=e52]: 
+              - text: 8 minute read
+          - paragraph [ref=e53]: In this work the authors attempt to extend the linear representation hypothesis to cases where the concepts no longer have natural binary contrasts and hence...
+        - article [ref=e55]:
+          - heading "Paper Review - Targeted Cause Discovery with Data-Driven Learning" [level=2] [ref=e56]:
+            - link "Paper Review - Targeted Cause Discovery with Data-Driven Learning" [ref=e57] [cursor=pointer]:
+              - /url: /2025/04/14/Targeted-Cause-Discovery-with-Data-Driven-Learning/
+          - paragraph [ref=e58]:
+            - generic [ref=e59]:
+              - generic [ref=e60]: 
+              - text: 1 minute read
+          - paragraph [ref=e61]: The paper introduces Targeted Cause Discovery with Data-Driven Learning (TCD-DL), a machine learning-based approach to identify all causal variables—direct a...
+        - article [ref=e63]:
+          - 'heading "Paper Review - TabPFN: Understanding and Advancing Tabular Foundation Models" [level=2] [ref=e64]':
+            - 'link "Paper Review - TabPFN: Understanding and Advancing Tabular Foundation Models" [ref=e65] [cursor=pointer]':
+              - /url: /2025/04/14/TabPFN-Understanding-and-Advancing-Tabular-Foundation-Models/
+          - paragraph [ref=e66]:
+            - generic [ref=e67]:
+              - generic [ref=e68]: 
+              - text: 1 minute read
+          - paragraph [ref=e69]: The Core Problem Traditional deep learning has revolutionized domains like computer vision and NLP, but tabular data remains dominated by classical approach...
+        - article [ref=e71]:
+          - 'heading "Paper Review - SIREN: Implicit Neural Representations with Periodic Activation Functions" [level=2] [ref=e72]':
+            - 'link "Paper Review - SIREN: Implicit Neural Representations with Periodic Activation Functions" [ref=e73] [cursor=pointer]':
+              - /url: /2025/04/14/SIREN-Implicit-Neural-Representations-with-Periodic-Activation-Functions/
+          - paragraph [ref=e74]:
+            - generic [ref=e75]:
+              - generic [ref=e76]: 
+              - text: 4 minute read
+          - paragraph [ref=e77]: SIREN (Sinusoidal Representation Networks) introduced a groundbreaking approach for implicit neural representations using periodic activation functions. This...
+        - article [ref=e79]:
+          - heading "Paper Review - Randomization Inference When N Equals One" [level=2] [ref=e80]:
+            - link "Paper Review - Randomization Inference When N Equals One" [ref=e81] [cursor=pointer]:
+              - /url: /2025/04/14/Randomization-Inference-When-N-Equals-One/
+          - paragraph [ref=e82]:
+            - generic [ref=e83]:
+              - generic [ref=e84]: 
+              - text: 1 minute read
+          - paragraph [ref=e85]: Core Problem N-of-1 trials (where a single subject serves as both treatment and control over time) traditionally require long “washout” periods between trea...
+        - article [ref=e87]:
+          - heading "Paper Review - PointNet and PointNet++" [level=2] [ref=e88]:
+            - link "Paper Review - PointNet and PointNet++" [ref=e89] [cursor=pointer]:
+              - /url: /2025/04/14/PointNet-and-PointNet++/
+          - paragraph [ref=e90]:
+            - generic [ref=e91]:
+              - generic [ref=e92]: 
+              - text: 4 minute read
+          - paragraph [ref=e93]: PointNet and its successor PointNet++ introduced groundbreaking approaches for directly processing point cloud data without intermediary representations, est...
+        - article [ref=e95]:
+          - 'heading "Paper Review - OpenScene: 3D Scene Understanding with Open Vocabularies" [level=2] [ref=e96]':
+            - 'link "Paper Review - OpenScene: 3D Scene Understanding with Open Vocabularies" [ref=e97] [cursor=pointer]':
+              - /url: /2025/04/14/OpenScene-3D-Scene-Understanding-with-Open-Vocabularies/
+          - paragraph [ref=e98]:
+            - generic [ref=e99]:
+              - generic [ref=e100]: 
+              - text: 10 minute read
+          - paragraph [ref=e101]: OpenScene presents a breakthrough approach to 3D scene understanding that eliminates reliance on labeled 3D data and enables open-vocabulary querying. By co-...
+        - article [ref=e103]:
+          - 'heading "Paper Review - One-2-3-45++: Fast Single Image to 3D Objects with Consistent Multi-View Generation and 3D Diffusion" [level=2] [ref=e104]':
+            - 'link "Paper Review - One-2-3-45++: Fast Single Image to 3D Objects with Consistent Multi-View Generation and 3D Diffusion" [ref=e105] [cursor=pointer]':
+              - /url: /2025/04/14/One-2-3-45++-Fast-Single-Image-to-3D-Objects-with-Consistent-Multi-View-Generation-and-3D-Diffusion/
+          - paragraph [ref=e106]:
+            - generic [ref=e107]:
+              - generic [ref=e108]: 
+              - text: 11 minute read
+          - paragraph [ref=e109]: One-2-3-45++ presents a breakthrough approach for transforming a single image into a high-quality 3D textured mesh in approximately one minute. This method b...
+        - article [ref=e111]:
+          - heading "Paper Review - Neural Fields as Learnable Kernels for 3D Reconstruction" [level=2] [ref=e112]:
+            - link "Paper Review - Neural Fields as Learnable Kernels for 3D Reconstruction" [ref=e113] [cursor=pointer]:
+              - /url: /2025/04/14/Neural-Fields-as-Learnable-Kernels-for-3D-Reconstruction/
+          - paragraph [ref=e114]:
+            - generic [ref=e115]:
+              - generic [ref=e116]: 
+              - text: 7 minute read
+          - paragraph [ref=e117]: Neural Kernel Fields (NKF) introduced a novel approach to 3D reconstruction that bridges the gap between data-driven methods and traditional kernel technique...
+        - article [ref=e119]:
+          - heading "Paper Review - Meta Statistical Learning" [level=2] [ref=e120]:
+            - link "Paper Review - Meta Statistical Learning" [ref=e121] [cursor=pointer]:
+              - /url: /2025/04/14/Meta-Statistical-Learning/
+          - paragraph [ref=e122]:
+            - generic [ref=e123]:
+              - generic [ref=e124]: 
+              - text: 2 minute read
+          - paragraph [ref=e125]: Meta-statistical learning is an innovative framework that employs neural networks to perform statistical inference tasks, such as parameter estimation and hy...
+        - article [ref=e127]:
+          - 'heading "Paper Review - LION: Latent Point Diffusion Models for 3D Shape Generation" [level=2] [ref=e128]':
+            - 'link "Paper Review - LION: Latent Point Diffusion Models for 3D Shape Generation" [ref=e129] [cursor=pointer]':
+              - /url: /2025/04/14/LION-Latent-Point-Diffusion-Models-for-3D-Shape-Generation/
+          - paragraph [ref=e130]:
+            - generic [ref=e131]:
+              - generic [ref=e132]: 
+              - text: 3 minute read
+          - paragraph [ref=e133]: Overview This paper introduces LION (Latent Point Diffusion Model), a novel approach for 3D shape generation that combines variational autoencoders (VAEs) wi...
+        - article [ref=e135]:
+          - heading "Paper Review - Instant Neural Graphics Primitives with a Multiresolution Hash Encoding" [level=2] [ref=e136]:
+            - link "Paper Review - Instant Neural Graphics Primitives with a Multiresolution Hash Encoding" [ref=e137] [cursor=pointer]:
+              - /url: /2025/04/14/Instant-Neural-Graphics-Primitives-with-a-Multiresolution-Hash-Encoding/
+          - paragraph [ref=e138]:
+            - generic [ref=e139]:
+              - generic [ref=e140]: 
+              - text: 7 minute read
+          - paragraph [ref=e141]: Müller et al. introduced a versatile input encoding for neural networks that dramatically accelerates the training and inference of neural graphics primitive...
+        - article [ref=e143]:
+          - 'heading "Paper Review - DreamGaussian: Generative Gaussian Splatting for Efficient 3D Content Creation" [level=2] [ref=e144]':
+            - 'link "Paper Review - DreamGaussian: Generative Gaussian Splatting for Efficient 3D Content Creation" [ref=e145] [cursor=pointer]':
+              - /url: /2025/04/14/DreamGaussian-Generative-Gaussian-Splatting-for-Efficient-3D-Content-Creation/
+          - paragraph [ref=e146]:
+            - generic [ref=e147]:
+              - generic [ref=e148]: 
+              - text: 8 minute read
+          - paragraph [ref=e149]: DreamGaussian presents a novel framework for 3D content generation that achieves both efficiency and quality simultaneously. This approach addresses the slow...
+        - article [ref=e151]:
+          - 'heading "Paper Review - DreamFusion: Text-to-3D using 2D Diffusion" [level=2] [ref=e152]':
+            - 'link "Paper Review - DreamFusion: Text-to-3D using 2D Diffusion" [ref=e153] [cursor=pointer]':
+              - /url: /2025/04/14/DreamFusion-Text-to-3D-using-2D-Diffusion/
+          - paragraph [ref=e154]:
+            - generic [ref=e155]:
+              - generic [ref=e156]: 
+              - text: 9 minute read
+          - paragraph [ref=e157]: DreamFusion represents a breakthrough in text-to-3D synthesis by leveraging pretrained 2D text-to-image diffusion models to generate high-quality 3D assets w...
+        - article [ref=e159]:
+          - heading "Paper Review - A Primer on the Inner Workings of Transformer-Based Language Models" [level=2] [ref=e160]:
+            - link "Paper Review - A Primer on the Inner Workings of Transformer-Based Language Models" [ref=e161] [cursor=pointer]:
+              - /url: /2025/04/14/A-Primer-on-the-Inner-Workings-of-Transformer-Based-Language-Models/
+          - paragraph [ref=e162]:
+            - generic [ref=e163]:
+              - generic [ref=e164]: 
+              - text: 16 minute read
+          - paragraph [ref=e165]: This work summarizes the current techniques used to interpret the inner workings of transformer language models. As such, summarizing a summary is a challeng...
+        - article [ref=e167]:
+          - heading "Paper Review - 3D Gaussian Splatting for Real-Time Radiance Field Rendering" [level=2] [ref=e168]:
+            - link "Paper Review - 3D Gaussian Splatting for Real-Time Radiance Field Rendering" [ref=e169] [cursor=pointer]:
+              - /url: /2025/04/14/3D-Gaussian-Splatting-for-Real-Time-Radiance-Field-Rendering/
+          - paragraph [ref=e170]:
+            - generic [ref=e171]:
+              - generic [ref=e172]: 
+              - text: 8 minute read
+          - paragraph [ref=e173]: 3D Gaussian Splatting introduces a groundbreaking approach to novel view synthesis that achieves both state-of-the-art quality and real-time rendering speeds...
+        - article [ref=e175]:
+          - heading "Retrieval Head Mechanistically Explains Long-Context Factuality" [level=2] [ref=e176]:
+            - link "Retrieval Head Mechanistically Explains Long-Context Factuality" [ref=e177] [cursor=pointer]:
+              - /url: /2025/01/06/retrieval-heads-mechanistically-explains-long-context-factuality/
+          - paragraph [ref=e178]:
+            - generic [ref=e179]:
+              - generic [ref=e180]: 
+              - text: 3 minute read
+          - paragraph [ref=e181]: In this paper the researcher are able to show that there exists a special kind of attention heads which are responsible for retrieval of information from lon...
+        - article [ref=e183]:
+          - heading "Is DPO Superior to PPO for LLM Alignment? A Comprehensive Study" [level=2] [ref=e184]:
+            - link "Is DPO Superior to PPO for LLM Alignment? A Comprehensive Study" [ref=e185] [cursor=pointer]:
+              - /url: /2025/01/05/is-dpo-superior-to-ppo-for-alignment-a-comprehensive-study/
+          - paragraph [ref=e186]:
+            - generic [ref=e187]:
+              - generic [ref=e188]: 
+              - text: 3 minute read
+          - paragraph [ref=e189]: RLHF is the most used method to align LLMs with human preferences. RLHF methods can be roughly categorized as either reward-free or reward-based.
+        - article [ref=e191]:
+          - heading "The Mathematics and Philosophy Behind MSE" [level=2] [ref=e192]:
+            - link "The Mathematics and Philosophy Behind MSE" [ref=e193] [cursor=pointer]:
+              - /url: /2025/01/04/mse-as-gaussian/
+          - paragraph [ref=e194]:
+            - generic [ref=e195]:
+              - generic [ref=e196]: 
+              - text: 2 minute read
+          - paragraph [ref=e197]: "When we perform linear regression, we’re making two fundamental modeling choices that are worth examining separately: Assuming our data follows a linear ..."
+        - article [ref=e199]:
+          - 'heading "Mixture-of-Depths: Dynamically allocating compute in transformer-based language models" [level=2] [ref=e200]':
+            - 'link "Mixture-of-Depths: Dynamically allocating compute in transformer-based language models" [ref=e201] [cursor=pointer]':
+              - /url: /2025/01/04/mixture-of-depths/
+          - paragraph [ref=e202]:
+            - generic [ref=e203]:
+              - generic [ref=e204]: 
+              - text: 3 minute read
+          - paragraph [ref=e205]: Compute is a significant bottleneck for current AI model performance and scale ((cite)), making model compression increasingly important. In this paper, the ...
+        - article [ref=e207]:
+          - 'heading "ShortGPT: Layers in Large Language Models are More Redundant Than You Expect" [level=2] [ref=e208]':
+            - 'link "ShortGPT: Layers in Large Language Models are More Redundant Than You Expect" [ref=e209] [cursor=pointer]':
+              - /url: /2025/01/03/shortgpt/
+          - paragraph [ref=e210]:
+            - generic [ref=e211]:
+              - generic [ref=e212]: 
+              - text: 2 minute read
+          - paragraph [ref=e213]: The field of artificial intelligence faces significant computational constraints, particularly in the deployment and training of Large Language Models (LLMs)...
+        - article [ref=e215]:
+          - heading "Universal Language Learning Paragims - UL2" [level=2] [ref=e216]:
+            - link "Universal Language Learning Paragims - UL2" [ref=e217] [cursor=pointer]:
+              - /url: /2025/01/02/ul2/
+          - paragraph [ref=e218]:
+            - generic [ref=e219]:
+              - generic [ref=e220]: 
+              - text: 1 minute read
+          - paragraph [ref=e221]: This paper presents a novel framework for model pre-training. To date, there seems to be no consensus as to what the optimal pre-training procedure should be...
+        - article [ref=e223]:
+          - heading "On Writing to Think" [level=2] [ref=e224]:
+            - link "On Writing to Think" [ref=e225] [cursor=pointer]:
+              - /url: /2025/01/01/on-writing-to-think/
+          - paragraph [ref=e226]:
+            - generic [ref=e227]:
+              - generic [ref=e228]: 
+              - text: 2 minute read
+          - paragraph [ref=e229]: Many successful intellectuals mention a consistent writing schedule[^1] as an integral part of their daily routine and their success. I always found this a b...
+        - article [ref=e231]:
+          - heading "Effects of Scale on Model Finetuning" [level=2] [ref=e232]:
+            - link "Effects of Scale on Model Finetuning" [ref=e233] [cursor=pointer]:
+              - /url: /2025/01/01/effects-of-scale-on-model-finetuning/
+          - paragraph [ref=e234]:
+            - generic [ref=e235]:
+              - generic [ref=e236]: 
+              - text: 4 minute read
+          - paragraph [ref=e237]: Finetuning is a type of [[knowledge editing for LLM]], it is required and widely adopted to unlock new and robust capabilities for creative tasks, get the mo...
+  - contentinfo [ref=e239]:
+    - list [ref=e241]:
+      - listitem [ref=e242]:
+        - link "Feed" [ref=e243] [cursor=pointer]:
+          - /url: /feed.xml
+          - generic [ref=e244]: 
+          - text: Feed
+    - generic [ref=e245]:
+      - text: © 2026 Harel Lidar. Powered by
+      - link "Jekyll" [ref=e246] [cursor=pointer]:
+        - /url: https://jekyllrb.com
+      - text: "&"
+      - link "Minimal Mistakes" [ref=e247] [cursor=pointer]:
+        - /url: https://mademistakes.com/work/minimal-mistakes-jekyll-theme/
+      - text: .

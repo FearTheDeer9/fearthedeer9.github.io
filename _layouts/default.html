@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="{{ site.locale | default: "en" }}" class="no-js">
  <head>
-  <link rel="stylesheet" href="/assets/css/navbar.css">
   <link rel="stylesheet" href="/assets/css/dark-mode.css">
+  <link rel="stylesheet" href="/assets/css/custom.css">
    {% include head.html %}
    {% include head/custom.html %}
  </head>
@@ -10,8 +10,6 @@
    {% include_cached skip-links.html %}
    {% include_cached browser-upgrade.html %}
    {% include_cached masthead.html %}
-
-   {% include navbar.html %}
 
    <div class="initial-content">
      {{ content }}
@@ -40,10 +38,7 @@
    };
    </script>
    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-   <script src="/assets/js/filter.js"></script>
-   <script src="/assets/js/search.js"></script>
    <script src="/assets/js/email-copy.js"></script>
-   <script src="/assets/js/animations.js"></script>
    <script src="/assets/js/dark-mode.js"></script>
  </body>
 </html>

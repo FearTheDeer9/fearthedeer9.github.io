@@ -1,0 +1,774 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - generic [ref=e4]:
+        - link "Lil'Log" [ref=e5] [cursor=pointer]:
+          - /url: https://lilianweng.github.io/
+        - generic [ref=e6]:
+          - button "(Alt + T)" [ref=e7] [cursor=pointer]:
+            - img [ref=e8]
+          - list [ref=e10]:
+            - listitem [ref=e11]: "|"
+      - list [ref=e12]:
+        - listitem [ref=e13]:
+          - link "Posts" [ref=e14] [cursor=pointer]:
+            - /url: https://lilianweng.github.io/
+        - listitem [ref=e15]:
+          - link "Archive" [ref=e16] [cursor=pointer]:
+            - /url: https://lilianweng.github.io/archives
+        - listitem [ref=e17]:
+          - link "Search" [ref=e18] [cursor=pointer]:
+            - /url: https://lilianweng.github.io/search/
+        - listitem [ref=e19]:
+          - link "Tags" [ref=e20] [cursor=pointer]:
+            - /url: https://lilianweng.github.io/tags/
+        - listitem [ref=e21]:
+          - link "FAQ" [ref=e22] [cursor=pointer]:
+            - /url: https://lilianweng.github.io/faq
+  - main [ref=e23]:
+    - article [ref=e24]:
+      - heading "👋 Welcome to Lil’Log" [level=1] [ref=e26]
+      - paragraph [ref=e28]: Hi, this is Lilian. I’m documenting my learning notes in this blog since 2017. Based on the number of grammar mistakes in my posts, you can tell how much ChatGPT is involved 😉.
+      - generic [ref=e30]:
+        - link "Twitter" [ref=e31] [cursor=pointer]:
+          - /url: https://twitter.com/lilianweng/
+          - img [ref=e32]
+        - link "Other" [ref=e33] [cursor=pointer]:
+          - /url: https://scholar.google.com/citations?user=dCa-pW8AAAAJ&hl=en&oi=ao
+          - img [ref=e34]
+        - link "Rss" [ref=e37] [cursor=pointer]:
+          - /url: index.xml
+          - img [ref=e38]
+        - link "Github" [ref=e42] [cursor=pointer]:
+          - /url: https://github.com/lilianweng
+          - img [ref=e43]
+        - link "Instagram" [ref=e44] [cursor=pointer]:
+          - /url: https://www.instagram.com/lilian.drawings/
+          - img [ref=e45]
+    - article [ref=e48]:
+      - heading "Why We Think" [level=2] [ref=e50]
+      - paragraph [ref=e52]: Special thanks to John Schulman for a lot of super valuable feedback and direct edits on this post. Test time compute (Graves et al. 2016, Ling, et al. 2017, Cobbe et al. 2021) and Chain-of-thought (CoT) (Wei et al. 2022, Nye et al. 2021), have led to significant improvements in model performance, while raising many research questions. This post aims to review recent developments in how to effectively use test-time compute (i.e. “thinking time”) and why it helps. ...
+      - generic [ref=e53]: "Date: May 1, 2025 | Estimated Reading Time: 40 min | Author: Lilian Weng"
+      - link "post link to Why We Think" [ref=e54] [cursor=pointer]:
+        - /url: https://lilianweng.github.io/posts/2025-05-01-thinking/
+    - article [ref=e55]:
+      - heading "Reward Hacking in Reinforcement Learning" [level=2] [ref=e57]
+      - paragraph [ref=e59]: Reward hacking occurs when a reinforcement learning (RL) agent exploits flaws or ambiguities in the reward function to achieve high rewards, without genuinely learning or completing the intended task. Reward hacking exists because RL environments are often imperfect, and it is fundamentally challenging to accurately specify a reward function. With the rise of language models generalizing to a broad spectrum of tasks and RLHF becomes a de facto method for alignment training, reward hacking in RL training of language models has become a critical practical challenge. Instances where the model learns to modify unit tests to pass coding tasks, or where responses contain biases that mimic a user’s preference, are pretty concerning and are likely one of the major blockers for real-world deployment of more autonomous use cases of AI models. ...
+      - generic [ref=e60]: "Date: November 28, 2024 | Estimated Reading Time: 37 min | Author: Lilian Weng"
+      - link "post link to Reward Hacking in Reinforcement Learning" [ref=e61] [cursor=pointer]:
+        - /url: https://lilianweng.github.io/posts/2024-11-28-reward-hacking/
+    - article [ref=e62]:
+      - heading "Extrinsic Hallucinations in LLMs" [level=2] [ref=e64]
+      - paragraph [ref=e66]: "Hallucination in large language models usually refers to the model generating unfaithful, fabricated, inconsistent, or nonsensical content. As a term, hallucination has been somewhat generalized to cases when the model makes mistakes. Here, I would like to narrow down the problem of hallucination to cases where the model output is fabricated and not grounded by either the provided context or world knowledge. There are two types of hallucination: In-context hallucination: The model output should be consistent with the source content in context. Extrinsic hallucination: The model output should be grounded by the pre-training dataset. However, given the size of the pre-training dataset, it is too expensive to retrieve and identify conflicts per generation. If we consider the pre-training data corpus as a proxy for world knowledge, we essentially try to ensure the model output is factual and verifiable by external world knowledge. Equally importantly, when the model does not know about a fact, it should say so. This post focuses on extrinsic hallucination. To avoid hallucination, LLMs need to be (1) factual and (2) acknowledge not knowing the answer when applicable. ..."
+      - generic [ref=e67]: "Date: July 7, 2024 | Estimated Reading Time: 29 min | Author: Lilian Weng"
+      - link "post link to Extrinsic Hallucinations in LLMs" [ref=e68] [cursor=pointer]:
+        - /url: https://lilianweng.github.io/posts/2024-07-07-hallucination/
+    - article [ref=e69]:
+      - heading "Diffusion Models for Video Generation" [level=2] [ref=e71]
+      - paragraph [ref=e73]: "Diffusion models have demonstrated strong results on image synthesis in past years. Now the research community has started working on a harder task—using it for video generation. The task itself is a superset of the image case, since an image is a video of 1 frame, and it is much more challenging because: It has extra requirements on temporal consistency across frames in time, which naturally demands more world knowledge to be encoded into the model. In comparison to text or images, it is more difficult to collect large amounts of high-quality, high-dimensional video data, let along text-video pairs. 🥑 Required Pre-read: Please make sure you have read the previous blog on “What are Diffusion Models?” for image generation before continue here. ..."
+      - generic [ref=e74]: "Date: April 12, 2024 | Estimated Reading Time: 20 min | Author: Lilian Weng"
+      - link "post link to Diffusion Models for Video Generation" [ref=e75] [cursor=pointer]:
+        - /url: https://lilianweng.github.io/posts/2024-04-12-diffusion-video/
+    - article [ref=e76]:
+      - heading "Thinking about High-Quality Human Data" [level=2] [ref=e78]
+      - paragraph [ref=e80]: "[Special thank you to Ian Kivlichan for many useful pointers (E.g. the 100+ year old Nature paper “Vox populi”) and nice feedback. 🙏 ] High-quality data is the fuel for modern data deep learning model training. Most of the task-specific labeled data comes from human annotation, such as classification task or RLHF labeling (which can be constructed as classification format) for LLM alignment training. Lots of ML techniques in the post can help with data quality, but fundamentally human data collection involves attention to details and careful execution. The community knows the value of high quality data, but somehow we have this subtle impression that “Everyone wants to do the model work, not the data work” (Sambasivan et al. 2021). ..."
+      - generic [ref=e81]: "Date: February 5, 2024 | Estimated Reading Time: 20 min | Author: Lilian Weng"
+      - link "post link to Thinking about High-Quality Human Data" [ref=e82] [cursor=pointer]:
+        - /url: https://lilianweng.github.io/posts/2024-02-05-human-data-quality/
+    - article [ref=e83]:
+      - heading "Adversarial Attacks on LLMs" [level=2] [ref=e85]
+      - paragraph [ref=e87]: The use of large language models in the real world has strongly accelerated by the launch of ChatGPT. We (including my team at OpenAI, shoutout to them) have invested a lot of effort to build default safe behavior into the model during the alignment process (e.g. via RLHF). However, adversarial attacks or jailbreak prompts could potentially trigger the model to output something undesired. A large body of ground work on adversarial attacks is on images, and differently it operates in the continuous, high-dimensional space. Attacks for discrete data like text have been considered to be a lot more challenging, due to lack of direct gradient signals. My past post on Controllable Text Generation is quite relevant to this topic, as attacking LLMs is essentially to control the model to output a certain type of (unsafe) content. ...
+      - generic [ref=e88]: "Date: October 25, 2023 | Estimated Reading Time: 33 min | Author: Lilian Weng"
+      - link "post link to Adversarial Attacks on LLMs" [ref=e89] [cursor=pointer]:
+        - /url: https://lilianweng.github.io/posts/2023-10-25-adv-attack-llm/
+    - article [ref=e90]:
+      - heading "LLM Powered Autonomous Agents" [level=2] [ref=e92]
+      - paragraph [ref=e94]: "Building agents with LLM (large language model) as its core controller is a cool concept. Several proof-of-concepts demos, such as AutoGPT, GPT-Engineer and BabyAGI, serve as inspiring examples. The potentiality of LLM extends beyond generating well-written copies, stories, essays and programs; it can be framed as a powerful general problem solver. Agent System Overview In a LLM-powered autonomous agent system, LLM functions as the agent’s brain, complemented by several key components: Planning Subgoal and decomposition: The agent breaks down large tasks into smaller, manageable subgoals, enabling efficient handling of complex tasks. Reflection and refinement: The agent can do self-criticism and self-reflection over past actions, learn from mistakes and refine them for future steps, thereby improving the quality of final results. Memory Short-term memory: I would consider all the in-context learning (See Prompt Engineering) as utilizing short-term memory of the model to learn. Long-term memory: This provides the agent with the capability to retain and recall (infinite) information over extended periods, often by leveraging an external vector store and fast retrieval. Tool use The agent learns to call external APIs for extra information that is missing from the model weights (often hard to change after pre-training), including current information, code execution capability, access to proprietary information sources and more. Overview of a LLM-powered autonomous agent system. Component One: Planning A complicated task usually involves many steps. An agent needs to know what they are and plan ahead. ..."
+      - generic [ref=e95]: "Date: June 23, 2023 | Estimated Reading Time: 31 min | Author: Lilian Weng"
+      - link "post link to LLM Powered Autonomous Agents" [ref=e96] [cursor=pointer]:
+        - /url: https://lilianweng.github.io/posts/2023-06-23-agent/
+    - article [ref=e97]:
+      - heading "Prompt Engineering" [level=2] [ref=e99]
+      - paragraph [ref=e101]: Prompt Engineering, also known as In-Context Prompting, refers to methods for how to communicate with LLM to steer its behavior for desired outcomes without updating the model weights. It is an empirical science and the effect of prompt engineering methods can vary a lot among models, thus requiring heavy experimentation and heuristics. This post only focuses on prompt engineering for autoregressive language models, so nothing with Cloze tests, image generation or multimodality models. At its core, the goal of prompt engineering is about alignment and model steerability. Check my previous post on controllable text generation. ...
+      - generic [ref=e102]: "Date: March 15, 2023 | Estimated Reading Time: 21 min | Author: Lilian Weng"
+      - link "post link to Prompt Engineering" [ref=e103] [cursor=pointer]:
+        - /url: https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/
+    - article [ref=e104]:
+      - heading "The Transformer Family Version 2.0" [level=2] [ref=e106]
+      - paragraph [ref=e108]:
+        - text: Many new Transformer architecture improvements have been proposed since my last post on “The Transformer Family” about three years ago. Here I did a big refactoring and enrichment of that 2020 post — restructure the hierarchy of sections and improve many sections with more recent papers. Version 2.0 is a superset of the old version, about twice the length. Notations Symbol Meaning
+        - generic [ref=e109]:
+          - generic [ref=e112]: d
+          - math [ref=e114]:
+            - generic [ref=e115]: d
+        - text: The model size / hidden state dimension / positional encoding size.
+        - generic [ref=e116]:
+          - generic [ref=e119]: h
+          - math [ref=e121]:
+            - generic [ref=e122]: h
+        - text: The number of heads in multi-head attention layer.
+        - generic [ref=e123]:
+          - generic [ref=e126]: L
+          - math [ref=e128]:
+            - generic [ref=e129]: L
+        - text: The segment length of input sequence.
+        - generic [ref=e130]:
+          - generic [ref=e133]: "N"
+          - math [ref=e135]:
+            - generic [ref=e136]: "N"
+        - text: The total number of attention layers in the model; not considering MoE.
+        - generic [ref=e137]:
+          - generic [ref=e138]:
+            - generic [ref=e141]: X
+            - generic [ref=e143]: ∈
+            - generic [ref=e144]:
+              - generic [ref=e147]: R
+              - generic [ref=e149]:
+                - generic [ref=e151]: L
+                - generic [ref=e153]: ×
+                - generic [ref=e155]: d
+          - math [ref=e157]:
+            - generic [ref=e159]: X
+            - generic [ref=e160]: ∈
+            - generic [ref=e161]:
+              - generic [ref=e163]: R
+              - generic [ref=e164]:
+                - generic [ref=e165]: L
+                - generic [ref=e166]: ×
+                - generic [ref=e167]: d
+        - text: The input sequence where each element has been mapped into an embedding vector of shape
+        - generic [ref=e168]:
+          - generic [ref=e171]: d
+          - math [ref=e173]:
+            - generic [ref=e174]: d
+        - text: ", same as the model size."
+        - generic [ref=e175]:
+          - generic [ref=e176]:
+            - generic [ref=e177]:
+              - generic [ref=e180]: W
+              - generic [ref=e183]: k
+            - generic [ref=e185]: ∈
+            - generic [ref=e186]:
+              - generic [ref=e189]: R
+              - generic [ref=e191]:
+                - generic [ref=e193]: d
+                - generic [ref=e195]: ×
+                - generic [ref=e196]:
+                  - generic [ref=e198]: d
+                  - generic [ref=e201]: k
+          - math [ref=e203]:
+            - generic [ref=e204]:
+              - generic [ref=e206]: W
+              - generic [ref=e207]: k
+            - generic [ref=e208]: ∈
+            - generic [ref=e209]:
+              - generic [ref=e211]: R
+              - generic [ref=e212]:
+                - generic [ref=e213]: d
+                - generic [ref=e214]: ×
+                - generic [ref=e215]:
+                  - generic [ref=e216]: d
+                  - generic [ref=e217]: k
+        - text: The key weight matrix.
+        - generic [ref=e218]:
+          - generic [ref=e219]:
+            - generic [ref=e220]:
+              - generic [ref=e223]: W
+              - generic [ref=e226]: q
+            - generic [ref=e228]: ∈
+            - generic [ref=e229]:
+              - generic [ref=e232]: R
+              - generic [ref=e234]:
+                - generic [ref=e236]: d
+                - generic [ref=e238]: ×
+                - generic [ref=e239]:
+                  - generic [ref=e241]: d
+                  - generic [ref=e244]: k
+          - math [ref=e246]:
+            - generic [ref=e247]:
+              - generic [ref=e249]: W
+              - generic [ref=e250]: q
+            - generic [ref=e251]: ∈
+            - generic [ref=e252]:
+              - generic [ref=e254]: R
+              - generic [ref=e255]:
+                - generic [ref=e256]: d
+                - generic [ref=e257]: ×
+                - generic [ref=e258]:
+                  - generic [ref=e259]: d
+                  - generic [ref=e260]: k
+        - text: The query weight matrix.
+        - generic [ref=e261]:
+          - generic [ref=e262]:
+            - generic [ref=e263]:
+              - generic [ref=e266]: W
+              - generic [ref=e269]: v
+            - generic [ref=e271]: ∈
+            - generic [ref=e272]:
+              - generic [ref=e275]: R
+              - generic [ref=e277]:
+                - generic [ref=e279]: d
+                - generic [ref=e281]: ×
+                - generic [ref=e282]:
+                  - generic [ref=e284]: d
+                  - generic [ref=e287]: v
+          - math [ref=e289]:
+            - generic [ref=e290]:
+              - generic [ref=e292]: W
+              - generic [ref=e293]: v
+            - generic [ref=e294]: ∈
+            - generic [ref=e295]:
+              - generic [ref=e297]: R
+              - generic [ref=e298]:
+                - generic [ref=e299]: d
+                - generic [ref=e300]: ×
+                - generic [ref=e301]:
+                  - generic [ref=e302]: d
+                  - generic [ref=e303]: v
+        - text: The value weight matrix. Often we have
+        - generic [ref=e304]:
+          - generic [ref=e305]:
+            - generic [ref=e306]:
+              - generic [ref=e308]: d
+              - generic [ref=e311]: k
+            - generic [ref=e313]: =
+            - generic [ref=e314]:
+              - generic [ref=e316]: d
+              - generic [ref=e319]: v
+            - generic [ref=e321]: =
+            - generic [ref=e323]: d
+          - math [ref=e325]:
+            - generic [ref=e326]:
+              - generic [ref=e327]: d
+              - generic [ref=e328]: k
+            - generic [ref=e329]: =
+            - generic [ref=e330]:
+              - generic [ref=e331]: d
+              - generic [ref=e332]: v
+            - generic [ref=e333]: =
+            - generic [ref=e334]: d
+        - text: .
+        - generic [ref=e335]:
+          - generic [ref=e336]:
+            - generic [ref=e337]:
+              - generic [ref=e340]: W
+              - generic [ref=e341]:
+                - generic [ref=e343]: k
+                - generic [ref=e345]: i
+            - generic [ref=e347]: ","
+            - generic [ref=e348]:
+              - generic [ref=e351]: W
+              - generic [ref=e352]:
+                - generic [ref=e354]: q
+                - generic [ref=e356]: i
+            - generic [ref=e358]: ∈
+            - generic [ref=e359]:
+              - generic [ref=e362]: R
+              - generic [ref=e364]:
+                - generic [ref=e366]: d
+                - generic [ref=e368]: ×
+                - generic [ref=e369]:
+                  - generic [ref=e371]: d
+                  - generic [ref=e374]: k
+                - generic [ref=e377]: /
+                - generic [ref=e379]: h
+            - generic [ref=e381]: ;
+            - generic [ref=e382]:
+              - generic [ref=e385]: W
+              - generic [ref=e386]:
+                - generic [ref=e388]: v
+                - generic [ref=e390]: i
+            - generic [ref=e392]: ∈
+            - generic [ref=e393]:
+              - generic [ref=e396]: R
+              - generic [ref=e398]:
+                - generic [ref=e400]: d
+                - generic [ref=e402]: ×
+                - generic [ref=e403]:
+                  - generic [ref=e405]: d
+                  - generic [ref=e408]: v
+                - generic [ref=e411]: /
+                - generic [ref=e413]: h
+          - math [ref=e415]:
+            - generic [ref=e416]:
+              - generic [ref=e418]: W
+              - generic [ref=e419]: i
+              - generic [ref=e420]: k
+            - generic [ref=e421]: ","
+            - generic [ref=e422]:
+              - generic [ref=e424]: W
+              - generic [ref=e425]: i
+              - generic [ref=e426]: q
+            - generic [ref=e427]: ∈
+            - generic [ref=e428]:
+              - generic [ref=e430]: R
+              - generic [ref=e431]:
+                - generic [ref=e432]: d
+                - generic [ref=e433]: ×
+                - generic [ref=e434]:
+                  - generic [ref=e435]: d
+                  - generic [ref=e436]: k
+                - generic [ref=e438]: /
+                - generic [ref=e439]: h
+            - generic [ref=e440]: ;
+            - generic [ref=e441]:
+              - generic [ref=e443]: W
+              - generic [ref=e444]: i
+              - generic [ref=e445]: v
+            - generic [ref=e446]: ∈
+            - generic [ref=e447]:
+              - generic [ref=e449]: R
+              - generic [ref=e450]:
+                - generic [ref=e451]: d
+                - generic [ref=e452]: ×
+                - generic [ref=e453]:
+                  - generic [ref=e454]: d
+                  - generic [ref=e455]: v
+                - generic [ref=e457]: /
+                - generic [ref=e458]: h
+        - text: The weight matrices per head.
+        - generic [ref=e459]:
+          - generic [ref=e460]:
+            - generic [ref=e461]:
+              - generic [ref=e464]: W
+              - generic [ref=e467]: o
+            - generic [ref=e469]: ∈
+            - generic [ref=e470]:
+              - generic [ref=e473]: R
+              - generic [ref=e475]:
+                - generic [ref=e476]:
+                  - generic [ref=e478]: d
+                  - generic [ref=e481]: v
+                - generic [ref=e483]: ×
+                - generic [ref=e485]: d
+          - math [ref=e487]:
+            - generic [ref=e488]:
+              - generic [ref=e490]: W
+              - generic [ref=e491]: o
+            - generic [ref=e492]: ∈
+            - generic [ref=e493]:
+              - generic [ref=e495]: R
+              - generic [ref=e496]:
+                - generic [ref=e497]:
+                  - generic [ref=e498]: d
+                  - generic [ref=e499]: v
+                - generic [ref=e500]: ×
+                - generic [ref=e501]: d
+        - text: The output weight matrix.
+        - generic [ref=e502]:
+          - generic [ref=e503]:
+            - generic [ref=e506]: Q
+            - generic [ref=e508]: =
+            - generic [ref=e511]: X
+            - generic [ref=e512]:
+              - generic [ref=e515]: W
+              - generic [ref=e518]: q
+            - generic [ref=e520]: ∈
+            - generic [ref=e521]:
+              - generic [ref=e524]: R
+              - generic [ref=e526]:
+                - generic [ref=e528]: L
+                - generic [ref=e530]: ×
+                - generic [ref=e531]:
+                  - generic [ref=e533]: d
+                  - generic [ref=e536]: k
+          - math [ref=e538]:
+            - generic [ref=e540]: Q
+            - generic [ref=e541]: =
+            - generic [ref=e543]: X
+            - generic [ref=e544]:
+              - generic [ref=e546]: W
+              - generic [ref=e547]: q
+            - generic [ref=e548]: ∈
+            - generic [ref=e549]:
+              - generic [ref=e551]: R
+              - generic [ref=e552]:
+                - generic [ref=e553]: L
+                - generic [ref=e554]: ×
+                - generic [ref=e555]:
+                  - generic [ref=e556]: d
+                  - generic [ref=e557]: k
+        - text: The query embedding inputs.
+        - generic [ref=e558]:
+          - generic [ref=e559]:
+            - generic [ref=e562]: K
+            - generic [ref=e564]: =
+            - generic [ref=e567]: X
+            - generic [ref=e568]:
+              - generic [ref=e571]: W
+              - generic [ref=e574]: k
+            - generic [ref=e576]: ∈
+            - generic [ref=e577]:
+              - generic [ref=e580]: R
+              - generic [ref=e582]:
+                - generic [ref=e584]: L
+                - generic [ref=e586]: ×
+                - generic [ref=e587]:
+                  - generic [ref=e589]: d
+                  - generic [ref=e592]: k
+          - math [ref=e594]:
+            - generic [ref=e596]: K
+            - generic [ref=e597]: =
+            - generic [ref=e599]: X
+            - generic [ref=e600]:
+              - generic [ref=e602]: W
+              - generic [ref=e603]: k
+            - generic [ref=e604]: ∈
+            - generic [ref=e605]:
+              - generic [ref=e607]: R
+              - generic [ref=e608]:
+                - generic [ref=e609]: L
+                - generic [ref=e610]: ×
+                - generic [ref=e611]:
+                  - generic [ref=e612]: d
+                  - generic [ref=e613]: k
+        - text: The key embedding inputs.
+        - generic [ref=e614]:
+          - generic [ref=e615]:
+            - generic [ref=e618]: V
+            - generic [ref=e620]: =
+            - generic [ref=e623]: X
+            - generic [ref=e624]:
+              - generic [ref=e627]: W
+              - generic [ref=e630]: v
+            - generic [ref=e632]: ∈
+            - generic [ref=e633]:
+              - generic [ref=e636]: R
+              - generic [ref=e638]:
+                - generic [ref=e640]: L
+                - generic [ref=e642]: ×
+                - generic [ref=e643]:
+                  - generic [ref=e645]: d
+                  - generic [ref=e648]: v
+          - math [ref=e650]:
+            - generic [ref=e652]: V
+            - generic [ref=e653]: =
+            - generic [ref=e655]: X
+            - generic [ref=e656]:
+              - generic [ref=e658]: W
+              - generic [ref=e659]: v
+            - generic [ref=e660]: ∈
+            - generic [ref=e661]:
+              - generic [ref=e663]: R
+              - generic [ref=e664]:
+                - generic [ref=e665]: L
+                - generic [ref=e666]: ×
+                - generic [ref=e667]:
+                  - generic [ref=e668]: d
+                  - generic [ref=e669]: v
+        - text: The value embedding inputs.
+        - generic [ref=e670]:
+          - generic [ref=e671]:
+            - generic [ref=e672]:
+              - generic [ref=e675]: q
+              - generic [ref=e678]: i
+            - generic [ref=e680]: ","
+            - generic [ref=e681]:
+              - generic [ref=e684]: k
+              - generic [ref=e687]: i
+            - generic [ref=e689]: ∈
+            - generic [ref=e690]:
+              - generic [ref=e693]: R
+              - generic [ref=e696]:
+                - generic [ref=e698]: d
+                - generic [ref=e701]: k
+            - generic [ref=e703]: ","
+            - generic [ref=e704]:
+              - generic [ref=e707]: v
+              - generic [ref=e710]: i
+            - generic [ref=e712]: ∈
+            - generic [ref=e713]:
+              - generic [ref=e716]: R
+              - generic [ref=e719]:
+                - generic [ref=e721]: d
+                - generic [ref=e724]: v
+          - math [ref=e726]:
+            - generic [ref=e727]:
+              - generic [ref=e729]: q
+              - generic [ref=e730]: i
+            - generic [ref=e731]: ","
+            - generic [ref=e732]:
+              - generic [ref=e734]: k
+              - generic [ref=e735]: i
+            - generic [ref=e736]: ∈
+            - generic [ref=e737]:
+              - generic [ref=e739]: R
+              - generic [ref=e741]:
+                - generic [ref=e742]: d
+                - generic [ref=e743]: k
+            - generic [ref=e744]: ","
+            - generic [ref=e745]:
+              - generic [ref=e747]: v
+              - generic [ref=e748]: i
+            - generic [ref=e749]: ∈
+            - generic [ref=e750]:
+              - generic [ref=e752]: R
+              - generic [ref=e754]:
+                - generic [ref=e755]: d
+                - generic [ref=e756]: v
+        - text: Row vectors in query, key, value matrices,
+        - generic [ref=e757]:
+          - generic [ref=e761]: Q
+          - math [ref=e763]:
+            - generic [ref=e765]: Q
+        - text: ","
+        - generic [ref=e766]:
+          - generic [ref=e770]: K
+          - math [ref=e772]:
+            - generic [ref=e774]: K
+        - text: and
+        - generic [ref=e775]:
+          - generic [ref=e779]: V
+          - math [ref=e781]:
+            - generic [ref=e783]: V
+        - text: .
+        - generic [ref=e784]:
+          - generic [ref=e786]:
+            - generic [ref=e788]: S
+            - generic [ref=e791]: i
+          - math [ref=e793]:
+            - generic [ref=e794]:
+              - generic [ref=e795]: S
+              - generic [ref=e796]: i
+        - text: A collection of key positions for the
+        - generic [ref=e797]:
+          - generic [ref=e800]: i
+          - math [ref=e802]:
+            - generic [ref=e803]: i
+        - text: "-th query"
+        - generic [ref=e804]:
+          - generic [ref=e806]:
+            - generic [ref=e809]: q
+            - generic [ref=e812]: i
+          - math [ref=e814]:
+            - generic [ref=e815]:
+              - generic [ref=e817]: q
+              - generic [ref=e818]: i
+        - text: to attend to.
+        - generic [ref=e819]:
+          - generic [ref=e820]:
+            - generic [ref=e823]: A
+            - generic [ref=e825]: ∈
+            - generic [ref=e826]:
+              - generic [ref=e829]: R
+              - generic [ref=e831]:
+                - generic [ref=e833]: L
+                - generic [ref=e835]: ×
+                - generic [ref=e837]: L
+          - math [ref=e839]:
+            - generic [ref=e841]: A
+            - generic [ref=e842]: ∈
+            - generic [ref=e843]:
+              - generic [ref=e845]: R
+              - generic [ref=e846]:
+                - generic [ref=e847]: L
+                - generic [ref=e848]: ×
+                - generic [ref=e849]: L
+        - text: The self-attention matrix between a input sequence of lenght
+        - generic [ref=e850]:
+          - generic [ref=e853]: L
+          - math [ref=e855]:
+            - generic [ref=e856]: L
+        - text: and itself.
+        - generic [ref=e857]:
+          - generic [ref=e858]:
+            - generic [ref=e861]: A
+            - generic [ref=e863]: =
+            - generic [ref=e864]:
+              - generic [ref=e865]: s
+              - generic [ref=e866]: o
+              - generic [ref=e867]: f
+              - generic [ref=e868]: t
+              - generic [ref=e869]: m
+              - generic [ref=e870]: a
+              - generic [ref=e871]: x
+            - generic [ref=e873]: (
+            - generic [ref=e876]: Q
+            - generic [ref=e877]:
+              - generic [ref=e880]: K
+              - generic [ref=e883]: ⊤
+            - generic [ref=e886]: /
+            - generic [ref=e888]:
+              - generic [ref=e891]: √
+              - generic [ref=e893]:
+                - generic [ref=e895]: d
+                - generic [ref=e898]: k
+            - generic [ref=e900]: )
+          - math [ref=e902]:
+            - generic [ref=e904]: A
+            - generic [ref=e905]: =
+            - generic [ref=e906]: softmax
+            - generic [ref=e907]: (
+            - generic [ref=e909]: Q
+            - generic [ref=e910]:
+              - generic [ref=e912]: K
+              - generic [ref=e913]: ⊤
+            - generic [ref=e915]: /
+            - generic [ref=e917]:
+              - generic [ref=e918]: d
+              - generic [ref=e919]: k
+            - generic [ref=e920]: )
+        - text: .
+        - generic [ref=e921]:
+          - generic [ref=e922]:
+            - generic [ref=e923]:
+              - generic [ref=e925]: a
+              - generic [ref=e927]:
+                - generic [ref=e929]: i
+                - generic [ref=e931]: j
+            - generic [ref=e933]: ∈
+            - generic [ref=e936]: A
+          - math [ref=e938]:
+            - generic [ref=e939]:
+              - generic [ref=e940]: a
+              - generic [ref=e941]:
+                - generic [ref=e942]: i
+                - generic [ref=e943]: j
+            - generic [ref=e944]: ∈
+            - generic [ref=e946]: A
+        - text: The scalar attention score between query
+        - generic [ref=e947]:
+          - generic [ref=e949]:
+            - generic [ref=e952]: q
+            - generic [ref=e955]: i
+          - math [ref=e957]:
+            - generic [ref=e958]:
+              - generic [ref=e960]: q
+              - generic [ref=e961]: i
+        - text: and key
+        - generic [ref=e962]:
+          - generic [ref=e964]:
+            - generic [ref=e967]: k
+            - generic [ref=e970]: j
+          - math [ref=e972]:
+            - generic [ref=e973]:
+              - generic [ref=e975]: k
+              - generic [ref=e976]: j
+        - text: .
+        - generic [ref=e977]:
+          - generic [ref=e978]:
+            - generic [ref=e981]: P
+            - generic [ref=e983]: ∈
+            - generic [ref=e984]:
+              - generic [ref=e987]: R
+              - generic [ref=e989]:
+                - generic [ref=e991]: L
+                - generic [ref=e993]: ×
+                - generic [ref=e995]: d
+          - math [ref=e997]:
+            - generic [ref=e999]: P
+            - generic [ref=e1000]: ∈
+            - generic [ref=e1001]:
+              - generic [ref=e1003]: R
+              - generic [ref=e1004]:
+                - generic [ref=e1005]: L
+                - generic [ref=e1006]: ×
+                - generic [ref=e1007]: d
+        - text: position encoding matrix, where the
+        - generic [ref=e1008]:
+          - generic [ref=e1011]: i
+          - math [ref=e1013]:
+            - generic [ref=e1014]: i
+        - text: "-th row"
+        - generic [ref=e1015]:
+          - generic [ref=e1017]:
+            - generic [ref=e1020]: p
+            - generic [ref=e1023]: i
+          - math [ref=e1025]:
+            - generic [ref=e1026]:
+              - generic [ref=e1028]: p
+              - generic [ref=e1029]: i
+        - text: is the positional encoding for input
+        - generic [ref=e1030]:
+          - generic [ref=e1032]:
+            - generic [ref=e1035]: x
+            - generic [ref=e1038]: i
+          - math [ref=e1040]:
+            - generic [ref=e1041]:
+              - generic [ref=e1043]: x
+              - generic [ref=e1044]: i
+        - text: . Transformer Basics The Transformer (which will be referred to as “vanilla Transformer” to distinguish it from other enhanced versions; Vaswani, et al., 2017) model has an encoder-decoder architecture, as commonly used in many NMT models. Later simplified Transformer was shown to achieve great performance in language modeling tasks, like in encoder-only BERT or decoder-only GPT. ...
+      - generic [ref=e1045]: "Date: January 27, 2023 | Estimated Reading Time: 45 min | Author: Lilian Weng"
+      - link "post link to The Transformer Family Version 2.0" [ref=e1046] [cursor=pointer]:
+        - /url: https://lilianweng.github.io/posts/2023-01-27-the-transformer-family-v2/
+    - article [ref=e1047]:
+      - heading "Large Transformer Model Inference Optimization" [level=2] [ref=e1049]
+      - paragraph [ref=e1051]: "[Updated on 2023-01-24: add a small section on Distillation.] Large transformer models are mainstream nowadays, creating SoTA results for a variety of tasks. They are powerful but very expensive to train and use. The extremely high inference cost, in both time and memory, is a big bottleneck for adopting a powerful transformer for solving real-world tasks at scale. Why is it hard to run inference for large transformer models? Besides the increasing size of SoTA models, there are two main factors contributing to the inference challenge (Pope et al. 2022): ..."
+      - generic [ref=e1052]: "Date: January 10, 2023 | Estimated Reading Time: 9 min | Author: Lilian Weng"
+      - link "post link to Large Transformer Model Inference Optimization" [ref=e1053] [cursor=pointer]:
+        - /url: https://lilianweng.github.io/posts/2023-01-10-inference-optimization/
+    - article [ref=e1054]:
+      - heading "Some Math behind Neural Tangent Kernel" [level=2] [ref=e1056]
+      - paragraph [ref=e1058]: Neural networks are well known to be over-parameterized and can often easily fit data with near-zero training loss with decent generalization performance on test dataset. Although all these parameters are initialized at random, the optimization process can consistently lead to similarly good outcomes. And this is true even when the number of model parameters exceeds the number of training data points. Neural tangent kernel (NTK) (Jacot et al. 2018) is a kernel to explain the evolution of neural networks during training via gradient descent. It leads to great insights into why neural networks with enough width can consistently converge to a global minimum when trained to minimize an empirical loss. In the post, we will do a deep dive into the motivation and definition of NTK, as well as the proof of a deterministic convergence at different initializations of neural networks with infinite width by characterizing NTK in such a setting. ...
+      - generic [ref=e1059]: "Date: September 8, 2022 | Estimated Reading Time: 17 min | Author: Lilian Weng"
+      - link "post link to Some Math behind Neural Tangent Kernel" [ref=e1060] [cursor=pointer]:
+        - /url: https://lilianweng.github.io/posts/2022-09-08-ntk/
+    - article [ref=e1061]:
+      - heading "Generalized Visual Language Models" [level=2] [ref=e1063]
+      - paragraph [ref=e1065]: Processing images to generate text, such as image captioning and visual question-answering, has been studied for years. Traditionally such systems rely on an object detection network as a vision encoder to capture visual features and then produce text via a text decoder. Given a large amount of existing literature, in this post, I would like to only focus on one approach for solving vision language tasks, which is to extend pre-trained generalized language models to be capable of consuming visual signals. ...
+      - generic [ref=e1066]: "Date: June 9, 2022 | Estimated Reading Time: 24 min | Author: Lilian Weng"
+      - link "post link to Generalized Visual Language Models" [ref=e1067] [cursor=pointer]:
+        - /url: https://lilianweng.github.io/posts/2022-06-09-vlm/
+    - article [ref=e1068]:
+      - 'heading "Learning with not Enough Data Part 3: Data Generation" [level=2] [ref=e1070]'
+      - paragraph [ref=e1072]: "Here comes the Part 3 on learning with not enough data (Previous: Part 1 and Part 2). Let’s consider two approaches for generating synthetic data for training. Augmented data. Given a set of existing training samples, we can apply a variety of augmentation, distortion and transformation to derive new data points without losing the key attributes. We have covered a bunch of augmentation methods on text and images in a previous post on contrastive learning. For the sake of post completeness, I duplicate the section on data augmentation here with some edits. New data. Given few or even no data points, we can rely on powerful pretrained models to generate a number of new data points. This is especially true in recent years given the fast progress in large pretrained language models (LM). Few shot prompting is shown to be effective for LM to learn within context without extra training. Data Augmentation The goal of data augmentation is to modify the input format (e.g. text wording, visual appearance) while the semantic meaning stays unchanged. ..."
+      - generic [ref=e1073]: "Date: April 15, 2022 | Estimated Reading Time: 28 min | Author: Lilian Weng"
+      - 'link "post link to Learning with not Enough Data Part 3: Data Generation" [ref=e1074] [cursor=pointer]':
+        - /url: https://lilianweng.github.io/posts/2022-04-15-data-gen/
+    - article [ref=e1075]:
+      - 'heading "Learning with not Enough Data Part 2: Active Learning" [level=2] [ref=e1077]'
+      - paragraph [ref=e1079]: This is part 2 of what to do when facing a limited amount of labeled data for supervised learning tasks. This time we will get some amount of human labeling work involved, but within a budget limit, and therefore we need to be smart when selecting which samples to label. ...
+      - generic [ref=e1080]: "Date: February 20, 2022 | Estimated Reading Time: 22 min | Author: Lilian Weng"
+      - 'link "post link to Learning with not Enough Data Part 2: Active Learning" [ref=e1081] [cursor=pointer]':
+        - /url: https://lilianweng.github.io/posts/2022-02-20-active-learning/
+    - article [ref=e1082]:
+      - 'heading "Learning with not Enough Data Part 1: Semi-Supervised Learning" [level=2] [ref=e1084]'
+      - paragraph [ref=e1086]: When facing a limited amount of labeled data for supervised learning tasks, four approaches are commonly discussed. ...
+      - generic [ref=e1087]: "Date: December 5, 2021 | Estimated Reading Time: 26 min | Author: Lilian Weng"
+      - 'link "post link to Learning with not Enough Data Part 1: Semi-Supervised Learning" [ref=e1088] [cursor=pointer]':
+        - /url: https://lilianweng.github.io/posts/2021-12-05-semi-supervised/
+    - article [ref=e1089]:
+      - heading "How to Train Really Large Models on Many GPUs?" [level=2] [ref=e1091]
+      - paragraph [ref=e1093]: "[Updated on 2022-03-13: add expert choice routing.] [Updated on 2022-06-10]: Greg and I wrote a shorted and upgraded version of this post, published on OpenAI Blog: “Techniques for Training Large Neural Networks” ..."
+      - generic [ref=e1094]: "Date: September 24, 2021 | Estimated Reading Time: 21 min | Author: Lilian Weng"
+      - link "post link to How to Train Really Large Models on Many GPUs?" [ref=e1095] [cursor=pointer]:
+        - /url: https://lilianweng.github.io/posts/2021-09-25-train-large/
+    - article [ref=e1096]:
+      - heading "What are Diffusion Models?" [level=2] [ref=e1098]
+      - paragraph [ref=e1100]: "[Updated on 2021-09-19: Highly recommend this blog post on score-based generative modeling by Yang Song (author of several key papers in the references)]. [Updated on 2022-08-27: Added classifier-free guidance, GLIDE, unCLIP and Imagen. [Updated on 2022-08-31: Added latent diffusion model. [Updated on 2024-04-13: Added progressive distillation, consistency models, and the Model Architecture section. ..."
+      - generic [ref=e1101]: "Date: July 11, 2021 | Estimated Reading Time: 31 min | Author: Lilian Weng"
+      - link "post link to What are Diffusion Models?" [ref=e1102] [cursor=pointer]:
+        - /url: https://lilianweng.github.io/posts/2021-07-11-diffusion-models/
+    - article [ref=e1103]:
+      - heading "Contrastive Representation Learning" [level=2] [ref=e1105]
+      - paragraph [ref=e1107]: The goal of contrastive representation learning is to learn such an embedding space in which similar sample pairs stay close to each other while dissimilar ones are far apart. Contrastive learning can be applied to both supervised and unsupervised settings. When working with unsupervised data, contrastive learning is one of the most powerful approaches in self-supervised learning. ...
+      - generic [ref=e1108]: "Date: May 31, 2021 | Estimated Reading Time: 39 min | Author: Lilian Weng"
+      - link "post link to Contrastive Representation Learning" [ref=e1109] [cursor=pointer]:
+        - /url: https://lilianweng.github.io/posts/2021-05-31-contrastive/
+    - article [ref=e1110]:
+      - heading "Reducing Toxicity in Language Models" [level=2] [ref=e1112]
+      - paragraph [ref=e1114]: Large pretrained language models are trained over a sizable collection of online data. They unavoidably acquire certain toxic behavior and biases from the Internet. Pretrained language models are very powerful and have shown great success in many NLP tasks. However, to safely deploy them for practical real-world applications demands a strong safety control over the model generation process. ...
+      - generic [ref=e1115]: "Date: March 21, 2021 | Estimated Reading Time: 22 min | Author: Lilian Weng"
+      - link "post link to Reducing Toxicity in Language Models" [ref=e1116] [cursor=pointer]:
+        - /url: https://lilianweng.github.io/posts/2021-03-21-lm-toxicity/
+    - article [ref=e1117]:
+      - heading "Controllable Neural Text Generation" [level=2] [ref=e1119]
+      - paragraph [ref=e1121]: "[Updated on 2021-02-01: Updated to version 2.0 with several work added and many typos fixed.] [Updated on 2021-05-26: Add P-tuning and Prompt Tuning in the “prompt design” section.] [Updated on 2021-09-19: Add “unlikelihood training”.] ..."
+      - generic [ref=e1122]: "Date: January 2, 2021 | Estimated Reading Time: 42 min | Author: Lilian Weng"
+      - link "post link to Controllable Neural Text Generation" [ref=e1123] [cursor=pointer]:
+        - /url: https://lilianweng.github.io/posts/2021-01-02-controllable-text-generation/
+    - navigation [ref=e1125]:
+      - link "»" [ref=e1126] [cursor=pointer]:
+        - /url: https://lilianweng.github.io/page/2/
+  - contentinfo [ref=e1127]:
+    - generic [ref=e1128]:
+      - text: © 2025
+      - link "Lil'Log" [ref=e1129] [cursor=pointer]:
+        - /url: https://lilianweng.github.io/
+    - generic [ref=e1130]:
+      - text: Powered by
+      - link "Hugo" [ref=e1131] [cursor=pointer]:
+        - /url: https://gohugo.io/
+      - text: "&"
+      - link "PaperMod" [ref=e1132] [cursor=pointer]:
+        - /url: https://git.io/hugopapermod

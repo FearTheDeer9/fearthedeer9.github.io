@@ -1,0 +1,3 @@
+[     919ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_CLOSED @ https://polyfill.io/v3/polyfill.min.js?features=es6:0
+[    1012ms] [WARNING] Could not find the language 'LANG', did you forget to load/include a language module? @ https://lilianweng.github.io/assets/js/highlight.min.2eadbb982468c11a433a3e291f01326f2ba43f065e256bf792dbd79640a92316.js:1
+[    1012ms] [WARNING] Falling back to no-highlight mode for this block. JSHandle@node @ https://lilianweng.github.io/assets/js/highlight.min.2eadbb982468c11a433a3e291f01326f2ba43f065e256bf792dbd79640a92316.js:1

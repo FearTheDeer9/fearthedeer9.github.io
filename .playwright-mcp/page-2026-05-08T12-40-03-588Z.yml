@@ -1,0 +1,630 @@
+- generic [ref=e4]:
+  - generic [ref=e5]:
+    - generic [ref=e6]:
+      - heading "Andy Matuschak" [level=1] [ref=e8]:
+        - link "Andy Matuschak" [ref=e9] [cursor=pointer]:
+          - /url: /
+          - text: Andy
+          - text: Matuschak
+      - generic [ref=e10]:
+        - paragraph [ref=e11]: I'm an applied researcher, focused on creating user interfaces that expand what people can think and do. My current focus is an augmented book which actively helps people understand, remember, and use what they read.
+        - paragraph [ref=e12]:
+          - text: I believe personal computers can enable
+          - link "transformative tools for thought" [ref=e13] [cursor=pointer]:
+            - /url: https://numinous.productions/ttft/
+          - text: ": environments that radically transform what people can think and do, so much so that we expand the set of thoughts it’s possible to think. I want to produce"
+          - emphasis [ref=e14]: alien cognitive and creative powers
+          - text: —as wondrous and magical to us today as a modern visual effects artist might seem to a cave painter.
+        - paragraph [ref=e15]:
+          - text: I’ve been independently funded by my
+          - link "Patreon" [ref=e16] [cursor=pointer]:
+            - /url: https://www.patreon.com/quantumcountry
+          - text: community since 2019. But as of late 2025, I’m on “para-academic leave”, helping make
+          - link "Pico" [ref=e17] [cursor=pointer]:
+            - /url: https://withpico.com
+          - text: ", a conservatory for human attention."
+        - paragraph [ref=e18]:
+          - text: Prior to my current work, I helped build iOS at Apple and led
+          - link "R&D at Khan Academy" [ref=e19] [cursor=pointer]:
+            - /url: https://early.khanacademy.org
+          - text: .
+    - generic [ref=e22]:
+      - text: Want to hear when I publish new work?
+      - generic [ref=e24]:
+        - textbox "Your email, please" [ref=e25]
+        - button "Subscribe" [disabled] [ref=e26]
+  - generic [ref=e28]:
+    - generic [ref=e29]:
+      - 'heading "Projects: tools for thought" [level=1] [ref=e30]':
+        - text: "Projects:"
+        - text: tools for thought
+      - paragraph [ref=e31]: Augmenting cognition and creativity; "how to create magicians?"; "what comes after the book?"; enabling environments.
+    - list [ref=e32]:
+      - listitem [ref=e33]:
+        - link "How might we learn? Towards convivial AI-augmented learning" [ref=e34] [cursor=pointer]:
+          - /url: /hmwl
+          - heading "How might we learn?" [level=3] [ref=e35]
+          - paragraph [ref=e36]: Towards convivial AI-augmented learning
+      - listitem [ref=e37]:
+        - link "How can we develop transformative tools for thought? Barriers and opportunities, joint with Michael Nielsen" [ref=e38] [cursor=pointer]:
+          - /url: https://numinous.productions/ttft
+          - heading "How can we develop transformative tools for thought?" [level=3] [ref=e39]
+          - paragraph [ref=e40]: Barriers and opportunities, joint with Michael Nielsen
+      - listitem [ref=e41]:
+        - link "Quantum Country An experimental “mnemonic book,” joint with Michael Nielsen" [ref=e42] [cursor=pointer]:
+          - /url: https://quantum.country
+          - heading "Quantum Country" [level=3] [ref=e43]
+          - paragraph [ref=e44]: An experimental “mnemonic book,” joint with Michael Nielsen
+      - listitem [ref=e45]:
+        - link "Why books don’t work On designing media to reflect how people think and learn" [ref=e46] [cursor=pointer]:
+          - /url: /books
+          - heading "Why books don’t work" [level=3] [ref=e47]
+          - paragraph [ref=e48]: On designing media to reflect how people think and learn
+      - listitem [ref=e49]:
+        - link "Timeful texts Extending the reading experience over time; joint with Michael Nielsen" [ref=e50] [cursor=pointer]:
+          - /url: https://numinous.productions/timeful
+          - heading "Timeful texts" [level=3] [ref=e51]
+          - paragraph [ref=e52]: Extending the reading experience over time; joint with Michael Nielsen
+    - generic [ref=e53]:
+      - heading "More work" [level=2]
+      - list [ref=e54]:
+        - listitem [ref=e55]:
+          - 'link "Apps and programming: two accidental tyrannies Coding agents, malleable software, and invention" [ref=e56] [cursor=pointer]':
+            - /url: https://andymatuschak.org/tat
+            - 'heading "Apps and programming: two accidental tyrannies" [level=3] [ref=e57]'
+            - paragraph [ref=e58]: Coding agents, malleable software, and invention
+        - listitem [ref=e59]:
+          - link "Orbit A platform for memory system experiments" [ref=e60] [cursor=pointer]:
+            - /url: https://withorbit.com
+            - heading "Orbit" [level=3] [ref=e61]
+            - paragraph [ref=e62]: A platform for memory system experiments
+        - listitem [ref=e63]:
+          - link "How to write good prompts Using spaced repetition to create understanding" [ref=e64] [cursor=pointer]:
+            - /url: https://andymatuschak.org/prompts
+            - heading "How to write good prompts" [level=3] [ref=e65]
+            - paragraph [ref=e66]: Using spaced repetition to create understanding
+    - generic [ref=e67]:
+      - heading "Working notes" [level=2]
+      - list [ref=e68]:
+        - listitem [ref=e69]:
+          - link "What‘s top of mind An index of the questions and ideas I‘m exploring" [ref=e70] [cursor=pointer]:
+            - /url: https://notes.andymatuschak.org/About_these_notes?stackedNotes=zUw5PuD8op9oq8kHvni6sug6eRTNtR9Wqma
+            - heading "What‘s top of mind" [level=3] [ref=e71]
+            - paragraph [ref=e72]: An index of the questions and ideas I‘m exploring
+        - listitem [ref=e73]:
+          - link "The mnemonic medium Design properties, evidence of impact, top questions" [ref=e74] [cursor=pointer]:
+            - /url: https://notes.andymatuschak.org/z4rRX3qwSSJRsEkdXKwH2shamgHNeRthrMLiF
+            - heading "The mnemonic medium" [level=3] [ref=e75]
+            - paragraph [ref=e76]: Design properties, evidence of impact, top questions
+        - listitem [ref=e77]:
+          - link "Evergreen notes Methods for developing ideas over time" [ref=e78] [cursor=pointer]:
+            - /url: https://notes.andymatuschak.org/z4SDCZQeRo4xFEQ8H4qrSqd68ucpgE6LU155C
+            - heading "Evergreen notes" [level=3] [ref=e79]
+            - paragraph [ref=e80]: Methods for developing ideas over time
+        - listitem [ref=e81]:
+          - link "Enabling environments, video games, and the Primer Incomplete notes on a new kind of growth environment" [ref=e82] [cursor=pointer]:
+            - /url: https://notes.andymatuschak.org/z244xx3kMf1v8UnkZKUwQBAwBsHLpUgN4YhsG
+            - heading "Enabling environments, video games, and the Primer" [level=3] [ref=e83]
+            - paragraph [ref=e84]: Incomplete notes on a new kind of growth environment
+        - listitem [ref=e85]:
+          - link "Programmable attention Systems which systematically orchestrate your mind" [ref=e86] [cursor=pointer]:
+            - /url: https://notes.andymatuschak.org/zJrfPCbY7GcpV9asEc8NTVzXTAV4TvRFMuY6
+            - heading "Programmable attention" [level=3] [ref=e87]
+            - paragraph [ref=e88]: Systems which systematically orchestrate your mind
+        - listitem [ref=e89]:
+          - link "Taking knowledge work seriously Athletes and musicians vs. knowledge workers" [ref=e90] [cursor=pointer]:
+            - /url: https://notes.andymatuschak.org/z5opHsGrNmCib7YQfLv6XbYURzZgZmx4Mrh5y
+            - heading "Taking knowledge work seriously" [level=3] [ref=e91]
+            - paragraph [ref=e92]: Athletes and musicians vs. knowledge workers
+  - generic [ref=e94]:
+    - generic [ref=e95]:
+      - heading "Letters from the lab" [level=1] [ref=e96]:
+        - text: Letters from
+        - text: the lab
+      - paragraph [ref=e97]:
+        - text: Monthly essays on work in progress. Most are initially written for my
+        - link "patrons" [ref=e98] [cursor=pointer]:
+          - /url: https://www.patreon.com/quantumcountry
+        - text: ", but some are later made available to the public."
+    - list [ref=e100]:
+      - listitem [ref=e101]:
+        - 'link "Working with blips: our second system A year of augmented attention work" [ref=e102] [cursor=pointer]':
+          - /url: https://www.patreon.com/posts/137914548
+          - img [ref=e103]
+          - 'heading "Working with blips: our second system" [level=3] [ref=e104]'
+          - paragraph [ref=e105]: A year of augmented attention work
+      - listitem [ref=e106]:
+        - 'link "Augmenting scholarship: a proto-proposal Towards dynamic media for reading and synthesis" [ref=e107] [cursor=pointer]':
+          - /url: https://www.patreon.com/posts/135440922
+          - img [ref=e108]
+          - 'heading "Augmenting scholarship: a proto-proposal" [level=3] [ref=e109]'
+          - paragraph [ref=e110]: Towards dynamic media for reading and synthesis
+      - listitem [ref=e111]:
+        - link "Preparatory notes for a manifesto Some core beliefs behind my work" [ref=e112] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/130320045
+          - img [ref=e113]
+          - heading "Preparatory notes for a manifesto" [level=3] [ref=e114]
+          - paragraph [ref=e115]: Some core beliefs behind my work
+      - listitem [ref=e116]:
+        - link "A malleable reading environment Towards an improvisatory digital reading environment" [ref=e117] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/127847642
+          - img [ref=e118]
+          - heading "A malleable reading environment" [level=3] [ref=e119]
+          - paragraph [ref=e120]: Towards an improvisatory digital reading environment
+      - listitem [ref=e121]:
+        - link "A startling glimpse of malleable software Case study for an AI-mediated software ecosystem" [ref=e122] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/125526090
+          - img [ref=e123]
+          - heading "A startling glimpse of malleable software" [level=3] [ref=e124]
+          - paragraph [ref=e125]: Case study for an AI-mediated software ecosystem
+      - listitem [ref=e126]:
+        - link "Tools for tools for thought Some principles for inventing tools for thought" [ref=e127] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/123313625
+          - img [ref=e128]
+          - heading "Tools for tools for thought" [level=3] [ref=e129]
+          - paragraph [ref=e130]: Some principles for inventing tools for thought
+      - listitem [ref=e131]:
+        - 'link "Design-in-action: book markup grid A look inside my design process" [ref=e132] [cursor=pointer]':
+          - /url: https://www.patreon.com/posts/121250335
+          - img [ref=e133]
+          - 'heading "Design-in-action: book markup grid" [level=3] [ref=e134]'
+          - paragraph [ref=e135]: A look inside my design process
+      - listitem [ref=e136]:
+        - link "Invention, influence, and impact Notes on my theory of change" [ref=e137] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/119062444
+          - img [ref=e138]
+          - heading "Invention, influence, and impact" [level=3] [ref=e139]
+          - paragraph [ref=e140]: Notes on my theory of change
+      - listitem [ref=e141]:
+        - link "A primitive for enabling environments Early work on machine-generated prompts" [ref=e142] [cursor=pointer]:
+          - /url: /situated-idea-memory-system
+          - heading "A primitive for enabling environments" [level=3] [ref=e143]
+          - paragraph [ref=e144]: Early work on machine-generated prompts
+      - listitem [ref=e145]:
+        - link "What can malleable software learn from Realtalk? Connecting two dreams of software liberation" [ref=e146] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/113122332
+          - img [ref=e147]
+          - heading "What can malleable software learn from Realtalk?" [level=3] [ref=e148]
+          - paragraph [ref=e149]: Connecting two dreams of software liberation
+      - listitem [ref=e150]:
+        - link "On sitting down to study independently A catalog of problems for self-motivated students" [ref=e151] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/111164399
+          - img [ref=e152]
+          - heading "On sitting down to study independently" [level=3] [ref=e153]
+          - paragraph [ref=e154]: A catalog of problems for self-motivated students
+      - listitem [ref=e155]:
+        - link "Five years of evergreen notes Some long-term reflections on networked notes" [ref=e156] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/109216672
+          - img [ref=e157]
+          - heading "Five years of evergreen notes" [level=3] [ref=e158]
+          - paragraph [ref=e159]: Some long-term reflections on networked notes
+      - listitem [ref=e160]:
+        - link "Exorcising us of the Primer Transcending The Diamond Age's vision for learning" [ref=e161] [cursor=pointer]:
+          - /url: /primer
+          - heading "Exorcising us of the Primer" [level=3] [ref=e162]
+          - paragraph [ref=e163]: Transcending The Diamond Age's vision for learning
+      - listitem [ref=e164]:
+        - link "A spring flood of projects April '24 updates on Orbit, BookBridge, etc" [ref=e165] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/spring-flood-of-103393573
+          - img [ref=e166]
+          - heading "A spring flood of projects" [level=3] [ref=e167]
+          - paragraph [ref=e168]: April '24 updates on Orbit, BookBridge, etc
+      - listitem [ref=e169]:
+        - link "What's worth learning if we have AGI? What kinds of knowledge remain meaningful?" [ref=e170] [cursor=pointer]:
+          - /url: /worth-learning-agi
+          - heading "What's worth learning if we have AGI?" [level=3] [ref=e171]
+          - paragraph [ref=e172]: What kinds of knowledge remain meaningful?
+      - listitem [ref=e173]:
+        - link "What does spatial computing want to become? Pouring the silicon into the concrete" [ref=e174] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/what-does-want-99504553
+          - img [ref=e175]
+          - heading "What does spatial computing want to become?" [level=3] [ref=e176]
+          - paragraph [ref=e177]: Pouring the silicon into the concrete
+      - listitem [ref=e178]:
+        - link "In praise of the particular …and other lessons from 2023" [ref=e179] [cursor=pointer]:
+          - /url: /2023
+          - heading "In praise of the particular" [level=3] [ref=e180]
+          - paragraph [ref=e181]: …and other lessons from 2023
+      - listitem [ref=e182]:
+        - link "Initial results from highlight-driven prototype Observations from working with 14 students" [ref=e183] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/initial-results-93831375
+          - img [ref=e184]
+          - heading "Initial results from highlight-driven prototype" [level=3] [ref=e185]
+          - paragraph [ref=e186]: Observations from working with 14 students
+      - listitem [ref=e187]:
+        - link "On breadth vs. depth in learning How to distribute time in study?" [ref=e188] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/on-breadth-vs-in-91720220
+          - img [ref=e189]
+          - heading "On breadth vs. depth in learning" [level=3] [ref=e190]
+          - paragraph [ref=e191]: How to distribute time in study?
+      - listitem [ref=e192]:
+        - link "Highlight-driven practice/comprehension support A new reading augmentation design concept" [ref=e193] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/highlight-driven-90101210
+          - img [ref=e194]
+          - heading "Highlight-driven practice/comprehension support" [level=3] [ref=e195]
+          - paragraph [ref=e196]: A new reading augmentation design concept
+      - listitem [ref=e197]:
+        - link "Studying myself studying linear algebra Some problems with problem-solving practice" [ref=e198] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/studying-myself-88583610
+          - img [ref=e199]
+          - heading "Studying myself studying linear algebra" [level=3] [ref=e200]
+          - paragraph [ref=e201]: Some problems with problem-solving practice
+      - listitem [ref=e202]:
+        - link "Initial experiments in self-explanation support Painting a text with explanation" [ref=e203] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/initial-in-self-87053505
+          - img [ref=e204]
+          - heading "Initial experiments in self-explanation support" [level=3] [ref=e205]
+          - paragraph [ref=e206]: Painting a text with explanation
+      - listitem [ref=e207]:
+        - link "Reading comprehension and memory systems Memory failures are often not the root problem" [ref=e208] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/reading-and-85345515
+          - img [ref=e209]
+          - heading "Reading comprehension and memory systems" [level=3] [ref=e210]
+          - paragraph [ref=e211]: Memory failures are often not the root problem
+      - listitem [ref=e212]:
+        - link "Fluid practice for fluid understanding Reframing review sessions as practice sessions" [ref=e213] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/fluid-practice-83882597
+          - img [ref=e214]
+          - heading "Fluid practice for fluid understanding" [level=3] [ref=e215]
+          - paragraph [ref=e216]: Reframing review sessions as practice sessions
+      - listitem [ref=e217]:
+        - 'link "Ethics of AI-based invention: a personal inquiry Grappling with my moral obligations as a designer" [ref=e218] [cursor=pointer]':
+          - /url: /personal-ai-ethics
+          - 'heading "Ethics of AI-based invention: a personal inquiry" [level=3] [ref=e219]'
+          - paragraph [ref=e220]: Grappling with my moral obligations as a designer
+      - listitem [ref=e221]:
+        - link "Memory systems and problem-solving practice Difficulties in knowledge transfer" [ref=e222] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/memory-systems-80865178
+          - img [ref=e223]
+          - heading "Memory systems and problem-solving practice" [level=3] [ref=e224]
+          - paragraph [ref=e225]: Difficulties in knowledge transfer
+      - listitem [ref=e226]:
+        - link "Becoming a Wizard-of-Oz learning assistant Field work experiments in adult learning" [ref=e227] [cursor=pointer]:
+          - /url: /woz-learning
+          - heading "Becoming a Wizard-of-Oz learning assistant" [level=3] [ref=e228]
+          - paragraph [ref=e229]: Field work experiments in adult learning
+      - listitem [ref=e230]:
+        - link "Three years of crowdfunded research Reflections on my membership program" [ref=e231] [cursor=pointer]:
+          - /url: /2022
+          - heading "Three years of crowdfunded research" [level=3] [ref=e232]
+          - paragraph [ref=e233]: Reflections on my membership program
+      - listitem [ref=e234]:
+        - link "Towards impact through intimacy Tentative plans for my 2023 research" [ref=e235] [cursor=pointer]:
+          - /url: /impact-through-intimacy
+          - heading "Towards impact through intimacy" [level=3] [ref=e236]
+          - paragraph [ref=e237]: Tentative plans for my 2023 research
+      - listitem [ref=e238]:
+        - link "Cultivating depth and stillness in research Notes on whatʼs worked for me" [ref=e239] [cursor=pointer]:
+          - /url: /stillness
+          - heading "Cultivating depth and stillness in research" [level=3] [ref=e240]
+          - paragraph [ref=e241]: Notes on whatʼs worked for me
+      - listitem [ref=e242]:
+        - link "Lessons from summer 2022 prototype Synthesis on new mnemonic medium" [ref=e243] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/lessons-from-73309142
+          - img [ref=e244]
+          - heading "Lessons from summer 2022 prototype" [level=3] [ref=e245]
+          - paragraph [ref=e246]: Synthesis on new mnemonic medium
+      - listitem [ref=e247]:
+        - link "Breaking the mnemonic medium out of its box Demo/talk of a new floating design" [ref=e248] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/71081197
+          - img [ref=e249]
+          - heading "Breaking the mnemonic medium out of its box" [level=3] [ref=e250]
+          - paragraph [ref=e251]: Demo/talk of a new floating design
+      - listitem [ref=e252]:
+        - link "Prospects for consumer silent speech interfaces Systems for dictation without audible sound" [ref=e253] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/prospects-for-69855805
+          - img [ref=e254]
+          - heading "Prospects for consumer silent speech interfaces" [level=3] [ref=e255]
+          - paragraph [ref=e256]: Systems for dictation without audible sound
+      - listitem [ref=e257]:
+        - link "The joyful surprises of user observation Notes from testing a new mnemonic medium" [ref=e258] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/joyful-surprises-68479856
+          - img [ref=e259]
+          - heading "The joyful surprises of user observation" [level=3] [ref=e260]
+          - paragraph [ref=e261]: Notes from testing a new mnemonic medium
+      - listitem [ref=e262]:
+        - link "A peritextual mnemonic medium Demo/talk of a redesign around reader control" [ref=e263] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/66348634
+          - img [ref=e264]
+          - heading "A peritextual mnemonic medium" [level=3] [ref=e265]
+          - paragraph [ref=e266]: Demo/talk of a redesign around reader control
+      - listitem [ref=e267]:
+        - 'link "Implicit practice: a sight reading parable One way implicit practice fails in knowledge work" [ref=e268] [cursor=pointer]':
+          - /url: /sight-reading
+          - 'heading "Implicit practice: a sight reading parable" [level=3] [ref=e269]'
+          - paragraph [ref=e270]: One way implicit practice fails in knowledge work
+      - listitem [ref=e271]:
+        - link "Exponentials and forgetting in Quantum Country Patterns in preliminary data" [ref=e272] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/exponentials-and-63206775
+          - img [ref=e273]
+          - heading "Exponentials and forgetting in Quantum Country" [level=3] [ref=e274]
+          - paragraph [ref=e275]: Patterns in preliminary data
+      - listitem [ref=e276]:
+        - link "Lessons from 2021 Reflections on creative work, the field, crowdfunding" [ref=e277] [cursor=pointer]:
+          - /url: /2021
+          - heading "Lessons from 2021" [level=3] [ref=e278]
+          - paragraph [ref=e279]: Reflections on creative work, the field, crowdfunding
+      - listitem [ref=e280]:
+        - 'link "Tools for thought: science, design, art, craftsmanship? Lenses for progress in interface invention" [ref=e281] [cursor=pointer]':
+          - /url: /sdac
+          - 'heading "Tools for thought: science, design, art, craftsmanship?" [level=3] [ref=e282]'
+          - paragraph [ref=e283]: Lenses for progress in interface invention
+      - listitem [ref=e284]:
+        - link "Quantum Country’s suspiciously flat forgetting curves Surprises in analysis of conceptual memory" [ref=e285] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/quantum-countrys-59365357
+          - img [ref=e286]
+          - heading "Quantum Country’s suspiciously flat forgetting curves" [level=3] [ref=e287]
+          - paragraph [ref=e288]: Surprises in analysis of conceptual memory
+      - listitem [ref=e289]:
+        - link "Doing-centric explanatory mediums Board game instruction manuals… and Figma" [ref=e290] [cursor=pointer]:
+          - /url: /doing-centric
+          - heading "Doing-centric explanatory mediums" [level=3] [ref=e291]
+          - paragraph [ref=e292]: Board game instruction manuals… and Figma
+      - listitem [ref=e293]:
+        - link "Architectures for a more flexible mnemonic medium Interface approaches for reader control" [ref=e294] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/architectures-56842917
+          - img [ref=e295]
+          - heading "Architectures for a more flexible mnemonic medium" [level=3] [ref=e296]
+          - paragraph [ref=e297]: Interface approaches for reader control
+      - listitem [ref=e298]:
+        - link "Revamping the mnemonic medium for reader control Expanding beyond primers' assumptions" [ref=e299] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/revamping-medium-55309960
+          - img [ref=e300]
+          - heading "Revamping the mnemonic medium for reader control" [level=3] [ref=e301]
+          - paragraph [ref=e302]: Expanding beyond primers' assumptions
+      - listitem [ref=e303]:
+        - link "Armories for tool-maker/-user collaborations Notes on bridging skills and ideas" [ref=e304] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/armories-for-52549432
+          - heading "Armories for tool-maker/-user collaborations" [level=3] [ref=e305]
+          - paragraph [ref=e306]: Notes on bridging skills and ideas
+      - listitem [ref=e307]:
+        - link "Finding research–context fit A challenge for tool-builders" [ref=e308] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/finding-research-51501925
+          - heading "Finding research–context fit" [level=3] [ref=e309]
+          - paragraph [ref=e310]: A challenge for tool-builders
+      - listitem [ref=e311]:
+        - link "Crowdfunded research vs. the NSF CAREER grant Open-sourcing Orbit; technical collaborations" [ref=e312] [cursor=pointer]:
+          - /url: https://www.youtube.com/watch?v=8kB4IgqGO7k
+          - heading "Crowdfunded research vs. the NSF CAREER grant" [level=3] [ref=e313]
+          - paragraph [ref=e314]: Open-sourcing Orbit; technical collaborations
+      - listitem [ref=e315]:
+        - link "Too easy to be effortless Surprising distributions in Quantum Country" [ref=e316] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/too-easy-to-be-49250309
+          - img [ref=e317]
+          - heading "Too easy to be effortless" [level=3] [ref=e318]
+          - paragraph [ref=e319]: Surprising distributions in Quantum Country
+      - listitem [ref=e320]:
+        - link "Ratcheting progress in tools for thought How to accrete insight as a field?" [ref=e321] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/ratcheting-in-47976114
+          - heading "Ratcheting progress in tools for thought" [level=3] [ref=e322]
+          - paragraph [ref=e323]: How to accrete insight as a field?
+      - listitem [ref=e324]:
+        - link "In search of better questions From memory systems to meaning" [ref=e325] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/in-search-of-47047644
+          - heading "In search of better questions" [level=3] [ref=e326]
+          - paragraph [ref=e327]: From memory systems to meaning
+      - listitem [ref=e328]:
+        - link "Reflections on 2020 as an independent researcher Funding, culture, limitations, process" [ref=e329] [cursor=pointer]:
+          - /url: /2020
+          - heading "Reflections on 2020 as an independent researcher" [level=3] [ref=e330]
+          - paragraph [ref=e331]: Funding, culture, limitations, process
+      - listitem [ref=e332]:
+        - link "Liquid olives and iPhones Problem-solving and -finding; The Uncertainty Mindset" [ref=e333] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/liquid-olives-43912546
+          - heading "Liquid olives and iPhones" [level=3] [ref=e334]
+          - paragraph [ref=e335]: Problem-solving and -finding; The Uncertainty Mindset
+      - listitem [ref=e336]:
+        - 'link "Working with authors: entangled skills Text-writing needs prompt-writing needs text-writing" [ref=e337] [cursor=pointer]':
+          - /url: https://www.patreon.com/posts/working-with-43630252
+          - img [ref=e338]
+          - 'heading "Working with authors: entangled skills" [level=3] [ref=e339]'
+          - paragraph [ref=e340]: Text-writing needs prompt-writing needs text-writing
+      - listitem [ref=e341]:
+        - link "The carrying capacity of a regular memory practice Tensions with deliberate practice and flow" [ref=e342] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/carrying-of-and-42201887
+          - img [ref=e343]
+          - heading "The carrying capacity of a regular memory practice" [level=3] [ref=e344]
+          - paragraph [ref=e345]: Tensions with deliberate practice and flow
+      - listitem [ref=e346]:
+        - link "The galaxy brain problem; speed-running UIs Challenges in explaining new mediums" [ref=e347] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/galaxy-brain-uis-41516298
+          - img [ref=e348]
+          - heading "The galaxy brain problem; speed-running UIs" [level=3] [ref=e349]
+          - paragraph [ref=e350]: Challenges in explaining new mediums
+      - listitem [ref=e351]:
+        - 'link "“Skip”: exponential-backoff deferral mechanisms… … and fuzzy inboxes" [ref=e352] [cursor=pointer]':
+          - /url: https://www.patreon.com/posts/skip-exponential-40672377
+          - 'heading "“Skip”: exponential-backoff deferral mechanisms…" [level=3] [ref=e353]'
+          - paragraph [ref=e354]: … and fuzzy inboxes
+      - listitem [ref=e355]:
+        - link "Thoughts on crowdfunding tools for thought Remarks on a milestone in crowdfunding" [ref=e356] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/celebrating-on-40134847
+          - img [ref=e357]
+          - heading "Thoughts on crowdfunding tools for thought" [level=3] [ref=e358]
+          - paragraph [ref=e359]: Remarks on a milestone in crowdfunding
+      - listitem [ref=e360]:
+        - link "A nascent art direction for Orbit Escaping educational aesthetics" [ref=e361] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/nascent-art-for-39070865
+          - img [ref=e362]
+          - heading "A nascent art direction for Orbit" [level=3] [ref=e363]
+          - paragraph [ref=e364]: Escaping educational aesthetics
+      - listitem [ref=e365]:
+        - link "Demonstrating a personal mnemonic medium Integrating spaced repetition into prose notes" [ref=e366] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/demonstrating-38097140
+          - img [ref=e367]
+          - heading "Demonstrating a personal mnemonic medium" [level=3] [ref=e368]
+          - paragraph [ref=e369]: Integrating spaced repetition into prose notes
+      - listitem [ref=e370]:
+        - link "Bringing ideas into your Orbit Extending the desktop for programmable attention" [ref=e371] [cursor=pointer]:
+          - /url: https://www.patreon.com/posts/bringing-ideas-36925173
+          - heading "Bringing ideas into your Orbit" [level=3] [ref=e372]
+          - paragraph [ref=e373]: Extending the desktop for programmable attention
+    - list
+  - generic [ref=e375]:
+    - generic [ref=e376]:
+      - 'heading "Projects: ed-tech" [level=1] [ref=e377]':
+        - text: "Projects:"
+        - text: ed-tech
+      - paragraph [ref=e378]:
+        - text: Work from my time at
+        - link "Khan Academy" [ref=e379] [cursor=pointer]:
+          - /url: https://khanacademy.org
+        - text: ", where"
+        - link "my team" [ref=e380] [cursor=pointer]:
+          - /url: https://early.khanacademy.org
+        - text: worked with teachers to invent novel interactive learning environments.
+    - list [ref=e381]:
+      - listitem [ref=e382]:
+        - 'link "Building complex skills online Beyond right and wrong: scalable open-ended learning activities" [ref=e383] [cursor=pointer]':
+          - /url: https://early.khanacademy.org/open-ended
+          - heading "Building complex skills online" [level=3] [ref=e384]
+          - paragraph [ref=e385]: "Beyond right and wrong: scalable open-ended learning activities"
+      - listitem [ref=e386]:
+        - link "Numbers at play Designing digital manipulatives to reveal numbers’ hidden properties" [ref=e387] [cursor=pointer]:
+          - /url: https://early.khanacademy.org/cantor
+          - heading "Numbers at play" [level=3] [ref=e388]
+          - paragraph [ref=e389]: Designing digital manipulatives to reveal numbers’ hidden properties
+      - listitem [ref=e390]:
+        - link "Playful worlds of creative math Reframing early numeracy around adventure, wonder, and creativity" [ref=e391] [cursor=pointer]:
+          - /url: https://early.khanacademy.org/early-math
+          - heading "Playful worlds of creative math" [level=3] [ref=e392]
+          - paragraph [ref=e393]: Reframing early numeracy around adventure, wonder, and creativity
+    - generic [ref=e394]:
+      - heading "Research Blog" [level=2]
+      - list [ref=e395]:
+        - listitem [ref=e396]:
+          - 'link "Narrated explorables: three mental models When author and learner share a canvas" [ref=e397] [cursor=pointer]':
+            - /url: https://medium.com/khan-academy-early-product-development/narrated-explorables-three-mental-models-e16e0d80e4c1
+            - 'heading "Narrated explorables: three mental models" [level=3] [ref=e398]'
+            - paragraph [ref=e399]: When author and learner share a canvas
+        - listitem [ref=e400]:
+          - link "Students are the subjects of our sentences A syntactic trick to emphasize student agency" [ref=e401] [cursor=pointer]:
+            - /url: https://medium.com/khan-academy-early-product-development/the-student-is-the-most-important-subject-in-our-sentences-2aba3fc58279
+            - heading "Students are the subjects of our sentences" [level=3] [ref=e402]
+            - paragraph [ref=e403]: A syntactic trick to emphasize student agency
+        - listitem [ref=e404]:
+          - link "Looking sideways at the design squiggle Reflections on the team’s design process" [ref=e405] [cursor=pointer]:
+            - /url: https://medium.com/khan-academy-early-product-development/looking-sideways-at-the-design-squiggle-9bab49d1c2de
+            - heading "Looking sideways at the design squiggle" [level=3] [ref=e406]
+            - paragraph [ref=e407]: Reflections on the team’s design process
+        - listitem [ref=e408]:
+          - link "Mastery learning and creative tasks Mastery learning’s limits for complex skills" [ref=e409] [cursor=pointer]:
+            - /url: https://medium.com/khan-academy-early-product-development/mastery-learning-and-creative-tasks-97c4a11f8364
+            - heading "Mastery learning and creative tasks" [level=3] [ref=e410]
+            - paragraph [ref=e411]: Mastery learning’s limits for complex skills
+        - listitem [ref=e412]:
+          - link "Sorting product “baseball cards” Bridging behavioral interviews and prototypes" [ref=e413] [cursor=pointer]:
+            - /url: https://medium.com/khan-academy-early-product-development/sorting-product-baseball-cards-bridging-behavioral-interviews-and-prototypes-510057967cf
+            - heading "Sorting product “baseball cards”" [level=3] [ref=e414]
+            - paragraph [ref=e415]: Bridging behavioral interviews and prototypes
+        - listitem [ref=e416]:
+          - link "Explanations from ‘masters’ of geometry The gulf between application and explanation" [ref=e417] [cursor=pointer]:
+            - /url: https://medium.com/khan-academy-early-product-development/explanations-from-alleged-masters-of-shape-dissection-8ebed962b2d9
+            - heading "Explanations from ‘masters’ of geometry" [level=3] [ref=e418]
+            - paragraph [ref=e419]: The gulf between application and explanation
+        - listitem [ref=e420]:
+          - link "Safely showing students peers’ comments Designing peer interactions to avoid abuse" [ref=e421] [cursor=pointer]:
+            - /url: https://medium.com/khan-academy-early-product-development/safely-showing-students-how-others-see-their-work-e6d779b2da2c
+            - heading "Safely showing students peers’ comments" [level=3] [ref=e422]
+            - paragraph [ref=e423]: Designing peer interactions to avoid abuse
+        - listitem [ref=e424]:
+          - link "Games vs. education on unguided instruction The limits of teaching without words" [ref=e425] [cursor=pointer]:
+            - /url: https://klr.tumblr.com/post/159583871898/game-designers-vs-education-researchers-on
+            - heading "Games vs. education on unguided instruction" [level=3] [ref=e426]
+            - paragraph [ref=e427]: The limits of teaching without words
+        - listitem [ref=e428]:
+          - link "Rich tasks which crowdsource more rich tasks Using student work to arrange social learning" [ref=e429] [cursor=pointer]:
+            - /url: https://klr.tumblr.com/post/158036182833/rich-tasks-crowdsourcing-data-for-more-rich-tasks
+            - heading "Rich tasks which crowdsource more rich tasks" [level=3] [ref=e430]
+            - paragraph [ref=e431]: Using student work to arrange social learning
+        - listitem [ref=e432]:
+          - link "Surveying the open-ended task landscape Notes from literature / market review" [ref=e433] [cursor=pointer]:
+            - /url: https://klr.tumblr.com/post/156063609578/surveying-the-open-ended-response-landscape
+            - heading "Surveying the open-ended task landscape" [level=3] [ref=e434]
+            - paragraph [ref=e435]: Notes from literature / market review
+        - listitem [ref=e436]:
+          - link "Amplifying open-ended questions Enabling open-ended online learning activities" [ref=e437] [cursor=pointer]:
+            - /url: https://klr.tumblr.com/post/153878272318/amplifying-open-ended-questions
+            - heading "Amplifying open-ended questions" [level=3] [ref=e438]
+            - paragraph [ref=e439]: Enabling open-ended online learning activities
+        - listitem [ref=e440]:
+          - link "One medium, many contexts Designing math manipulatives for fluid use" [ref=e441] [cursor=pointer]:
+            - /url: https://klr.tumblr.com/post/154133471528/listening-to-educators-listening-to-students
+            - heading "One medium, many contexts" [level=3] [ref=e442]
+            - paragraph [ref=e443]: Designing math manipulatives for fluid use
+        - listitem [ref=e444]:
+          - link "Old and new ways of looking at numbers Making abstract properties more visible" [ref=e445] [cursor=pointer]:
+            - /url: https://klr.tumblr.com/post/149677916243/old-and-new-ways-of-looking-at-numbers
+            - heading "Old and new ways of looking at numbers" [level=3] [ref=e446]
+            - paragraph [ref=e447]: Making abstract properties more visible
+        - listitem [ref=e448]:
+          - link "A medium for exploring quantity Introducing our math manipulative project" [ref=e449] [cursor=pointer]:
+            - /url: https://klr.tumblr.com/post/147245626988/a-medium-supporting-the-exploration-of-quantities
+            - heading "A medium for exploring quantity" [level=3] [ref=e450]
+            - paragraph [ref=e451]: Introducing our math manipulative project
+        - listitem [ref=e452]:
+          - link "Student agency and flow Helping students surf their learning edge" [ref=e453] [cursor=pointer]:
+            - /url: https://klr.tumblr.com/post/146190595653/student-agency-and-flow
+            - heading "Student agency and flow" [level=3] [ref=e454]
+            - paragraph [ref=e455]: Helping students surf their learning edge
+  - generic [ref=e457]:
+    - generic [ref=e458]:
+      - heading "More, misc, meta" [level=1] [ref=e459]
+      - paragraph [ref=e460]: Miscellaneous writing, appearances, and projects scattered across the web.
+    - list [ref=e461]:
+      - listitem [ref=e462]:
+        - link "Scrying Pen A pen which draws its own future using a realtime recurrent neural network" [ref=e463] [cursor=pointer]:
+          - /url: /scrying-pen
+          - heading "Scrying Pen" [level=3] [ref=e464]
+          - paragraph [ref=e465]: A pen which draws its own future using a realtime recurrent neural network
+    - generic [ref=e466]:
+      - heading "Selected podcasts" [level=2]
+      - list [ref=e467]:
+        - listitem [ref=e468]:
+          - link "The Lunar Society with Dwarkesh Patel 2023-06-21" [ref=e469] [cursor=pointer]:
+            - /url: https://www.youtube.com/watch?v=dmeRQN9z504
+            - heading "The Lunar Society with Dwarkesh Patel" [level=3] [ref=e470]
+            - paragraph [ref=e471]: 2023-06-21
+        - listitem [ref=e472]:
+          - link "The Jolly Swagman with Joe Walker 2022-12-24" [ref=e473] [cursor=pointer]:
+            - /url: https://josephnoelwalker.com/141-intellectual-exoskeletons-andy-matuschak/
+            - heading "The Jolly Swagman with Joe Walker" [level=3] [ref=e474]
+            - paragraph [ref=e475]: 2022-12-24
+        - listitem [ref=e476]:
+          - link "Econtalk with Russ Roberts 2019-08-05" [ref=e477] [cursor=pointer]:
+            - /url: http://www.econtalk.org/andy-matuschak-on-books-and-learning/
+            - heading "Econtalk with Russ Roberts" [level=3] [ref=e478]
+            - paragraph [ref=e479]: 2019-08-05
+        - listitem [ref=e480]:
+          - link "Tools & Craft with Devon Zuegel 2022-06-08" [ref=e481] [cursor=pointer]:
+            - /url: https://www.notion.so/blog/andy-matuschak
+            - heading "Tools & Craft with Devon Zuegel" [level=3] [ref=e482]
+            - paragraph [ref=e483]: 2022-06-08
+        - listitem [ref=e484]:
+          - link "Clearer Thinking with Spencer Greenberg 2021-07-29" [ref=e485] [cursor=pointer]:
+            - /url: https://clearerthinkingpodcast.com/?ep=063
+            - heading "Clearer Thinking with Spencer Greenberg" [level=3] [ref=e486]
+            - paragraph [ref=e487]: 2021-07-29
+        - listitem [ref=e488]:
+          - link "Metamuse with Adam Wiggins and Mark McGranaghan 2020-09-03" [ref=e489] [cursor=pointer]:
+            - /url: https://museapp.com/podcast/12-growing-ideas/
+            - heading "Metamuse with Adam Wiggins and Mark McGranaghan" [level=3] [ref=e490]
+            - paragraph [ref=e491]: 2020-09-03
+    - generic [ref=e492]:
+      - heading "Other writing" [level=2]
+      - list [ref=e493]:
+        - listitem [ref=e494]:
+          - link "Exalting data, missing meaning The delusions of measurement absent theory" [ref=e495] [cursor=pointer]:
+            - /url: https://blog.andymatuschak.org/post/159340765257/exalting-data-missing-meaning
+            - heading "Exalting data, missing meaning" [level=3] [ref=e496]
+            - paragraph [ref=e497]: The delusions of measurement absent theory
+        - listitem [ref=e498]:
+          - link "Satisfaction and progress in open-ended work Seeking gradient in the fog of novel work" [ref=e499] [cursor=pointer]:
+            - /url: https://blog.andymatuschak.org/post/159979927467/satisfaction-and-progress-in-open-ended-work
+            - heading "Satisfaction and progress in open-ended work" [level=3] [ref=e500]
+            - paragraph [ref=e501]: Seeking gradient in the fog of novel work
+        - listitem [ref=e502]:
+          - link "Building habits via smoothly ratcheting targets A surprisingly reliable strategy for starting habits" [ref=e503] [cursor=pointer]:
+            - /url: https://blog.andymatuschak.org/post/169043084412/successful-habits-through-smoothly-ratcheting
+            - heading "Building habits via smoothly ratcheting targets" [level=3] [ref=e504]
+            - paragraph [ref=e505]: A surprisingly reliable strategy for starting habits
