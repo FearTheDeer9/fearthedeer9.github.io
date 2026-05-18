@@ -1,9 +1,9 @@
 remote_theme: "mmistakes/minimal-mistakes@4.24.0"
 
 title: "Harel Lidar"
-subtitle: "AI Researcher & ML Engineer"
+subtitle: "AI Researcher working on representation, world models, and safety"
 name: "Harel Lidar"
-description: "Exploring the frontiers of artificial intelligence through research and implementation. Specializing in neural architectures, 3D vision, and transformer models."
+description: "AI researcher working on representation, world models, mechanistic interpretability, natural latents, neuroscience, and AI safety."
 minimal_mistakes_skin: "air"
 
 future: true
@@ -58,7 +58,7 @@ defaults:
 
 author:
   name: "Harel Lidar"
-  bio: "AI Researcher & ML Engineer"
+  bio: "AI Researcher working on representation, world models, and safety"
   location: "Israel"
   links:
     - label: "GitHub"

@@ -1,5 +1,6 @@
 # Jekyll build output
 _site/
+.playwright-mcp/
 
 # Ruby dependency lock file
 Gemfile.lock

@@ -5,14 +5,11 @@ permalink: /about/
 author_profile: true
 ---
 
-I'm an AI researcher and machine learning engineer exploring the frontiers of artificial intelligence through research and implementation. My work focuses on neural architectures, 3D vision, and transformer models.
+I'm an AI researcher and machine learning engineer exploring the frontiers of artificial intelligence through research and implementation. My work circles around representation, world models, mechanistic interpretability, and AI safety.
 
-## Research Interests
+## Direction
 
-- **Neural Architectures** -- Transformer variants, mixture-of-experts, efficient attention mechanisms
-- **3D Vision** -- Gaussian splatting, neural radiance fields, 3D scene reconstruction
-- **Language Models** -- Scaling laws, alignment techniques (DPO, PPO), mechanistic interpretability
-- **Efficient ML** -- Model compression, pruning, knowledge distillation
+The questions I keep returning to are about how to visualize computation inside language models, how to identify the right representational requirements for world models, where the bitter lesson stops applying, whether language models are sufficient for artificial superintelligence, what neuroscience has not yet given machine learning, and how we reduce catastrophic AI risk.
 
 ## Background
 
