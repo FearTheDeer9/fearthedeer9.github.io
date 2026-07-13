@@ -2,10 +2,6 @@
 _site/
 .playwright-mcp/
 
-# Ruby dependency lock file
-Gemfile.lock
-
-
 # System files
 .DS_Store
 .env
