@@ -13,7 +13,7 @@ The questions I keep returning to are about how to visualize computation inside 
 
 ## Background
 
-I combine research with hands-on engineering, implementing and analyzing state-of-the-art methods in deep learning. When inspiration strikes, I write about papers I read as well as random musings on my [blog](/blog/).
+I combine research with hands-on engineering, implementing and analyzing state-of-the-art methods in deep learning. When inspiration strikes, I write about papers I read as well as random musings, all of it in the [archive](/archive/).
 
 ## Contact
 

@@ -14,13 +14,6 @@ const featuredNotes = [
   'quantization-loss-is-outlier-driven-not-bit-driven',
 ];
 const noteById = new Map((await notes()).map((n) => [n.id, n]));
-const threads = [
-  ['find-the-idle-resource-and-spend-it', 'Find the idle resource and spend it', 'FlashAttention, speculative decoding'],
-  ['amortization-pay-once-spread-over-more-work', 'Amortization: pay once, spread over more work', 'batching, microbatching'],
-  ['caching-plus-indirection-makes-reuse-shareable', 'Caching plus indirection makes reuse shareable', 'PagedAttention, prefix sharing'],
-  ['verified-approximation', 'Verified approximation', 'quantization, exact speculative decoding'],
-  ['scale-out-changes-the-problem-category', 'Scale-out changes the problem category', 'TP, PP, DP'],
-];
 ---
 <Base>
   <div class="marks" aria-hidden="true">
@@ -33,16 +26,6 @@ const threads = [
     <!-- Draft copy: rewrite in your own words. -->
     <h1>I work on making large models cheaper to run (speculative decoding, batching, the KV cache) and I write to find out what I think.</h1>
     <p class="lede">These are my working notes: summaries of what I read, evergreen notes that argue one claim each, and longer essays when a thread is ready. <a href="/about/">More about me</a>.</p>
-  </section>
-
-  <section class="block">
-    <h2 class="label"><a href="/notes/a-map-of-llm-inference-optimization/">A map of LLM inference optimization</a></h2>
-    <p class="sub">Five recurring moves applied to one situation.</p>
-    <ol class="threads">
-      {threads.map(([id, title, eg], i) => (
-        <li><span class="n">{String(i + 1).padStart(2, '0')}</span><span><a href={`/notes/${id}/`}>{title}</a> <em>({eg})</em></span></li>
-      ))}
-    </ol>
   </section>
 
   <section class="block">
@@ -78,12 +61,6 @@ const threads = [
   .hero .label { margin: 0 0 24px; }
   .hero h1 { margin: 0 0 28px; font-size: 44px; line-height: 1.15; font-weight: 400; }
   .lede { margin: 0; font-size: 20px; color: var(--ink-2); }
-  h2.label a { text-decoration: none; }
-  .sub { margin: -16px 0 24px; color: var(--ink-2); font-size: 18px; }
-  .threads { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; font-size: 20px; line-height: 1.4; }
-  .threads li { display: flex; gap: 16px; }
-  .threads em { color: var(--muted); }
-  .n { font-family: var(--mono); font-size: 14px; color: var(--accent); padding-top: 4px; }
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px 32px; font-size: 18px; line-height: 1.4; }
   .more { margin: 24px 0 0; font-size: 17px; }
   .marks { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: -1; }

@@ -15,6 +15,6 @@ export default defineConfig({
     processor: unified({ remarkPlugins: [remarkMath, remarkNoteLinks], rehypePlugins: [rehypeKatex] }),
     shikiConfig: { themes: { light: 'github-light', dark: 'github-dark' } },
   },
-  // The Jekyll blog paginated its archive; the new archive is one page.
-  redirects: { '/blog/page2/': '/blog/', '/blog/page3/': '/blog/' },
+  // The Jekyll site's archive lived at /blog/ and was paginated.
+  redirects: { '/blog/': '/archive/', '/blog/page2/': '/archive/', '/blog/page3/': '/archive/' },
 });

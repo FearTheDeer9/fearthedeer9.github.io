@@ -23,7 +23,7 @@ The site is at http://localhost:4321. `npm run build` writes the static site to 
 | `src/content/notes/` | Evergreen notes at `/notes/<filename>/`. Notes link to each other as `other-note.md`. |
 | `src/content/pages/` | Prose for About, Writing and the Notes index. |
 | `src/content.config.ts` | Frontmatter schemas. A post with bad frontmatter fails the build. |
-| `src/pages/` | Routes, including `/timeline/`, `/papers/`, `/blog/` (full archive), `/tags/` and `/feed.xml`. |
+| `src/pages/` | Routes, including `/timeline/`, `/papers/`, `/archive/`, `/tags/` and `/feed.xml`. |
 | `src/styles/global.css` | Design tokens (light and dark) and prose styles. |
 
 Math is `$…$` or `$$…$$`, rendered to KaTeX at build time. Put display math on its own lines:

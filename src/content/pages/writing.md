@@ -5,7 +5,7 @@ permalink: /writing/
 author_profile: false
 ---
 
-A curated map of my technical writing. Some pieces are paper notes, some are working notes, and some are attempts to turn a mathematical idea into intuition. For the full archive, see the [blog](/blog/).
+A curated map of my technical writing. Some pieces are paper notes, some are working notes, and some are attempts to turn a mathematical idea into intuition. For the full archive, see the [archive](/archive/).
 
 ---
 
