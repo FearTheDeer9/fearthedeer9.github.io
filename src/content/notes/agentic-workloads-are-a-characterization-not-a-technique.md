@@ -1,6 +1,7 @@
 ---
 permalink: /notes/agentic-workloads-are-a-characterization-not-a-technique/
 title: "Agentic workloads are a workload characterization, not a technique"
+created: 2026-07-13
 ---
 
 Everything else in [the inference optimization map](a-map-of-llm-inference-optimization.md) is a technique — an answer to "how do we compute faster, cheaper, leaner." Agents are not a technique. They're an *empirical claim about the shape of the input distribution*: an agent is a loop (read context → reason → act → observe → repeat), and that loop's byproducts determine which techniques pay off hardest. This is workload characterization, the thing that explains why an inference-optimization company would build for agents specifically.

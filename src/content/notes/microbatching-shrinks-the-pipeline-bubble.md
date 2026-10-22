@@ -1,6 +1,7 @@
 ---
 permalink: /notes/microbatching-shrinks-the-pipeline-bubble/
 title: "Microbatching shrinks the pipeline bubble from (P−1)/P toward (P−1)/M"
+created: 2026-07-13
 ---
 
 [Pipeline parallelism's defining cost is the bubble](tp-pays-in-all-reduces-pp-pays-in-bubbles-dp-pays-in-memory.md): with one monolithic batch flowing through $P$ stages, each GPU idles while the others work — $\frac{P-1}{P}$ of total GPU-time wasted to fill and drain.

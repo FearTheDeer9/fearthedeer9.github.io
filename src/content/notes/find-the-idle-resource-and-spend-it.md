@@ -1,6 +1,7 @@
 ---
 permalink: /notes/find-the-idle-resource-and-spend-it/
 title: "Slack arbitrage: find the idle resource and spend it"
+created: 2026-07-13
 ---
 
 When a system is bottlenecked on one resource, every other resource is idle — and idle capacity is free money. The recurring optimization move is to identify which resource the [roofline model](kernels-are-memory-bound-below-the-ridge-point.md) says is saturated, then deliberately spend the *other* one to relieve it.

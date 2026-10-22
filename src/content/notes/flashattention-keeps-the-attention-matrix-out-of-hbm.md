@@ -1,6 +1,7 @@
 ---
 permalink: /notes/flashattention-keeps-the-attention-matrix-out-of-hbm/
 title: "FlashAttention keeps the attention matrix out of HBM via fusion, tiling, and online softmax"
+created: 2026-07-13
 ---
 
 Naive attention computes $S = QK^T$ — the full $N \times N$ score matrix — writes it to HBM, reads it back for softmax, writes again, reads again to multiply by $V$. Multiple round-trips of an $N^2$ object to slow memory, to do comparatively few FLOPs: the tensor cores stall not because there's no work but because HBM traffic dwarfs it. Classic [memory-bound](kernels-are-memory-bound-below-the-ridge-point.md) signature.

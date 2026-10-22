@@ -1,6 +1,7 @@
 ---
 permalink: /notes/amortization-pay-once-spread-over-more-work/
 title: "Amortization: pay a fixed cost once, spread it over more work"
+created: 2026-07-13
 ---
 
 Wherever a large fixed cost must be paid regardless of how much useful work rides along, the move is to attach more work to each payment. In LLM serving the fixed cost is usually one trip of the model weights across the memory bus:

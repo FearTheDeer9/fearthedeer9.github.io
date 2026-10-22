@@ -1,6 +1,7 @@
 ---
 permalink: /notes/continuous-batching-schedules-at-iteration-granularity/
 title: "Continuous batching moves scheduling from batch granularity to iteration granularity"
+created: 2026-07-13
 ---
 
 Naive batching forms a fixed cohort: gather 8 requests, launch them together, admit nothing new until all 8 finish. Since decode length is unknown in advance and varies per request, the cohort's duration is dictated by its *slowest member* — every request that finished at step 3 sits holding a GPU slot doing nothing, and the "you up?" ping in the queue waits behind a 500K-token reformatting job. The failure isn't that requests have different resource needs; it's that admission only happens at batch boundaries.

@@ -1,6 +1,7 @@
 ---
 permalink: /notes/pagedattention-is-virtual-memory-for-the-kv-cache/
 title: "PagedAttention is virtual memory for the KV cache, not a new attention algorithm"
+created: 2026-07-13
 ---
 
 PagedAttention changes nothing about the attention computation. Every query still attends to every key/value in its history; there is no overlap between pages, no "higher-order attention across pages" (a natural guess I made once — it's a confabulation). What changes is purely storage and addressing, imported almost directly from OS virtual memory.

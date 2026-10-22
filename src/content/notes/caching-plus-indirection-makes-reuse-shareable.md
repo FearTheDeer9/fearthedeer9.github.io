@@ -1,6 +1,7 @@
 ---
 permalink: /notes/caching-plus-indirection-makes-reuse-shareable/
 title: "Caching avoids redoing identical work; indirection makes the reuse shareable"
+created: 2026-07-13
 ---
 
 Two ideas that are easy to conflate, layered deliberately:

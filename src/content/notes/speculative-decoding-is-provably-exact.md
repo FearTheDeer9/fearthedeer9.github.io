@@ -1,6 +1,7 @@
 ---
 permalink: /notes/speculative-decoding-is-provably-exact/
 title: "Speculative decoding is provably exact; draft calibration, not accuracy, is the lever"
+created: 2026-07-13
 ---
 
 The mechanism, with the directions right (they're easy to invert): a small **draft** model generates $\gamma$ tokens *sequentially* — cheap, it's a tiny model doing normal memory-bound decode. The large **target** model then verifies all $\gamma$ positions in *one parallel forward pass*, prefill-style. Normally $\gamma$ tokens cost the big model $\gamma$ separate [memory-bound weight reloads](prefill-is-compute-bound-decode-is-memory-bound.md); here that cost is paid once and [amortized](amortization-pay-once-spread-over-more-work.md) across $\gamma$ candidates — using compute that was sitting idle during decode anyway, textbook [slack arbitrage](find-the-idle-resource-and-spend-it.md).

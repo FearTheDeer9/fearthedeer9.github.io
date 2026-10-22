@@ -1,6 +1,7 @@
 ---
 permalink: /notes/a-map-of-llm-inference-optimization/
 title: "A map of LLM inference optimization"
+created: 2026-07-13
 ---
 
 Inference optimization looks like a zoo of techniques, but it decomposes into a small set of recurring moves applied to one underlying situation. This note is the map; every claim links to a note that argues it.

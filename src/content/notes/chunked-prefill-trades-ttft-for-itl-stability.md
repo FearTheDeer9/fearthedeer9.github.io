@@ -1,6 +1,7 @@
 ---
 permalink: /notes/chunked-prefill-trades-ttft-for-itl-stability/
 title: "Chunked prefill trades one request's TTFT for everyone's inter-token latency stability"
+created: 2026-07-13
 ---
 
 [Continuous batching](continuous-batching-schedules-at-iteration-granularity.md) lets a new request join a batch that's mid-decode for everyone else. But its prefill is one large, compute-bound matrix–matrix operation, and a batched iteration is one kernel launch: run the prefill atomically and every co-scheduled decode request waits for the whole thing before getting its next token. Under real traffic this makes inter-token latency wildly jittery — great throughput on paper, terrible experience.

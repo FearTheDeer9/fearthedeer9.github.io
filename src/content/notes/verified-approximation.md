@@ -1,6 +1,7 @@
 ---
 permalink: /notes/verified-approximation/
 title: "Approximation spans a spectrum from bounded-loss to provably-free"
+created: 2026-07-13
 ---
 
 Trading an exact computation for a cheaper one isn't a single move — it's a spectrum, indexed by what happens to correctness:

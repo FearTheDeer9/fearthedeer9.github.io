@@ -1,6 +1,7 @@
 ---
 permalink: /notes/attention-is-the-only-inter-token-operation/
 title: "Attention is the only inter-token operation in a transformer"
+created: 2026-07-13
 ---
 
 Every layer of a transformer is two blocks, and they divide the labor cleanly: attention performs *inter-token* computation (mixing information across positions), while the MLP/FFN performs only *intra-token* computation — the same weight matrix applied independently to each token's residual stream, with zero mixing between tokens. Delete every attention layer and each token's representation evolves in complete isolation forever.

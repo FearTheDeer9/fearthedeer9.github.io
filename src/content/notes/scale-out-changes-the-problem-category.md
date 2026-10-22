@@ -1,6 +1,7 @@
 ---
 permalink: /notes/scale-out-changes-the-problem-category/
 title: "When one unit's budget is exceeded, the problem changes category"
+created: 2026-07-13
 ---
 
 Every other optimization thread — [slack arbitrage](find-the-idle-resource-and-spend-it.md), [amortization](amortization-pay-once-spread-over-more-work.md), [caching](caching-plus-indirection-makes-reuse-shareable.md), [approximation](verified-approximation.md) — answers "how do we make existing work more efficient on the hardware we have." Scale-out answers a categorically different question: *this doesn't fit, or doesn't keep up, on one unit at all.* A 70B model at FP16 is ~140GB against 80GB of HBM; no amount of efficiency closes that gap.

@@ -1,6 +1,7 @@
 ---
 permalink: /notes/batching-is-nearly-free-until-the-ridge-point/
 title: "Batching is nearly free until the ridge point, then trades latency for throughput ~1:1"
+created: 2026-07-13
 ---
 
 During decode, model weights are loaded from HBM once per step and reused across every sequence in the batch — weights are shared, activations are batched, classic GEMM reuse. So in the memory-bound regime, the step time is dominated by that one memory transfer and is essentially independent of batch size $B$: increasing $B$ multiplies useful work while latency stays flat. Throughput scales ~linearly. This is [amortization](amortization-pay-once-spread-over-more-work.md) in its purest form.

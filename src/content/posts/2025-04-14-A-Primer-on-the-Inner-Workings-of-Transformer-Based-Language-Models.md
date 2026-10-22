@@ -26,15 +26,29 @@ Using tensor rearrangement operations one can simplify the analysis of residual 
 
 $$ Attn ^{l,h}(X_{\leq i}^{l-1}) = \Sigma_{j \leq i} a_{i,j}^{l,h}x_j^{l-1}W_V^{l,h}W_O^{l,h}== \Sigma_{j \leq i} a_{i,j}^{l,h}x_j^{l-1}W_{OV}^{l,h}$$
 $W_V^{l,h}, W_O^{l,h} \in \mathbb{R}^{d_h \times d}$ are learnable weight matrices. The attention weights for every key given the current query are obtained as: $$a_i^{l,h} = softmax ( \frac{x_i^{l-1}W_Q^{l,h} (X_{\leq i}^{l-1}W_K^{l,h})^T}{\sqrt{d_h}}) = softmax (\frac{x_i^{l-1}X_{QK}^hX_{\leq i}^{l-1^T}}{\sqrt{d_h}})$$
-These two decomposition enable a view of QK and OV circuits as units responsible for reading from and writing to the residual stream. The attention block output is the sum of individual attention heads, which is subsequently added back into the residual stream. $$Attn^l(X_i^{l-1})= \Sigma_h=1^H Attn^{l,h}(X_{\leq i }^{l-1}))$$$$x_i^{mid,l} = x_i^{l-1} + Attn^l(X_i^{l-1})$$
+These two decomposition enable a view of QK and OV circuits as units responsible for reading from and writing to the residual stream. The attention block output is the sum of individual attention heads, which is subsequently added back into the residual stream.
+
+$$
+Attn^l(X_i^{l-1})= \Sigma_h=1^H Attn^{l,h}(X_{\leq i }^{l-1}))
+$$
+
+$$
+x_i^{mid,l} = x_i^{l-1} + Attn^l(X_i^{l-1})
+$$
 #### Feedforward Network Block 
 A feedforward block is composed of two learnable weight matrices $W_{in}^l \in \mathbb{R}^{d \times d_{ffn}}$ and $W_{out}^l \in \mathbb{R}^{d_{ffn} \times d}$. $W_{in}$ reads from the residual stream state $x_i^{mid,l}$ and its result is passed through an element wise non linear activation function g, producing the neuron activations. These get transformed by $W_{out}$ to produce the output FFN$(x_i^{mid})$ which is then added back to the residual stream. Geva et al introduced the notino of regarding the computation performed by the FFN block as *key-value memory retrieval*, with key $w_{in}^l$ stored in columns of $W_{in}$ acting as pattern detectors over the input sequence and values $w_{out}^l$, rows of $W_{out}$ being upweighted by each neuron activation. Using these perspective the computation done in the FFN block can be re-written as: $$FFN^l(x_i^{mid,l}) = \sum_{u=1}^{d_{ffn}} g_u(x_i^{mid,l}W_{in_u}^l)w_{out_u}^l = \sum_{u=1}^{d_{ffn}}n_u^lw_{out_u}^l$$
 with $n^l \in \mathbb{R}^{d_{ffn}}$ being the vector of neuron activations. The element-wise non-linearity inside FFNs creates a *privileged basis* which encourages features to align with basis directions, making basis dimensions more likely to be independently meaningful, and therefore better suitable for interpretability analysis. 
 #### Prediction head and transformer Decompositions 
 **Prediction as a sum of component outputs** - The residual stream view shows that every model component interacts with it through addition. Thus, the unnormalized scores (logits) are obtained via a linear projection of the summed component outputs. Due to the properties of linear transformation, we can rearrange the tradition forward pass formulation so that each model component contributes directly to the output logits. This decomposition plays an important role when localizing components responsible for a prediction since it allows us to measure the direct contribution of every component to the logits of the predicted token.
-$$f(\mathbf{x}) = \mathbf{x}_n^L\mathbf{W}_U \\
-= \left(\sum_{l=1}^L\sum_{h=1}^H \text{Attn}^{l,h}(\mathbf{X}_{\leq n}^{l-1}) + \sum_{l=1}^L \text{FFN}^l(\mathbf{x}_n^{\text{mid},l}) + \mathbf{x}_n\right)\mathbf{W}_U \\
-= \sum_{l=1}^L\sum_{h=1}^H \text{Attn}^{l,h}(\mathbf{X}_{\leq n}^{l-1})\mathbf{W}_U + \sum_{l=1}^L \text{FFN}^l(\mathbf{x}_n^{\text{mid},l})\mathbf{W}_U + \mathbf{x}_n\mathbf{W}_U. \quad (10)$$
+
+$$
+\begin{aligned}
+f(\mathbf{x}) &= \mathbf{x}_n^L\mathbf{W}_U \\
+&= \left(\sum_{l=1}^L\sum_{h=1}^H \text{Attn}^{l,h}(\mathbf{X}_{\leq n}^{l-1}) + \sum_{l=1}^L \text{FFN}^l(\mathbf{x}_n^{\text{mid},l}) + \mathbf{x}_n\right)\mathbf{W}_U \\
+&= \sum_{l=1}^L\sum_{h=1}^H \text{Attn}^{l,h}(\mathbf{X}_{\leq n}^{l-1})\mathbf{W}_U + \sum_{l=1}^L \text{FFN}^l(\mathbf{x}_n^{\text{mid},l})\mathbf{W}_U + \mathbf{x}_n\mathbf{W}_U. \quad (10)
+\end{aligned}
+$$
+
 **Prediction as an ensemble of shallow networks forward passes** - Residual networks work as ensembles of shallow networks where each subnetwork defines a path in the computation graph. For a simplified version of this analysis we can consider a two layer attention only transformer, where each attention head is composed just by an OV matrix. We can decompose the forward pass in this case as:
 $$f(\mathbf{x}) = \mathbf{x}\mathbf{W}_U + \mathbf{x}\mathbf{W}_{OV}^1\mathbf{W}_U + \mathbf{x}\mathbf{W}_{OV}^1\mathbf{W}_{OV}^2\mathbf{W}_U + \mathbf{x}\mathbf{W}_{OV}^2\mathbf{W}_U . \quad $$
 The path traversing a single OV matrix is named full OV circuits while the path involving both attention heads is referred to as virtual attention heads doing V-Composition, since the sequential writing and reading of the two heads is seen as OV matrices composing together. It has been proposed to measure the amount of composition as $\frac{||W_{OV}^1W_{OV}^2||_F}{||W_{OV}^1||_F||W_{OV}^2||_F}$.

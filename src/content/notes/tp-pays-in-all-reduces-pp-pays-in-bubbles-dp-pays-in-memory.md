@@ -1,6 +1,7 @@
 ---
 permalink: /notes/tp-pays-in-all-reduces-pp-pays-in-bubbles-dp-pays-in-memory/
 title: "TP pays latency in per-layer all-reduces; PP pays in bubbles; DP pays in memory"
+created: 2026-07-13
 ---
 
 A 70B model in FP16 is ~140GB of weights against an H100's 80GB of HBM — some models simply don't fit, which makes parallelism a *feasibility* question before it's a performance one. The three schemes split different things and pay in different currencies:

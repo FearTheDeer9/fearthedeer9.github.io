@@ -1,6 +1,7 @@
 ---
 permalink: /notes/kv-cache-traffic-scales-with-batch-times-context/
 title: "KV-cache traffic scales with batch × context; weight traffic is fixed per step"
+created: 2026-07-13
 ---
 
 Two things must cross the memory bus at every decode step, and they scale differently:

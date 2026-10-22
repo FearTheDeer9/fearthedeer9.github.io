@@ -1,6 +1,7 @@
 ---
 permalink: /notes/quantization-loss-is-outlier-driven-not-bit-driven/
 title: "Quantization loss is outlier-driven, not bit-driven"
+created: 2026-07-13
 ---
 
 Quantization speeds up decode for one reason: [decode is memory-bound](prefill-is-compute-bound-decode-is-memory-bound.md), and FP16→INT4 cuts the bytes of weights crossing the bus per step by 4×. The win is bandwidth, not arithmetic speed (unless the hardware natively does low-precision math). Dequantization is a cheap affine reconstruction — store a scale $s$ and zero-point $z$ per group of values, recover $x \approx s\,(q - z)$ — a multiply and an add, not any mantissa gymnastics.

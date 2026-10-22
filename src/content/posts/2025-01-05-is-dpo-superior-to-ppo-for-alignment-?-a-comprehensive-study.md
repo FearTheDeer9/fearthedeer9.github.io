@@ -24,11 +24,21 @@ In this paper the authors try to answer the question of whether DPO or PPO is su
 
 ### PPO
 
-A reward model $r_\phi \in R$ is first learned from human labeled data. A common practice is to collect a dataset of preference pairs $\mathbb{D}= \{(x,y_w,y_l)\}$, $y_w, y_l$ are responses to x and marked as "win" and "lose" by a human-annotator. The distribution of the preference dataset is assumed to follow a Bradley-Terry model : $$(1) \quad P_\phi(y_w>y_l \mid x) = \frac{exp(r_\phi(x,y_w))}{exp(r_\phi(x,y_w))+exp(r_\phi(x,y_l))}$$$r_\phi$ is trained by minimizing the NLL of 1 given D. After $r_\phi$ is obtained PPO can be executed.
+A reward model $r_\phi \in R$ is first learned from human labeled data. A common practice is to collect a dataset of preference pairs $\mathbb{D}= \{(x,y_w,y_l)\}$, $y_w, y_l$ are responses to x and marked as "win" and "lose" by a human-annotator. The distribution of the preference dataset is assumed to follow a Bradley-Terry model:
+
+$$
+(1) \quad P_\phi(y_w>y_l \mid x) = \frac{exp(r_\phi(x,y_w))}{exp(r_\phi(x,y_w))+exp(r_\phi(x,y_l))}
+$$
+
+$r_\phi$ is trained by minimizing the NLL of 1 given D. After $r_\phi$ is obtained PPO can be executed.
 
 ### DPO
 
-Instead of learning a reward model, DPO optimizes the policy over the preference data directly, it does so by deriving a closed-form solution for the RLHF objective which leads to the minimization of$$\mathbb{L}_{DPO}(\pi_\theta) = - \mathbb{E}_{(x,y_w,y_l)\sim D} [log \sigma (\beta(\log \frac{\pi_\theta(y_w\mid x)}{\pi_{ref}(y_w\mid x)}- log \frac{\pi_\theta(y_l\mid x)}{\pi_{ref}(y_l\mid x)}]$$
+Instead of learning a reward model, DPO optimizes the policy over the preference data directly, it does so by deriving a closed-form solution for the RLHF objective which leads to the minimization of
+
+$$
+\mathbb{L}_{DPO}(\pi_\theta) = - \mathbb{E}_{(x,y_w,y_l)\sim D} [log \sigma (\beta(\log \frac{\pi_\theta(y_w\mid x)}{\pi_{ref}(y_w\mid x)}- log \frac{\pi_\theta(y_l\mid x)}{\pi_{ref}(y_l\mid x)}]
+$$
 
 ## DPO Limitations
 

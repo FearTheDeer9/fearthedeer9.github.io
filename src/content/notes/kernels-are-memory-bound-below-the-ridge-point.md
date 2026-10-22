@@ -1,6 +1,7 @@
 ---
 permalink: /notes/kernels-are-memory-bound-below-the-ridge-point/
 title: "A kernel is memory-bound below the GPU's ridge point — which is ~300 FLOPs/byte, not 1"
+created: 2026-07-13
 ---
 
 The roofline model: every kernel has an *arithmetic intensity* — FLOPs performed per byte moved from HBM. The GPU has a *ridge point* where the two possible bottlenecks cross:

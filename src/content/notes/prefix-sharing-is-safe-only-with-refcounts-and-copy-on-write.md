@@ -1,6 +1,7 @@
 ---
 permalink: /notes/prefix-sharing-is-safe-only-with-refcounts-and-copy-on-write/
 title: "Prefix sharing is safe only with reference counts and copy-on-write"
+created: 2026-07-13
 ---
 
 [PagedAttention's block table](pagedattention-is-virtual-memory-for-the-kv-cache.md) lets two requests with a common prompt prefix point at the same physical KV blocks. With contiguous storage this would require entire allocations to be identical; with paging it's enough for the shared prefix to fill the initial blocks. But sharing is only trivially safe while everyone *reads*.

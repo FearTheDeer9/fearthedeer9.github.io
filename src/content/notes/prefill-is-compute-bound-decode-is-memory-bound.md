@@ -1,6 +1,7 @@
 ---
 permalink: /notes/prefill-is-compute-bound-decode-is-memory-bound/
 title: "Prefill is compute-bound; decode is memory-bound"
+created: 2026-07-13
 ---
 
 This single asymmetry is the seed from which most of inference optimization grows.

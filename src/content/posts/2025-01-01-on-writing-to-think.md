@@ -69,4 +69,4 @@ More like wandering with a companion. Benefits:
 
 The metaphor of navigation serves us well: writing is using a map and compass to reach a specific destination, while conversation is exploring new territory with a fellow adventurer, guided by curiosity and opportunity.
 
-Like taking a deliberate walk with a destination in mind - similar to how a continuous function in a [topological space]({{ site.url}}/wiki.fearthedeer9.github.io/mathematics/topological-space) must follow a connected path.
+Like taking a deliberate walk with a destination in mind - similar to how a continuous function in a [topological space](https://fearthedeer9.github.io/wiki.fearthedeer9.github.io/mathematics/topological-space) must follow a connected path.
