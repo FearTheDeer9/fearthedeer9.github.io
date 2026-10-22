@@ -32,10 +32,10 @@ TwoDelta notes are company-internal. The public build must not depend on remembe
 ### M1: Public redesign
 
 1. ~~Pick a design direction.~~ Done 2026-10-22: Notebook + timeline page.
-2. Scaffold Astro next to the Jekyll site on a branch. Port the design tokens, plus layouts for home, post, note and paper summary.
-3. Migrate the 25 `_posts/` and 21 `notes/`. Keep existing URLs (`/:year/:month/:day/:title/`, `/notes/<slug>/`) or add redirects.
-4. Math with KaTeX at build time, not MathJax at runtime. Code highlighting with Shiki.
-5. Replace the Jekyll Pages workflow. Port the CI checks (frontmatter, duplicate titles, link check).
+2. ~~Scaffold Astro, port the design.~~ Done on branch `astro-rebuild` (Astro 7).
+3. ~~Migrate posts and notes.~~ Done. Every URL in the live sitemap resolves.
+4. ~~Math at build time.~~ Done with KaTeX through `@astrojs/markdown-remark`: Astro 7's default processor (Sätteri) parses math but cannot render it.
+5. ~~Replace the Jekyll workflow.~~ Done: one workflow builds, link-checks, checks duplicate titles, deploys from `main`. The private-content leak check lands with M3, when there is private content to leak.
 6. Update the about and home copy. The current tagline (representation, world models, safety) predates the inference work. Content is yours to write; I'll leave placeholders.
 
 ### M2: Vault → site pipeline
