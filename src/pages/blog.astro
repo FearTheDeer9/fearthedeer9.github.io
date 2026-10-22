@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import { posts, postUrl, postDate, displayTitle, fmtMonth } from '../lib/site';
+const all = await posts();
+const years = [...new Set(all.map((p) => postDate(p).getUTCFullYear()))];
+---
+<Base title="Archive">
+  <h1 class="title">Archive</h1>
+  {years.map((y) => (
+    <section class="block">
+      <h2 class="label">{y}</h2>
+      <ul class="list">
+        {all.filter((p) => postDate(p).getUTCFullYear() === y).map((p) => (
+          <li><a href={postUrl(p)}>{displayTitle(p.data.title)}</a><span class="meta">{fmtMonth(postDate(p))}</span></li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</Base>
+<style>.title { font-size: 40px; font-weight: 400; margin: 72px 0 40px; }</style>

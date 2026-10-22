@@ -1,0 +1,20 @@
+---
+interface Props { title: string; meta?: string; tags?: string[] }
+const { title, meta, tags = [] } = Astro.props;
+---
+<article class="prose">
+  <header>
+    {meta && <p class="label">{meta}</p>}
+    <h1>{title}</h1>
+    {tags.length > 0 && <p class="tags meta">{tags.map((t) => <a href={`/tags/#${encodeURIComponent(t)}`}>{t}</a>)}</p>}
+  </header>
+  <slot />
+</article>
+
+<style>
+  article { padding-top: 72px; }
+  header { margin-bottom: 40px; }
+  header .label { margin: 0 0 16px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 0; }
+  .tags a { text-decoration: none; }
+</style>

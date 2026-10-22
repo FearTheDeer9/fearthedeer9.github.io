@@ -1,0 +1,18 @@
+---
+import { render } from 'astro:content';
+import Base from '../../../../layouts/Base.astro';
+import Article from '../../../../components/Article.astro';
+import { posts, postParts, postDate, isEssay, displayTitle, fmtMonth, type Post } from '../../../../lib/site';
+
+export async function getStaticPaths() {
+  return (await posts()).map((post) => ({ params: postParts(post), props: { post } }));
+}
+const { post } = Astro.props as { post: Post };
+const { Content } = await render(post);
+const kind = isEssay(post) ? 'Essay' : 'Paper summary';
+---
+<Base title={displayTitle(post.data.title)}>
+  <Article title={displayTitle(post.data.title)} meta={`${kind} · ${fmtMonth(postDate(post))}`} tags={post.data.tags}>
+    <Content />
+  </Article>
+</Base>

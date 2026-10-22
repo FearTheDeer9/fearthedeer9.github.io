@@ -1,61 +1,49 @@
-name: Deploy Jekyll site to Pages
+name: Build and deploy
 
 on:
   push:
     branches: ["main"]
-  # Allows you to run this workflow manually from the Actions tab
+  pull_request:
+    branches: ["main"]
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
-  group: "pages"
+  group: pages-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
-  # Build job
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
         with:
-          ruby-version: '3.3'
-          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-          
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v4
-        
-      - name: Build with Jekyll
-        # Outputs to the './_site' directory by default
-        run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
-        env:
-          JEKYLL_ENV: production
-          JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PAGES_REPO_NWO: ${{ github.repository }}
-          
-      - name: Upload artifact
-        # Automatically uploads an artifact from the './_site' directory by default
-        uses: actions/upload-pages-artifact@v3
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Frontmatter is validated by the content schema in src/content.config.ts; a bad post fails here.
+      - run: npm run build
+      - run: node scripts/check-links.mjs
+      - name: No duplicate post titles
+        run: |
+          dupes=$(grep -h '^title:' src/content/posts/*.md | sort | uniq -d)
+          [ -z "$dupes" ] || { echo "Duplicate titles:"; echo "$dupes"; exit 1; }
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
 
-  # Deployment job
   deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - id: deployment
         uses: actions/deploy-pages@v4

@@ -1,0 +1,25 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Article from '../../components/Article.astro';
+import { notes, type Note } from '../../lib/site';
+
+export async function getStaticPaths() {
+  return (await notes()).map((note) => ({ params: { slug: note.id }, props: { note } }));
+}
+const { note } = Astro.props as { note: Note };
+const { Content } = await render(note);
+// Backlinks: every note whose body links here.
+const backlinks = (await getCollection('notes')).filter((n) => n.id !== note.id && n.body?.includes(`](${note.id}.md`));
+---
+<Base title={note.data.title}>
+  <Article title={note.data.title} meta="Evergreen note">
+    <Content />
+  </Article>
+  {backlinks.length > 0 && (
+    <section class="block">
+      <h2 class="label">Linked from</h2>
+      <ul class="list">{backlinks.map((n) => <li><a href={`/notes/${n.id}/`}>{n.data.title}</a></li>)}</ul>
+    </section>
+  )}
+</Base>

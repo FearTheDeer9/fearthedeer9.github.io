@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import { posts, postUrl, postDate, isEssay, displayTitle, fmtMonth } from '../lib/site';
+const summaries = (await posts()).filter((p) => !isEssay(p));
+---
+<Base title="Paper summaries">
+  <h1 class="title">Paper summaries</h1>
+  <p class="lede">What I read, written up: the problem, the method, what the results do and don't show.</p>
+  <section class="block">
+    <ul class="list">
+      {summaries.map((p) => (
+        <li><a href={postUrl(p)}>{displayTitle(p.data.title)}</a><span class="meta">{fmtMonth(postDate(p))}</span></li>
+      ))}
+    </ul>
+  </section>
+</Base>
+<style>
+  .title { font-size: 40px; font-weight: 400; margin: 72px 0 12px; }
+  .lede { color: var(--ink-2); margin: 0 0 32px; }
+</style>

@@ -1,0 +1,94 @@
+---
+import Base from '../layouts/Base.astro';
+import { posts, notes, postUrl, postDate, isEssay, displayTitle, fmtMonth } from '../lib/site';
+
+const allPosts = await posts();
+const summaries = allPosts.filter((p) => !isEssay(p)).slice(0, 5);
+const essays = allPosts.filter(isEssay);
+const featuredNotes = [
+  'prefill-is-compute-bound-decode-is-memory-bound',
+  'speculative-decoding-is-provably-exact',
+  'pagedattention-is-virtual-memory-for-the-kv-cache',
+  'batching-is-nearly-free-until-the-ridge-point',
+  'chunked-prefill-trades-ttft-for-itl-stability',
+  'quantization-loss-is-outlier-driven-not-bit-driven',
+];
+const noteById = new Map((await notes()).map((n) => [n.id, n]));
+const threads = [
+  ['find-the-idle-resource-and-spend-it', 'Find the idle resource and spend it', 'FlashAttention, speculative decoding'],
+  ['amortization-pay-once-spread-over-more-work', 'Amortization: pay once, spread over more work', 'batching, microbatching'],
+  ['caching-plus-indirection-makes-reuse-shareable', 'Caching plus indirection makes reuse shareable', 'PagedAttention, prefix sharing'],
+  ['verified-approximation', 'Verified approximation', 'quantization, exact speculative decoding'],
+  ['scale-out-changes-the-problem-category', 'Scale-out changes the problem category', 'TP, PP, DP'],
+];
+---
+<Base>
+  <div class="marks" aria-hidden="true">
+    <i style="top:140px;left:8%"></i><i style="top:420px;right:9%;animation-delay:-4s"></i>
+    <i style="top:760px;left:5%;width:32px;animation-delay:-7s"></i><i style="top:1120px;right:6%;width:80px;animation-delay:-2s"></i>
+  </div>
+
+  <section class="hero">
+    <p class="label">AI researcher · LLM inference</p>
+    <!-- Draft copy: rewrite in your own words. -->
+    <h1>I work on making large models cheaper to run (speculative decoding, batching, the KV cache) and I write to find out what I think.</h1>
+    <p class="lede">These are my working notes: summaries of what I read, evergreen notes that argue one claim each, and longer essays when a thread is ready. <a href="/about/">More about me</a>.</p>
+  </section>
+
+  <section class="block">
+    <h2 class="label"><a href="/notes/a-map-of-llm-inference-optimization/">A map of LLM inference optimization</a></h2>
+    <p class="sub">Five recurring moves applied to one situation.</p>
+    <ol class="threads">
+      {threads.map(([id, title, eg], i) => (
+        <li><span class="n">{String(i + 1).padStart(2, '0')}</span><span><a href={`/notes/${id}/`}>{title}</a> <em>({eg})</em></span></li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="block">
+    <h2 class="label">Recently read</h2>
+    <ul class="list">
+      {summaries.map((p) => (
+        <li><a href={postUrl(p)}>{displayTitle(p.data.title)}</a><span class="meta">{fmtMonth(postDate(p))}</span></li>
+      ))}
+    </ul>
+    <p class="more"><a href="/papers/">All paper summaries →</a></p>
+  </section>
+
+  <section class="block">
+    <h2 class="label">Evergreen notes</h2>
+    <div class="grid">
+      {featuredNotes.map((id) => noteById.get(id)).filter(Boolean).map((n) => <a href={`/notes/${n!.id}/`}>{n!.data.title}</a>)}
+    </div>
+    <p class="more"><a href="/notes/">All notes →</a></p>
+  </section>
+
+  <section class="block">
+    <h2 class="label">Essays</h2>
+    <ul class="list">
+      {essays.map((p) => (
+        <li><a href={postUrl(p)}>{p.data.title}</a><span class="meta">{fmtMonth(postDate(p))}</span></li>
+      ))}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .hero { padding: 120px 0 64px; }
+  .hero .label { margin: 0 0 24px; }
+  .hero h1 { margin: 0 0 28px; font-size: 44px; line-height: 1.15; font-weight: 400; }
+  .lede { margin: 0; font-size: 20px; color: var(--ink-2); }
+  h2.label a { text-decoration: none; }
+  .sub { margin: -16px 0 24px; color: var(--ink-2); font-size: 18px; }
+  .threads { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; font-size: 20px; line-height: 1.4; }
+  .threads li { display: flex; gap: 16px; }
+  .threads em { color: var(--muted); }
+  .n { font-family: var(--mono); font-size: 14px; color: var(--accent); padding-top: 4px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px 32px; font-size: 18px; line-height: 1.4; }
+  .more { margin: 24px 0 0; font-size: 17px; }
+  .marks { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: -1; }
+  .marks i { position: absolute; width: 56px; height: 1px; background: var(--faint); animation: drift 14s ease-in-out infinite; }
+  @keyframes drift { 50% { transform: translate(18px, -26px) rotate(8deg); } }
+  @media (prefers-reduced-motion: reduce) { .marks i { animation: none; } }
+  @media (max-width: 600px) { .hero { padding-top: 64px; } .hero h1 { font-size: 32px; } }
+</style>
