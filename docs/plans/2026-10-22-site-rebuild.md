@@ -40,9 +40,21 @@ TwoDelta notes are company-internal. The public build must not depend on remembe
 
 ### M2: Vault → site pipeline
 
-- Loader reads the vault path from env (`VAULT_DIR`). Handles `[[wikilinks]]` (resolve or render as dead), `![[image.png]]` embeds (copy the attachment), `$`/`$$` math, and the paper-summary template.
-- Backlinks and hover previews (the Matuschak pattern).
-- `publish: true` is the only publishing gesture. Retire `obsidian_to_blog.py` and `fix_titles.sh`.
+Decided 2026-10-23, replacing the `publish: true` idea: the **publishing ledger** is the publishing gesture.
+Harel reviewed 175 candidates in the ledger artifact: 114 approve, 43 log only, 17 reject, 1 later.
+
+- `src/data/manifest.json` (committed) lists every published or logged item: id, title, date, type, topic, source, and the vault path it comes from. Logged-only items carry no body.
+- `scripts/import-vault.mjs` re-copies approved notes from the vault into `src/content/` and their pasted images into `public/`. Re-running it picks up edits made in Obsidian, so the vault stays the source of truth. Dry-run by default.
+- **Content types** (Harel's taxonomy), shown in separate sections of one page, each with its own presentation:
+  - **Paper summaries.**
+  - **Evergreen notes.**
+  - **Lecture/course notes.**
+  - **Concepts:** a glossary.
+  - **Excerpts:** article summaries, mostly-quoted notes and course summaries. These also count as read items.
+  - **Essays.**
+- Every item is labelled with its type wherever it appears: home, timeline, archive.
+- **Reading log:** books, articles and podcasts from the Notion journal (2,121 entries, 2023 onward) plus the 2020–23 export. Shown on `/reading/`, with excerpts and logged-only notes included as read items.
+- Still to do: backlinks and hover previews (the Matuschak pattern). Retire `obsidian_to_blog.py`.
 
 ### M3: Private workspace
 
@@ -58,4 +70,4 @@ See `TODO.md`: interests-through-time timeline (embeddings + clustering), knowle
 ## Open questions
 
 - Domain: stay on `fearthedeer9.github.io` or buy one?
-- Should `AI Theory/Imperial/` coursework ever be public?
+- ~~Should `AI Theory/Imperial/` coursework ever be public?~~ Yes: Harel approved lecture notes in the ledger.

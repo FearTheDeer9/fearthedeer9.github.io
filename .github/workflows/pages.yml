@@ -29,6 +29,7 @@ jobs:
       # Frontmatter is validated by the content schema in src/content.config.ts; a bad post fails here.
       - run: npm run build
       - run: node scripts/check-links.mjs
+      - run: node scripts/check-private.mjs
       - name: No duplicate post titles
         run: |
           dupes=$(grep -h '^title:' src/content/posts/*.md | sort | uniq -d)
