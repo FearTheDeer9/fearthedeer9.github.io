@@ -52,7 +52,7 @@ const order: TypeKey[] = ['essay', 'evergreen', 'paper-summary', 'lecture', 'con
     <div class="courses">
       {[...courses].map(([name, list]) => (
         <div class="course"><h3>{name}</h3>
-          <ol>{list.map((i) => <li><Link i={i} text={courseOf(i.title) ? i.title.replace(/^.*?(?:Lecture|Tutorial)\s*\d+\s*[-–:]?\s*/i, '') || `Lecture ${courseOf(i.title)!.n}` : i.title} /></li>)}</ol>
+          <ol>{list.map((i) => <li><Link i={i} text={courseOf(i.title) ? i.title.replace(/^.*?(?:Lecture|Tutorial)\s*\d+\s*[-–—:]?\s*/i, '') || `Lecture ${courseOf(i.title)!.n}` : i.title} /></li>)}</ol>
         </div>
       ))}
     </div>

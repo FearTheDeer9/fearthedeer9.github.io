@@ -30,6 +30,6 @@ export const typeOfUrl = (url: string) => byUrl.get(url)?.type;
 
 // "Intro to ML Lecture 3 - Evaluation" -> { name: "Intro to ML", n: 3 }. Titles without a lecture number group under their own name.
 export function courseOf(title: string) {
-  const m = title.match(/^(.*?)\s*[-–:]?\s*(?:Lecture|Tutorial)\s*(\d+)/i);
+  const m = title.match(/^(.*?)\s*[-–—:]?\s*(?:Lecture|Tutorial)\s*(\d+)/i);
   return m ? { name: m[1].trim(), n: +m[2] } : null;
 }
