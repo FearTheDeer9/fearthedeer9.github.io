@@ -6,8 +6,8 @@ import { items, TYPES } from '../lib/manifest';
 const { books, articles, podcasts } = reading;
 const y = (d: string | null) => (d ? +d.slice(0, 4) : null);
 
-// Read-but-not-mine items from the publishing ledger: excerpts (published) and anything logged without publishing.
-const readNotes = items.filter((i) => i.type === 'excerpt' || i.status === 'logged').sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''));
+// Papers and posts I read and took notes on: excerpts, plus logged paper summaries. Logged lectures live in the archive.
+const readNotes = items.filter((i) => i.type === 'excerpt' || (i.status === 'logged' && i.type === 'paper-summary')).sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''));
 
 // Items per year, by medium, for the chart. Podcasts count episodes.
 const media = [

@@ -1,8 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
-import { published, TYPES, SUBTYPES, courseOf, type Item, type TypeKey } from '../lib/manifest';
+import Link from '../components/ItemLink.astro';
+import { items, TYPES, SUBTYPES, courseOf, type Item, type TypeKey } from '../lib/manifest';
 
-const of = (t: TypeKey) => published.filter((i) => i.type === t);
+// Logged-only items sit in their kind's section too, as unlinked titles: read or attended, not published.
+const of = (t: TypeKey) => items.filter((i) => i.type === t);
 const newest = (a: Item, b: Item) => (b.date ?? '').localeCompare(a.date ?? '');
 const month = (d: string | null) => (d ? new Date(d).toLocaleDateString('en-GB', { month: 'short', year: 'numeric', timeZone: 'UTC' }) : '');
 
@@ -15,30 +17,31 @@ for (const i of of('lecture')) {
 for (const list of courses.values()) list.sort((a, b) => (courseOf(a.title)?.n ?? 0) - (courseOf(b.title)?.n ?? 0));
 
 const concepts = of('concept').sort((a, b) => a.title.localeCompare(b.title));
+const counts = (t: TypeKey) => { const l = of(t), p = l.filter((i) => i.url).length; return p === l.length ? `${p}` : `${p} + ${l.length - p} logged`; };
 const order: TypeKey[] = ['essay', 'evergreen', 'paper-summary', 'lecture', 'concept', 'excerpt'];
 ---
 <Base title="Archive">
   <h1 class="title">Archive</h1>
-  <p class="lede">Everything published here, by kind. Each kind is a different sort of writing, so each is shown differently.</p>
+  <p class="lede">Everything here, by kind. Each kind is a different sort of writing, so each is shown differently. Titles without a link were read or attended and logged, but not published.</p>
   <nav class="toc" aria-label="Sections">
-    {order.filter((t) => of(t).length).map((t) => <a href={`#${t}`} style={`--kind:${TYPES[t].color}`}><i></i>{TYPES[t].plural} <span class="meta">{of(t).length}</span></a>)}
+    {order.filter((t) => of(t).length).map((t) => <a href={`#${t}`} style={`--kind:${TYPES[t].color}`}><i></i>{TYPES[t].plural} <span class="meta">{counts(t)}</span></a>)}
   </nav>
 
   <section class="block" id="essay" style={`--kind:${TYPES.essay.color}`}>
     <h2 class="label">{TYPES.essay.plural}</h2><p class="blurb">{TYPES.essay.blurb}</p>
-    <ul class="list essays">{of('essay').sort(newest).map((i) => <li><a href={i.url!}>{i.title}</a><span class="meta">{month(i.date)}</span></li>)}</ul>
+    <ul class="list essays">{of('essay').sort(newest).map((i) => <li><Link i={i} /><span class="meta">{month(i.date)}</span></li>)}</ul>
   </section>
 
   <section class="block" id="evergreen" style={`--kind:${TYPES.evergreen.color}`}>
     <h2 class="label">{TYPES.evergreen.plural}</h2><p class="blurb">{TYPES.evergreen.blurb}</p>
-    <ul class="claims">{of('evergreen').sort((a, b) => a.title.localeCompare(b.title)).map((i) => <li><a href={i.url!}>{i.title}</a></li>)}</ul>
+    <ul class="claims">{of('evergreen').sort((a, b) => a.title.localeCompare(b.title)).map((i) => <li><Link i={i} /></li>)}</ul>
   </section>
 
   <section class="block" id="paper-summary" style={`--kind:${TYPES['paper-summary'].color}`}>
     <h2 class="label">{TYPES['paper-summary'].plural}</h2><p class="blurb">{TYPES['paper-summary'].blurb}</p>
     <ul class="papers">
       {of('paper-summary').sort(newest).map((i) => (
-        <li><a href={i.url!}>{i.title}</a>
+        <li><Link i={i} />
           <span class="meta">{[i.source_author, i.topic, month(i.date)].filter(Boolean).join(' · ')}</span></li>
       ))}
     </ul>
@@ -49,7 +52,7 @@ const order: TypeKey[] = ['essay', 'evergreen', 'paper-summary', 'lecture', 'con
     <div class="courses">
       {[...courses].map(([name, list]) => (
         <div class="course"><h3>{name}</h3>
-          <ol>{list.map((i) => <li><a href={i.url!}>{courseOf(i.title) ? i.title.replace(/^.*?(?:Lecture|Tutorial)\s*\d+\s*[-–:]?\s*/i, '') || `Lecture ${courseOf(i.title)!.n}` : i.title}</a></li>)}</ol>
+          <ol>{list.map((i) => <li><Link i={i} text={courseOf(i.title) ? i.title.replace(/^.*?(?:Lecture|Tutorial)\s*\d+\s*[-–:]?\s*/i, '') || `Lecture ${courseOf(i.title)!.n}` : i.title} /></li>)}</ol>
         </div>
       ))}
     </div>
@@ -57,7 +60,7 @@ const order: TypeKey[] = ['essay', 'evergreen', 'paper-summary', 'lecture', 'con
 
   <section class="block" id="concept" style={`--kind:${TYPES.concept.color}`}>
     <h2 class="label">{TYPES.concept.plural}</h2><p class="blurb">{TYPES.concept.blurb}</p>
-    <dl class="glossary">{concepts.map((i) => <div><dt><a href={i.url!}>{i.title}</a></dt><dd class="meta">{i.topic}</dd></div>)}</dl>
+    <dl class="glossary">{concepts.map((i) => <div><dt><Link i={i} /></dt><dd class="meta">{i.topic}</dd></div>)}</dl>
   </section>
 
   <section class="block" id="excerpt" style={`--kind:${TYPES.excerpt.color}`}>
@@ -65,7 +68,7 @@ const order: TypeKey[] = ['essay', 'evergreen', 'paper-summary', 'lecture', 'con
     <ul class="excerpts">
       {of('excerpt').sort(newest).map((i) => (
         <li><span class="tag">{SUBTYPES[i.subtype ?? ''] ?? 'Excerpt'}</span>
-          <a href={i.url!}>{i.title}</a>{i.source_author && <span class="by"> — {i.source_author}</span>}</li>
+          <Link i={i} />{i.source_author && <span class="by"> — {i.source_author}</span>}</li>
       ))}
     </ul>
   </section>
@@ -99,4 +102,6 @@ const order: TypeKey[] = ['essay', 'evergreen', 'paper-summary', 'lecture', 'con
   .excerpts { display: flex; flex-direction: column; gap: 10px; padding-left: 16px; border-left: 2px dashed var(--faint); }
   .tag { font-family: var(--mono); font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-right: 10px; }
   .by { color: var(--muted); font-style: italic; }
+  :global(.logged) { color: var(--muted); }
+  :global(.logged)::after { content: ' · logged'; font-family: var(--mono); font-size: 11px; }
 </style>
