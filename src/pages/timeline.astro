@@ -1,33 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
-import { posts, notes, postUrl, postDate, postParts, isEssay, displayTitle } from '../lib/site';
+import { items as all, TYPES, type TypeKey } from '../lib/manifest';
 
-// Hand-labelled until the clustering pass in TODO.md replaces it.
-const TOPICS = {
-  vis: ['3D vision', '#3b6ea8'], llm: ['LLM internals', '#6e4fa0'], rl: ['RL & post-training', '#b4532a'],
-  cau: ['Causality & stats', '#2f7a6b'], inf: ['Inference systems', '#a3365a'],
-} as const;
-type Topic = keyof typeof TOPICS;
-const POST_TOPIC: Record<string, Topic> = {
-  'effects-of-scale-on-model-finetuning': 'llm', 'on-writing-to-think': 'llm', ul2: 'llm', shortgpt: 'inf',
-  'mixture-of-depths': 'inf', 'mse-as-gaussian': 'cau', 'is-dpo-superior-to-ppo-for-alignment-a-comprehensive-study': 'rl',
-  'retrieval-heads-mechanistically-explains-long-context-factuality': 'llm',
-  'A-Primer-on-the-Inner-Workings-of-Transformer-Based-Language-Models': 'llm',
-  'The-Geometry-of-Categorical-and-Hierarchical-Concepts-in-Large-Language-Modeels': 'llm',
-  'Meta-Statistical-Learning': 'cau', 'Randomization-Inference-When-N-Equals-One': 'cau',
-  'TabPFN-Understanding-and-Advancing-Tabular-Foundation-Models': 'cau', 'Targeted-Cause-Discovery-with-Data-Driven-Learning': 'cau',
-  'CAASL-Amortized-Active-Causal-Induction-with-Deep-Reinforcement-Learning': 'cau',
-};
+// Colour = kind of item. Logged-only items (read, not published) appear as hollow marks with no link.
+type Topic = Exclude<TypeKey, 'other'>;
+const TOPICS = Object.fromEntries((['essay', 'evergreen', 'paper-summary', 'lecture', 'concept', 'excerpt'] as Topic[])
+  .map((t) => [t, [TYPES[t].plural, TYPES[t].color]])) as Record<Topic, readonly [string, string]>;
 
-const items = [
-  ...(await posts()).map((p) => ({
-    title: displayTitle(p.data.title), href: postUrl(p), date: postDate(p),
-    kind: isEssay(p) ? 'essay' : 'summary', topic: POST_TOPIC[postParts(p).slug] ?? 'vis',
-  })),
-  ...(await notes()).filter((n) => n.data.created).map((n) => ({
-    title: n.data.title, href: `/notes/${n.id}/`, date: n.data.created!, kind: 'note', topic: 'inf' as Topic,
-  })),
-].sort((a, b) => +a.date - +b.date);
+const items = all.filter((i) => i.date && i.type !== 'other').map((i) => ({
+  title: i.title, href: i.url, date: new Date(i.date!), kind: i.status, topic: i.type as Topic,
+})).sort((a, b) => +a.date - +b.date);
 
 const years = [...new Set(items.map((i) => i.date.getUTCFullYear()))];
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -52,10 +34,10 @@ const count = (t: Topic) => items.filter((i) => i.topic === t).length;
 <Base title="Timeline" wide>
   <section class="intro">
     <h1>Everything I've read and written, laid out in time.</h1>
-    <p>Each mark is a paper summary (circle), evergreen note (square) or essay (diamond), coloured by topic. Pick a topic to follow it.</p>
+    <p>Each mark is something I wrote or read, coloured by kind. Filled marks are published and link to the page; hollow marks were read and logged but not published. Pick a kind to follow it.</p>
   </section>
 
-  <div class="chips" role="group" aria-label="Filter by topic">
+  <div class="chips" role="group" aria-label="Filter by kind">
     {(Object.entries(TOPICS) as [Topic, readonly [string, string]][]).map(([t, [label, color]]) => (
       <button type="button" data-topic={t} aria-pressed="false"><span class="sw" style={`background:${color}`}></span>{label} <span class="meta">{count(t)}</span></button>
     ))}
@@ -70,17 +52,22 @@ const count = (t: Topic) => items.filter((i) => i.topic === t).length;
           <span class="year meta" style={`top:${rowTop[r] + 20}px`}>{y}</span>
         </>
       ))}
-      {dots.map((d) => (
-        <a href={d.href} class={`dot ${d.kind}`} data-topic={d.topic} data-label={`${d.date.toISOString().slice(0, 7)} · ${d.title}`} aria-label={d.title} title={d.title}
-           style={`left:${90 + d.month * 86 + d.dx}px;top:${rowTop[d.row] + 24 + d.dy}px;background:${TOPICS[d.topic][1]}`}></a>
-      ))}
+      {dots.map((d) => {
+        const Tag = d.href ? 'a' : 'span';
+        const paint = d.href ? `background:${TOPICS[d.topic][1]}` : `border:2px solid ${TOPICS[d.topic][1]}`;
+        return (
+          <Tag href={d.href ?? undefined} tabindex={d.href ? undefined : 0} class={`dot ${d.kind}`} data-topic={d.topic}
+            data-label={`${d.date.toISOString().slice(0, 7)} · ${d.title}${d.href ? '' : ' (read, not published)'}`} aria-label={d.title} title={d.title}
+            style={`left:${90 + d.month * 86 + d.dx}px;top:${rowTop[d.row] + 24 + d.dy}px;${paint}`}></Tag>
+        );
+      })}
     </div>
   </div>
   <p class="readout meta" aria-live="polite">Hover or focus a mark to see what it is.</p>
 
   <section class="block">
-    <h2 class="label">How the topics shifted</h2>
-    <p class="sub">Share of items per quarter, by topic.</p>
+    <h2 class="label">How the mix shifted</h2>
+    <p class="sub">Share of items per quarter, by kind.</p>
     <div class="bars">
       {quarters.map((q) => (
         <div class="q">
@@ -91,7 +78,7 @@ const count = (t: Topic) => items.filter((i) => i.topic === t).length;
         </div>
       ))}
     </div>
-    <p class="meta foot">Topics are hand-labelled for now; clustering note embeddings will replace them.</p>
+    <p class="meta foot">By kind of item, published and logged together.</p>
   </section>
 </Base>
 
@@ -126,8 +113,7 @@ const count = (t: Topic) => items.filter((i) => i.topic === t).length;
   .year { position: absolute; left: 20px; color: var(--ink); }
   .rule { position: absolute; left: 0; right: 0; border-top: 1px solid var(--rule); }
   .dot { position: absolute; width: 12px; height: 12px; border-radius: 50%; transition: opacity 0.2s; }
-  .dot.note { border-radius: 2px; }
-  .dot.essay { border-radius: 1px; transform: rotate(45deg); }
+  .dot.logged { box-sizing: border-box; }
   .dot:hover, .dot:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
   .dim { opacity: 0.15; }
   .readout { min-height: 24px; padding: 16px 0 32px; }

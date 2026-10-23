@@ -1,12 +1,13 @@
 import rss from '@astrojs/rss';
-import { posts, postUrl, postDate, displayTitle } from '../lib/site';
+import { published, TYPES } from '../lib/manifest';
 
 // /feed.xml is the URL jekyll-feed published, so existing subscribers keep working.
 export async function GET(context) {
   return rss({
     title: 'Harel Lidar',
-    description: 'Paper summaries, evergreen notes and essays on LLM inference and ML.',
+    description: 'Paper summaries, evergreen notes, lecture notes and essays on LLM inference and ML.',
     site: context.site,
-    items: (await posts()).map((p) => ({ title: displayTitle(p.data.title), pubDate: postDate(p), link: postUrl(p) })),
+    items: published.filter((i) => i.date).sort((a, b) => b.date.localeCompare(a.date))
+      .map((i) => ({ title: i.title, pubDate: new Date(i.date), link: i.url, categories: [TYPES[i.type].label] })),
   });
 }

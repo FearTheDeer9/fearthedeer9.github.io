@@ -4,8 +4,13 @@ import Base from '../../layouts/Base.astro';
 import Article from '../../components/Article.astro';
 import { notes, type Note } from '../../lib/site';
 
+// Evergreen notes come from two places: the original site notes and evergreen notes imported from the vault.
 export async function getStaticPaths() {
-  return (await notes()).map((note) => ({ params: { slug: note.id }, props: { note } }));
+  const imported = (await getCollection('entries')).filter((e) => e.data.type === 'evergreen');
+  return [
+    ...(await notes()).map((note) => ({ params: { slug: note.id }, props: { note } })),
+    ...imported.map((note) => ({ params: { slug: note.id.split('/').pop() }, props: { note } })),
+  ];
 }
 const { note } = Astro.props as { note: Note };
 const { Content } = await render(note);
@@ -13,7 +18,7 @@ const { Content } = await render(note);
 const backlinks = (await getCollection('notes')).filter((n) => n.id !== note.id && n.body?.includes(`](${note.id}.md`));
 ---
 <Base title={note.data.title}>
-  <Article title={note.data.title} meta="Evergreen note">
+  <Article title={note.data.title} type="evergreen">
     <Content />
   </Article>
   {backlinks.length > 0 && (

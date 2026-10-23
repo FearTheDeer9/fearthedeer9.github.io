@@ -1,16 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
-import { posts, postUrl, postDate, isEssay, displayTitle, fmtMonth } from '../lib/site';
-const summaries = (await posts()).filter((p) => !isEssay(p));
+import { published } from '../lib/manifest';
+
+const papers = published.filter((i) => i.type === 'paper-summary').sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''));
+const month = (d: string | null) => (d ? new Date(d).toLocaleDateString('en-GB', { month: 'short', year: 'numeric', timeZone: 'UTC' }) : '');
 ---
 <Base title="Paper summaries">
   <h1 class="title">Paper summaries</h1>
-  <p class="lede">What I read, written up: the problem, the method, what the results do and don't show.</p>
+  <p class="lede">{papers.length} papers, written up: the problem, the method, what the results do and don’t show.</p>
   <section class="block">
     <ul class="list">
-      {summaries.map((p) => (
-        <li><a href={postUrl(p)}>{displayTitle(p.data.title)}</a><span class="meta">{fmtMonth(postDate(p))}</span></li>
-      ))}
+      {papers.map((p) => <li><a href={p.url!}>{p.title}</a><span class="meta">{[p.topic, month(p.date)].filter(Boolean).join(' · ')}</span></li>)}
     </ul>
   </section>
 </Base>

@@ -1,10 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
-import { posts, notes, postUrl, postDate, isEssay, displayTitle, fmtMonth } from '../lib/site';
+import { notes, fmtMonth } from '../lib/site';
+import { published, TYPES } from '../lib/manifest';
 
-const allPosts = await posts();
-const summaries = allPosts.filter((p) => !isEssay(p)).slice(0, 5);
-const essays = allPosts.filter(isEssay);
+const newest = (a: { date: string | null }, b: { date: string | null }) => (b.date ?? '').localeCompare(a.date ?? '');
+const recent = published.filter((i) => i.type !== 'evergreen').sort(newest).slice(0, 8);
+const essays = published.filter((i) => i.type === 'essay').sort(newest);
 const featuredNotes = [
   'prefill-is-compute-bound-decode-is-memory-bound',
   'speculative-decoding-is-provably-exact',
@@ -14,6 +15,7 @@ const featuredNotes = [
   'quantization-loss-is-outlier-driven-not-bit-driven',
 ];
 const noteById = new Map((await notes()).map((n) => [n.id, n]));
+const month = (d: string | null) => (d ? fmtMonth(new Date(d)) : '');
 ---
 <Base>
   <div class="marks" aria-hidden="true">
@@ -29,13 +31,14 @@ const noteById = new Map((await notes()).map((n) => [n.id, n]));
   </section>
 
   <section class="block">
-    <h2 class="label">Recently read</h2>
+    <h2 class="label">Recently added</h2>
     <ul class="list">
-      {summaries.map((p) => (
-        <li><a href={postUrl(p)}>{displayTitle(p.data.title)}</a><span class="meta">{fmtMonth(postDate(p))}</span></li>
+      {recent.map((i) => (
+        <li><span class="item"><i class="kind" style={`background:${TYPES[i.type].color}`} title={TYPES[i.type].label}></i><a href={i.url!}>{i.title}</a></span>
+          <span class="meta">{TYPES[i.type].label} · {month(i.date)}</span></li>
       ))}
     </ul>
-    <p class="more"><a href="/papers/">All paper summaries →</a></p>
+    <p class="more"><a href="/archive/">Everything, by kind →</a></p>
   </section>
 
   <section class="block">
@@ -49,9 +52,7 @@ const noteById = new Map((await notes()).map((n) => [n.id, n]));
   <section class="block">
     <h2 class="label">Essays</h2>
     <ul class="list">
-      {essays.map((p) => (
-        <li><a href={postUrl(p)}>{p.data.title}</a><span class="meta">{fmtMonth(postDate(p))}</span></li>
-      ))}
+      {essays.map((i) => <li><a href={i.url!}>{i.title}</a><span class="meta">{month(i.date)}</span></li>)}
     </ul>
   </section>
 </Base>
@@ -63,6 +64,8 @@ const noteById = new Map((await notes()).map((n) => [n.id, n]));
   .lede { margin: 0; font-size: 20px; color: var(--ink-2); }
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px 32px; font-size: 18px; line-height: 1.4; }
   .more { margin: 24px 0 0; font-size: 17px; }
+  .item { display: inline-flex; align-items: baseline; gap: 10px; }
+  .kind { flex: none; width: 8px; height: 8px; border-radius: 50%; transform: translateY(-1px); }
   .marks { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: -1; }
   .marks i { position: absolute; width: 56px; height: 1px; background: var(--faint); animation: drift 14s ease-in-out infinite; }
   @keyframes drift { 50% { transform: translate(18px, -26px) rotate(8deg); } }

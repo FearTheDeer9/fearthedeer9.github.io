@@ -7,6 +7,7 @@
   --faint: #c9c5ba;
   --accent: #8a3b12;
   --code-bg: #f1eee6;
+  --t-essay: #8a3b12; --t-evergreen: #2f6b3a; --t-paper: #2f5f8a; --t-lecture: #6e4fa0; --t-concept: #8a6a12; --t-excerpt: #7a6f62;
   --serif: 'Newsreader Variable', Georgia, serif;
   --mono: 'IBM Plex Mono', ui-monospace, monospace;
   color-scheme: light;
@@ -16,12 +17,14 @@
   :root:not([data-theme='light']) {
     --bg: #161513; --ink: #ebe7de; --ink-2: #cdc8bc; --muted: #9c978b;
     --rule: #2e2c28; --faint: #4a463f; --accent: #e08a5a; --code-bg: #201f1c;
+    --t-essay: #e08a5a; --t-evergreen: #7cc48a; --t-paper: #7fb0e0; --t-lecture: #b49ae0; --t-concept: #d9b55a; --t-excerpt: #b3a99a;
     color-scheme: dark;
   }
 }
 :root[data-theme='dark'] {
   --bg: #161513; --ink: #ebe7de; --ink-2: #cdc8bc; --muted: #9c978b;
   --rule: #2e2c28; --faint: #4a463f; --accent: #e08a5a; --code-bg: #201f1c;
+    --t-essay: #e08a5a; --t-evergreen: #7cc48a; --t-paper: #7fb0e0; --t-lecture: #b49ae0; --t-concept: #d9b55a; --t-excerpt: #b3a99a;
   color-scheme: dark;
 }
 

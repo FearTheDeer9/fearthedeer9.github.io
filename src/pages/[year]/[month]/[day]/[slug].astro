@@ -2,17 +2,20 @@
 import { render } from 'astro:content';
 import Base from '../../../../layouts/Base.astro';
 import Article from '../../../../components/Article.astro';
-import { posts, postParts, postDate, isEssay, displayTitle, fmtMonth, type Post } from '../../../../lib/site';
+import { posts, postParts, postUrl, postDate, displayTitle, fmtMonth, type Post } from '../../../../lib/site';
+import { byUrl } from '../../../../lib/manifest';
 
 export async function getStaticPaths() {
   return (await posts()).map((post) => ({ params: postParts(post), props: { post } }));
 }
 const { post } = Astro.props as { post: Post };
 const { Content } = await render(post);
-const kind = isEssay(post) ? 'Essay' : 'Paper summary';
+const m = byUrl.get(postUrl(post));
+const title = m?.title ?? displayTitle(post.data.title);
 ---
-<Base title={displayTitle(post.data.title)}>
-  <Article title={displayTitle(post.data.title)} meta={`${kind} · ${fmtMonth(postDate(post))}`} tags={post.data.tags}>
+<Base title={title}>
+  <Article title={title} type={m?.type ?? 'essay'} subtype={m?.subtype} date={fmtMonth(postDate(post))} tags={post.data.tags}
+    source={{ title: m?.source_title, author: m?.source_author, url: m?.source_url }}>
     <Content />
   </Article>
 </Base>

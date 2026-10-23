@@ -1,0 +1,48 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Article from '../../components/Article.astro';
+import { fmtMonth } from '../../lib/site';
+import { courseOf } from '../../lib/manifest';
+
+type Entry = CollectionEntry<'entries'>;
+// Evergreen entries are served by /notes/[slug]; every other type lives under its own section folder.
+export async function getStaticPaths() {
+  const all = (await getCollection('entries')).filter((e) => e.data.type !== 'evergreen');
+  return all.map((entry) => {
+    const [section, slug] = entry.id.split('/');
+    return { params: { section, slug }, props: { entry, all } };
+  });
+}
+const { entry, all } = Astro.props as { entry: Entry; all: Entry[] };
+const { Content } = await render(entry);
+const d = entry.data;
+
+// Lecture notes link to the previous and next lecture of the same course.
+let prev: Entry | undefined, next: Entry | undefined;
+const course = d.type === 'lecture' ? courseOf(d.title) : null;
+if (course) {
+  const series = all.filter((e) => e.data.type === 'lecture' && courseOf(e.data.title)?.name === course.name)
+    .sort((a, b) => (courseOf(a.data.title)!.n ?? 0) - (courseOf(b.data.title)!.n ?? 0));
+  const i = series.indexOf(entry);
+  [prev, next] = [series[i - 1], series[i + 1]];
+}
+const url = (e: Entry) => `/${e.id}/`;
+---
+<Base title={d.title}>
+  <Article title={d.title} type={d.type} subtype={d.subtype} date={d.date ? fmtMonth(d.date) : undefined}
+    source={{ title: d.source_title, author: d.source_author, url: d.source_url }}>
+    <Content />
+    {course && (prev || next) && (
+      <nav class="series" slot="after" aria-label={`${course.name} lectures`}>
+        <span>{prev && <a href={url(prev)}>← {prev.data.title}</a>}</span>
+        <span>{next && <a href={url(next)}>{next.data.title} →</a>}</span>
+      </nav>
+    )}
+  </Article>
+</Base>
+
+<style>
+  .series { display: flex; justify-content: space-between; gap: 16px; padding: 24px 0; margin-top: 32px; border-top: 1px solid var(--rule); font-size: 16px; }
+  .series span:last-child { text-align: right; }
+</style>

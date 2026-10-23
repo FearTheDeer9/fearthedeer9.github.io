@@ -24,9 +24,24 @@ const notes = defineCollection({
   schema: z.object({ title: z.string(), created: z.coerce.date().optional() }),
 });
 
+// Notes imported from the vault by scripts/import-vault.mjs, one folder per type (entries/papers/<id>.md).
+const entries = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/entries', generateId: keepName }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date().nullable(),
+    type: z.enum(['paper-summary', 'evergreen', 'lecture', 'concept', 'excerpt', 'essay', 'other']),
+    subtype: z.string().nullable(),
+    topic: z.string().nullable(),
+    source_title: z.string().nullable(),
+    source_author: z.string().nullable(),
+    source_url: z.string().nullable(),
+  }),
+});
+
 const pages = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/pages', generateId: keepName }),
   schema: z.object({ title: z.string() }),
 });
 
-export const collections = { posts, notes, pages };
+export const collections = { posts, notes, entries, pages };
