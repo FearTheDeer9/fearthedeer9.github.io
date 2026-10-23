@@ -10,7 +10,7 @@ interface Props { title?: string; description?: string; wide?: boolean }
 const { title, description = 'Harel Lidar — AI researcher working on LLM inference.', wide = false } = Astro.props;
 const fullTitle = title ? `${title} — Harel Lidar` : 'Harel Lidar';
 const nav = [
-  ['Writing', '/writing/'], ['Notes', '/notes/'], ['Papers', '/papers/'], ['Timeline', '/timeline/'], ['Archive', '/archive/'], ['About', '/about/'],
+  ['Archive', '/archive/'], ['Notes', '/notes/'], ['Papers', '/papers/'], ['Reading', '/reading/'], ['Timeline', '/timeline/'], ['About', '/about/'],
 ];
 const here = Astro.url.pathname;
 ---

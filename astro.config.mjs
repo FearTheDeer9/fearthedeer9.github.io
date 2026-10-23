@@ -16,5 +16,5 @@ export default defineConfig({
     shikiConfig: { themes: { light: 'github-light', dark: 'github-dark' } },
   },
   // The Jekyll site's archive lived at /blog/ and was paginated.
-  redirects: { '/blog/': '/archive/', '/blog/page2/': '/archive/', '/blog/page3/': '/archive/' },
+  redirects: { '/writing/': '/archive/', '/blog/': '/archive/', '/blog/page2/': '/archive/', '/blog/page3/': '/archive/' },
 });
