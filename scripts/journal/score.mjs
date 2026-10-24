@@ -27,6 +27,8 @@ export const RULES = {
   fantasy:  { points: -8 },
   streak:   { perDay: 2, cap: 10, minScore: 40 }, // consecutive days scoring at least B
 };
+// Scoring starts here. Earlier days are never scored: their habits would have to be inferred, not recorded.
+export const LOCK_IN = '2026-10-24';
 export const GRADES = [[80, 'S'], [60, 'A'], [40, 'B'], [20, 'C'], [-Infinity, 'D']];
 
 const NEUTRAL_SPORT = /\b(nfl|packers?|green bay|bucks|milwaukee|brewers|super bowl|playoffs?|finals?|world cup|olympics?|wimbledon|us open|grand slam|el clasico|champions league final)\b/i;
@@ -134,20 +136,20 @@ export function scoreDay(day, ctx) {
 
 // ---- Run over every day, in order (book pages and streaks depend on the previous days). ----
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const files = existsSync(DAYS) ? readdirSync(DAYS).filter((f) => /^\d{4}-\d{2}-\d{2}\.md$/.test(f)).sort() : [];
+  const files = existsSync(DAYS) ? readdirSync(DAYS).filter((f) => /^\d{4}-\d{2}-\d{2}\.md$/.test(f) && f.slice(0, 10) >= LOCK_IN).sort() : [];
   const vault = vaultDays();
   const ctx = { lastPage: {} };
   let streak = 0;
   const detail = [], series = [];
   for (const f of files) {
     const date = f.slice(0, 10);
-    const { pts, raw, hasChecklist } = scoreDay(parseDay(readFileSync(join(DAYS, f), 'utf8')), { ...ctx, notes: vault.notes[date], writing: vault.writing[date] });
+    const { pts, raw } = scoreDay(parseDay(readFileSync(join(DAYS, f), 'utf8')), { ...ctx, notes: vault.notes[date], writing: vault.writing[date] });
     const bonus = Math.min(streak * RULES.streak.perDay, RULES.streak.cap);
     const score = Math.max(0, raw + bonus);
     streak = raw + bonus >= RULES.streak.minScore ? streak + 1 : 0;
     const grade = GRADES.find(([min]) => score >= min)[1];
     detail.push({ date, score, grade, streak: bonus, ...pts });
-    series.push({ date, score, grade, baseline: !hasChecklist });
+    series.push({ date, score, grade });
   }
   mkdirSync('private/journal', { recursive: true });
   writeFileSync('private/journal/breakdown.json', JSON.stringify(detail, null, 1));

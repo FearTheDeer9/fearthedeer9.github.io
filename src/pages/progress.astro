@@ -1,14 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
 import scores from '../data/scores.json';
-import { RULES, GRADES } from '../../scripts/journal/score.mjs';
+import { RULES, GRADES, LOCK_IN } from '../../scripts/journal/score.mjs';
 
 // Only date, score and grade are public; what happened on each day stays in the private journal.
-type Day = { date: string; score: number; grade: string; baseline: boolean };
+type Day = { date: string; score: number; grade: string };
 const days = scores as Day[];
-const live = days.filter((d) => !d.baseline);
-const shown = live.length ? live : days;
+const shown = days;
 const recent = shown.slice(-90);
+const start = new Date(LOCK_IN).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 
 const avg = (l: Day[]) => (l.length ? Math.round(l.reduce((a, d) => a + d.score, 0) / l.length) : 0);
 let streak = 0, best = 0, run = 0;
@@ -22,7 +22,7 @@ for (const d of days) {
   const k = dt.toISOString().slice(0, 10);
   weeks.set(k, [...(weeks.get(k) ?? []), d]);
 }
-const weekly = [...weeks].map(([w, l]) => ({ w, avg: avg(l), baseline: l.every((d) => d.baseline) }));
+const weekly = [...weeks].map(([w, l]) => ({ w, avg: avg(l) }));
 
 const H = 160, MAX = 100, y = (v: number) => H - (Math.min(v, MAX) / MAX) * H;
 const BAR = 7, GAP = 2, dayW = recent.length * (BAR + GAP);
@@ -44,9 +44,7 @@ const rows: [string, string][] = [
     <p>Each day of my journal is scored on the habits I want to keep: reading papers, taking notes, writing, Anki, walks, meditation, lessons, training. Time sinks count against it. Only the score is published here, not the day.</p>
   </section>
 
-  {!live.length && (
-    <p class="notice">Scoring starts on the first day logged with the new habit checklist. Until then, this page shows my 2023 journal as a baseline. Those days predate the checklist, so they undercount habits and mostly land at C and D.</p>
-  )}
+  {!days.length && <p class="notice">Scoring started on {start}. The first scored day appears here once it has been logged.</p>}
 
   <div class="stats">
     <div><span class="label">Last 7 days</span><b>{avg(shown.slice(-7))}</b></div>
@@ -56,13 +54,13 @@ const rows: [string, string][] = [
   </div>
 
   <section class="block">
-    <h2 class="label">{live.length ? 'Last 90 days' : `Last ${recent.length} days of the baseline`}</h2>
+    <h2 class="label">Last 90 days</h2>
     <div class="scroll">
       <svg width={dayW + 40} height={H + 30} role="img" aria-label="Daily scores">
         {[20, 40, 60, 80].map((g) => <g><line x1="30" x2={dayW + 40} y1={y(g)} y2={y(g)} class="grid" /><text x="0" y={y(g) + 4} class="axis">{g}</text></g>)}
         {recent.map((d, i) => (
           <rect x={34 + i * (BAR + GAP)} y={y(d.score)} width={BAR} height={H - y(d.score)} rx="1"
-            fill={gradeColor[d.grade]} opacity={d.baseline ? 0.45 : 1}><title>{d.date}: {d.score} ({d.grade})</title></rect>
+            fill={gradeColor[d.grade]}><title>{d.date}: {d.score} ({d.grade})</title></rect>
         ))}
         <text x="34" y={H + 20} class="axis">{recent[0]?.date}</text>
         <text x={dayW + 34} y={H + 20} class="axis" text-anchor="end">{recent.at(-1)?.date}</text>
@@ -72,7 +70,7 @@ const rows: [string, string][] = [
   </section>
 
   <section class="block">
-    <h2 class="label">Weekly average, all time</h2>
+    <h2 class="label">Weekly average, since {start}</h2>
     <div class="scroll">
       <svg width={weekW + 40} height={H + 30} role="img" aria-label="Weekly average score">
         {[20, 40, 60, 80].map((g) => <g><line x1="30" x2={weekW + 40} y1={y(g)} y2={y(g)} class="grid" /><text x="0" y={y(g) + 4} class="axis">{g}</text></g>)}
