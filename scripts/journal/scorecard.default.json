@@ -7,6 +7,8 @@
  {"name": "Contemplative walk", "side": "pursuit", "points": 8, "cap": 8, "unit": "per-day", "source": "checklist", "match": "walk", "except": ""},
  {"name": "Meditation", "side": "pursuit", "points": 8, "cap": 8, "unit": "per-day", "source": "checklist", "match": "meditat", "except": ""},
  {"name": "Lesson", "side": "pursuit", "points": 10, "cap": 10, "unit": "per-day", "source": "checklist", "match": "lesson", "except": ""},
+ {"name": "Lesson", "side": "pursuit", "points": 10, "cap": 10, "unit": "per-day", "source": "section", "match": "^lecture", "except": ""},
+ {"name": "What I learned summary", "side": "pursuit", "points": 6, "cap": 6, "unit": "per-day", "source": "section", "match": "what i lea?rned", "except": ""},
  {"name": "Workout", "side": "pursuit", "points": 10, "cap": 10, "unit": "per-day", "source": "workout", "match": "", "except": ""},
  {"name": "Book reading", "side": "pursuit", "points": 1, "cap": 8, "unit": "per-10-pages", "source": "book", "match": "", "except": ""},
  {"name": "Daily goals hit", "side": "pursuit", "points": 15, "cap": 15, "unit": "share", "source": "goals", "match": "", "except": ""},

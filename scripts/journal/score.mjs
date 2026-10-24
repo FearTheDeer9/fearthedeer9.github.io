@@ -28,7 +28,8 @@ export function parseDay(md) {
   let cur = 'preamble';
   for (const raw of md.replace(/^---\n[\s\S]*?\n---\n/, '').split('\n')) {
     const h = raw.match(/^#{1,6}\s*(.+?)\s*:?\s*$/);
-    if (h) { cur = SECTION.find(([re]) => re.test(h[1]))?.[1] ?? 'other'; continue; }
+    // Known headings get a fixed key; any other heading is kept by name, for rows with the "section" source.
+    if (h) { cur = SECTION.find(([re]) => re.test(h[1]))?.[1] ?? `h:${h[1].toLowerCase()}`; continue; }
     const line = raw.replace(/^\s*(?:[-*+]|\d+[.)])\s*/, '').trim();
     if (!line || /^(none|-|n\/a)$/i.test(line)) continue;
     (out[cur] ||= []).push(line);
@@ -48,6 +49,8 @@ const SOURCES = {
   activitywatch: (row, day, sig) => Object.entries(sig.activitywatch ?? {})
     .filter(([k]) => re(row.match).test(k) && !(row.except && re(row.except).test(k))).reduce((n, [, m]) => n + m, 0),
   workout: (row, day) => ((day.workout ?? []).length ? 1 : 0),
+  // Lines written under any heading matching the row's pattern, e.g. "Lecture:" or "What I Learned Summary:".
+  section: (row, day) => Object.entries(day).filter(([k]) => k.startsWith('h:') && re(row.match).test(k.slice(2))).reduce((n, [, l]) => n + l.length, 0),
   goals: (row, day) => { const g = day.goals ?? []; return g.length ? g.filter(checked).length / g.length : 0; },
   tv: (row, day) => (day.tv ?? []).filter((l) => (!row.match || re(row.match).test(l)) && !(row.except && re(row.except).test(l))).length,
   articles: (row, day) => (day.articles ?? []).filter((l) => (!row.match || re(row.match).test(l)) && !(row.except && re(row.except).test(l))).length,

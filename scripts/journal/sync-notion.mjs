@@ -12,6 +12,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
+import { LOCK_IN } from './score.mjs';
 
 const OUT = 'private/journal/days';
 const STATE = 'private/journal/sync-state.json';
@@ -68,7 +69,7 @@ async function toMarkdown(blockId, depth = 0) {
 // ---- Scorecard: the Notion database Harel edits; one row per Pursuit or Drain. ----
 const SIDES = ['pursuit', 'drain'];
 const UNITS = ['per-day', 'per-item', 'per-10-min', 'per-10-pages', 'share'];
-const SOURCE_NAMES = ['checklist', 'checklist-minutes', 'anki', 'vault-notes', 'vault-writing', 'activitywatch', 'workout', 'goals', 'tv', 'articles', 'book'];
+const SOURCE_NAMES = ['checklist', 'checklist-minutes', 'anki', 'vault-notes', 'vault-writing', 'activitywatch', 'workout', 'section', 'goals', 'tv', 'articles', 'book'];
 const select = (names) => ({ select: { options: names.map((name) => ({ name })) } });
 const rich = (t) => ({ rich_text: t ? [{ text: { content: t } }] : [] });
 
@@ -112,6 +113,7 @@ async function readScorecard() {
 }
 await readScorecard();
 
+const TODAY = new Date().toLocaleDateString('en-CA'); // a mistyped title can carry a future date
 const state = existsSync(STATE) ? JSON.parse(readFileSync(STATE, 'utf8')) : {};
 let fetched = 0, cursor;
 do {
@@ -122,7 +124,8 @@ do {
   for (const p of res.results) {
     const title = text(Object.values(p.properties ?? {}).find((x) => x.type === 'title')?.title);
     const date = dateOf(title);
-    if (!date || state[p.id] === p.last_edited_time) continue;
+    // Days before lock-in are never scored, so they're never fetched.
+    if (!date || date < LOCK_IN || date > TODAY || state[p.id] === p.last_edited_time) continue;
     writeFileSync(join(OUT, `${date}.md`), (await toMarkdown(p.id)).join('\n') + '\n');
     state[p.id] = p.last_edited_time;
     fetched++;

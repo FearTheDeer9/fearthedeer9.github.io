@@ -49,6 +49,13 @@
   "unit": "per-day"
  },
  {
+  "name": "What I learned summary",
+  "side": "pursuit",
+  "points": 6,
+  "cap": 6,
+  "unit": "per-day"
+ },
+ {
   "name": "Workout",
   "side": "pursuit",
   "points": 10,
