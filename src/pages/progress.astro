@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import scores from '../data/scores.json';
 import scorecard from '../data/scorecard.json';
-import { GRADES, LOCK_IN, STREAK } from '../../scripts/journal/score.mjs';
+import { GRADES, LOCK_IN } from '../../scripts/journal/score.mjs';
 
 // Only date, score and grade are public; what happened on each day stays in the private journal.
 type Day = { date: string; score: number; grade: string };
@@ -12,9 +12,7 @@ const recent = shown.slice(-90);
 const start = new Date(LOCK_IN).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 
 const avg = (l: Day[]) => (l.length ? Math.round(l.reduce((a, d) => a + d.score, 0) / l.length) : 0);
-let streak = 0, best = 0, run = 0;
-for (const d of shown) { run = d.score >= STREAK.minScore ? run + 1 : 0; best = Math.max(best, run); }
-for (let i = shown.length - 1; i >= 0 && shown[i].score >= STREAK.minScore; i--) streak++;
+const bestDay = shown.reduce((b, d) => (!b || d.score > b.score ? d : b), null as Day | null);
 
 // Weekly averages across everything, for the long view.
 const weeks = new Map<string, Day[]>();
@@ -29,7 +27,7 @@ const H = 160, MAX = 100, y = (v: number) => H - (Math.min(v, MAX) / MAX) * H;
 const BAR = 7, GAP = 2, dayW = recent.length * (BAR + GAP);
 const WW = 6, weekW = weekly.length * WW;
 const gradeColor: Record<string, string> = { S: 'var(--t-evergreen)', A: 'var(--t-paper)', B: 'var(--t-lecture)', C: 'var(--t-concept)', D: 'var(--t-excerpt)' };
-const UNIT: Record<string, string> = { 'per-day': '', 'per-item': ' each', 'per-10-min': ' per 10 min', 'per-10-pages': ' per 10 pages', share: ', by share ticked' };
+const UNIT: Record<string, string> = { 'per-day': '', 'per-item': ' each', 'per-hour': ' per hour', 'per-10-min': ' per 10 min', 'per-10-pages': ' per 10 pages', share: ', by share ticked' };
 const describe = (r: { points: number; cap: number | null; unit: string; side: string }) =>
   `${r.side === 'drain' ? '−' : '+'}${r.points}${UNIT[r.unit] ?? ''}${r.cap && r.unit !== 'per-day' && r.cap !== r.points ? `, up to ${r.cap}` : ''}`;
 const pursuits = scorecard.filter((r) => r.side === 'pursuit'), drains = scorecard.filter((r) => r.side === 'drain');
@@ -45,8 +43,8 @@ const pursuits = scorecard.filter((r) => r.side === 'pursuit'), drains = scoreca
   <div class="stats">
     <div><span class="label">Last 7 days</span><b>{avg(shown.slice(-7))}</b></div>
     <div><span class="label">Last 30 days</span><b>{avg(shown.slice(-30))}</b></div>
-    <div><span class="label">Current streak</span><b>{streak}</b><span class="meta">days at B or better</span></div>
-    <div><span class="label">Best streak</span><b>{best}</b></div>
+    <div><span class="label">Best day</span><b>{bestDay?.score ?? '–'}</b><span class="meta">{bestDay?.date ?? ''}</span></div>
+    <div><span class="label">Days scored</span><b>{shown.length}</b></div>
   </div>
 
   <section class="block">
@@ -80,8 +78,7 @@ const pursuits = scorecard.filter((r) => r.side === 'pursuit'), drains = scoreca
   <section class="block">
     <h2 class="label">How a day is scored</h2>
     <div class="card">
-      <div><h3>Pursuits</h3><table class="rules"><tbody>{pursuits.map((r) => <tr><td>{r.name}</td><td class="meta">{describe(r)}</td></tr>)}
-        <tr><td>Streak</td><td class="meta">+{STREAK.perDay} per day in a row at B or better, up to {STREAK.cap}</td></tr></tbody></table></div>
+      <div><h3>Pursuits</h3><table class="rules"><tbody>{pursuits.map((r) => <tr><td>{r.name}</td><td class="meta">{describe(r)}</td></tr>)}</tbody></table></div>
       <div><h3>Drains</h3><table class="rules"><tbody>{drains.map((r) => <tr><td>{r.name}</td><td class="meta">{describe(r)}</td></tr>)}</tbody></table></div>
     </div>
     <p class="meta">The scorecard changes as my interests do; the score uses whatever it said on each day.</p>

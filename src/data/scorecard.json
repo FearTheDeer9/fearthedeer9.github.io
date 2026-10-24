@@ -1,5 +1,40 @@
 [
  {
+  "name": "Personal bonus",
+  "side": "pursuit",
+  "points": 1,
+  "cap": null,
+  "unit": "per-item"
+ },
+ {
+  "name": "Sleep",
+  "side": "pursuit",
+  "points": 2,
+  "cap": null,
+  "unit": "per-hour"
+ },
+ {
+  "name": "Cooking",
+  "side": "pursuit",
+  "points": 5,
+  "cap": 5,
+  "unit": "per-day"
+ },
+ {
+  "name": "Deep work",
+  "side": "pursuit",
+  "points": 4,
+  "cap": null,
+  "unit": "per-hour"
+ },
+ {
+  "name": "Article read",
+  "side": "pursuit",
+  "points": 1,
+  "cap": null,
+  "unit": "per-item"
+ },
+ {
   "name": "Anki review",
   "side": "pursuit",
   "points": 10,
@@ -16,7 +51,7 @@
  {
   "name": "Note taken",
   "side": "pursuit",
-  "points": 6,
+  "points": 2,
   "cap": 18,
   "unit": "per-item"
  },
@@ -30,15 +65,15 @@
  {
   "name": "Contemplative walk",
   "side": "pursuit",
-  "points": 8,
-  "cap": 8,
+  "points": 6,
+  "cap": 6,
   "unit": "per-day"
  },
  {
   "name": "Meditation",
   "side": "pursuit",
-  "points": 8,
-  "cap": 8,
+  "points": 6,
+  "cap": 6,
   "unit": "per-day"
  },
  {
@@ -51,30 +86,16 @@
  {
   "name": "What I learned summary",
   "side": "pursuit",
-  "points": 6,
-  "cap": 6,
+  "points": 3,
+  "cap": 3,
   "unit": "per-day"
  },
  {
   "name": "Workout",
   "side": "pursuit",
-  "points": 10,
-  "cap": 10,
+  "points": 5,
+  "cap": 5,
   "unit": "per-day"
- },
- {
-  "name": "Book reading",
-  "side": "pursuit",
-  "points": 1,
-  "cap": 8,
-  "unit": "per-10-pages"
- },
- {
-  "name": "Daily goals hit",
-  "side": "pursuit",
-  "points": 15,
-  "cap": 15,
-  "unit": "share"
  },
  {
   "name": "TV show or movie",
@@ -100,22 +121,22 @@
  {
   "name": "Social media (phone)",
   "side": "drain",
-  "points": 1,
-  "cap": 30,
-  "unit": "per-10-min"
+  "points": 6,
+  "cap": null,
+  "unit": "per-hour"
  },
  {
   "name": "Social media (Mac)",
   "side": "drain",
-  "points": 1,
-  "cap": 30,
-  "unit": "per-10-min"
+  "points": 6,
+  "cap": null,
+  "unit": "per-hour"
  },
  {
   "name": "Fantasy football",
   "side": "drain",
-  "points": 8,
-  "cap": 8,
-  "unit": "per-day"
+  "points": 12,
+  "cap": null,
+  "unit": "per-hour"
  }
 ]

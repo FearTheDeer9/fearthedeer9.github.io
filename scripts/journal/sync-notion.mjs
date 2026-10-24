@@ -3,6 +3,7 @@
 //
 //   node scripts/journal/sync-notion.mjs                 new and edited days since the last run
 //   node scripts/journal/sync-notion.mjs --init-scorecard <page-url>   create the "Scorecard" database under that page, once
+//   node scripts/journal/sync-notion.mjs --push-scorecard <file.json>  replace its rows (old rows go to Notion's trash)
 //
 // Each run also reads the "Scorecard" database (Pursuits and Drains) into private/journal/scorecard.json.
 //
@@ -32,10 +33,10 @@ const token = process.env.NOTION_TOKEN ?? (() => {
   catch { console.error('No Notion token: set NOTION_TOKEN or add the Keychain item "notion-journal" (see the top of this file).'); process.exit(1); }
 })();
 
-async function api(path, body) {
+async function api(path, body, method) {
   for (let attempt = 0; ; attempt++) {
     const res = await fetch(`https://api.notion.com/v1/${path}`, {
-      method: body ? 'POST' : 'GET',
+      method: method ?? (body ? 'POST' : 'GET'),
       headers: { Authorization: `Bearer ${token}`, 'Notion-Version': '2022-06-28', 'Content-Type': 'application/json' },
       body: body ? JSON.stringify(body) : undefined,
     });
@@ -69,10 +70,25 @@ async function toMarkdown(blockId, depth = 0) {
 
 // ---- Scorecard: the Notion database Harel edits; one row per Pursuit or Drain. ----
 const SIDES = ['pursuit', 'drain'];
-const UNITS = ['per-day', 'per-item', 'per-10-min', 'per-10-pages', 'share'];
-const SOURCE_NAMES = ['checklist', 'checklist-minutes', 'anki', 'vault-notes', 'vault-writing', 'activitywatch', 'workout', 'section', 'goals', 'tv', 'articles', 'book'];
+const UNITS = ['per-day', 'per-item', 'per-hour', 'per-10-min', 'per-10-pages', 'share'];
+const SOURCE_NAMES = ['checklist', 'checklist-minutes', 'anki', 'vault-notes', 'vault-writing', 'activitywatch', 'workout', 'section', 'goals', 'tv', 'articles', 'book', 'bonus'];
 const select = (names) => ({ select: { options: names.map((name) => ({ name })) } });
 const rich = (t) => ({ rich_text: t ? [{ text: { content: t } }] : [] });
+const props = (r) => ({
+  Name: { title: [{ text: { content: r.name } }] }, Side: { select: { name: r.side } }, Points: { number: r.points }, Cap: { number: r.cap ?? null },
+  Unit: { select: { name: r.unit } }, Source: { select: { name: r.source } }, Match: rich(r.match), Except: rich(r.except), Active: { checkbox: r.active ?? true },
+});
+
+if (process.argv.includes('--push-scorecard')) {
+  const rows = JSON.parse(readFileSync(process.argv[process.argv.indexOf('--push-scorecard') + 1], 'utf8'));
+  const id = JSON.parse(readFileSync(CONFIG, 'utf8')).scorecard;
+  let old = [], cursor;
+  do { const r = await api(`databases/${id}/query`, { start_cursor: cursor, page_size: 100 }); old.push(...r.results); cursor = r.has_more ? r.next_cursor : null; } while (cursor);
+  for (const p of old) await api(`pages/${p.id}`, { archived: true }, 'PATCH');
+  for (const r of rows) await api('pages', { parent: { database_id: id }, properties: props(r) });
+  console.log(`Scorecard replaced: ${old.length} old rows moved to Notion's trash, ${rows.length} rows written`);
+  process.exit(0);
+}
 
 if (process.argv.includes('--init-scorecard')) {
   const url = process.argv[process.argv.indexOf('--init-scorecard') + 1] ?? '';
@@ -84,11 +100,7 @@ if (process.argv.includes('--init-scorecard')) {
       Source: select(SOURCE_NAMES), Match: { rich_text: {} }, Except: { rich_text: {} }, Active: { checkbox: {} } },
   });
   const seed = JSON.parse(readFileSync('scripts/journal/scorecard.default.json', 'utf8'));
-  for (const r of seed) {
-    await api('pages', { parent: { database_id: db.id }, properties: {
-      Name: { title: [{ text: { content: r.name } }] }, Side: { select: { name: r.side } }, Points: { number: r.points }, Cap: { number: r.cap },
-      Unit: { select: { name: r.unit } }, Source: { select: { name: r.source } }, Match: rich(r.match), Except: rich(r.except), Active: { checkbox: true } } });
-  }
+  for (const r of seed) await api('pages', { parent: { database_id: db.id }, properties: props(r) });
   writeFileSync(CONFIG, JSON.stringify({ scorecard: db.id }, null, 1));
   console.log(`Scorecard created with ${seed.length} rows: ${db.url}`);
   process.exit(0);

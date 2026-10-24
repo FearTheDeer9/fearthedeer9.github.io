@@ -14,13 +14,12 @@ import { join } from 'node:path';
 // Scoring starts here. Earlier days are never scored: their habits would have to be inferred, not recorded.
 export const LOCK_IN = '2026-10-24';
 export const GRADES = [[80, 'S'], [60, 'A'], [40, 'B'], [20, 'C'], [-Infinity, 'D']];
-export const STREAK = { perDay: 2, cap: 10, minScore: 40 }; // bonus per consecutive day at B or better
 
 const DIR = 'private/journal';
 
 // ---- The daily log: markdown with the template's headings. ----
 const SECTION = [
-  [/today will be good if/i, 'goals'], [/^habits/i, 'habits'], [/screen time/i, 'screen'], [/^food/i, 'food'],
+  [/today will be good if/i, 'goals'], [/^habits/i, 'habits'], [/screen time|^numbers/i, 'screen'], [/^food/i, 'food'],
   [/^workout/i, 'workout'], [/articles? read/i, 'articles'], [/books? read/i, 'book'], [/tv|movie/i, 'tv'], [/other notes/i, 'notes'],
 ];
 export function parseDay(md) {
@@ -42,7 +41,11 @@ const re = (s) => (s ? new RegExp(s, 'i') : null);
 // ---- How much of a row happened on a day, before the row's unit is applied. ----
 const SOURCES = {
   checklist: (row, day) => ((day.habits ?? []).some((l) => checked(l) && re(row.match || row.name).test(l)) ? 1 : 0),
-  'checklist-minutes': (row, day) => +((day.screen ?? []).map((l) => re(row.match).test(l) && l.match(/(\d+)\s*$/)?.[1]).find(Boolean) || 0),
+  // A number typed after a matching line in the Numbers block: "Social media (min): 40", "Sleep (h): 7.5". Hours become minutes.
+  'checklist-minutes': (row, day) => {
+    const line = (day.screen ?? []).find((l) => re(row.match).test(l)), n = +(line?.match(/([\d.]+)\s*$/)?.[1] ?? 0);
+    return /\(h\)|hours?/i.test(line ?? '') ? n * 60 : n;
+  },
   anki: (row, day, sig) => ((sig.anki ?? 0) >= (+row.match || 1) ? 1 : 0),
   'vault-notes': (row, day, sig) => sig['vault-notes'] ?? 0,
   'vault-writing': (row, day, sig) => sig['vault-writing'] ?? 0,
@@ -54,6 +57,8 @@ const SOURCES = {
   goals: (row, day) => { const g = day.goals ?? []; return g.length ? g.filter(checked).length / g.length : 0; },
   tv: (row, day) => (day.tv ?? []).filter((l) => (!row.match || re(row.match).test(l)) && !(row.except && re(row.except).test(l))).length,
   articles: (row, day) => (day.articles ?? []).filter((l) => (!row.match || re(row.match).test(l)) && !(row.except && re(row.except).test(l))).length,
+  // Per-case points Harel writes himself, anywhere in the log: "Bonus 5: cooked dinner with friends".
+  bonus: (row, day) => Object.values(day).flat().reduce((n, l) => n + (+(String(l).match(/^bonus\s*[:+]?\s*(\d+)/i)?.[1] ?? 0)), 0),
   // Pages since the last page logged for the same book ("Iron Flame, p. 140"); 30 pages assumed when none are given.
   book: (row, day, sig, ctx) => (day.book ?? []).reduce((n, b) => {
     const m = b.match(/^(.*?)[,\s-]*(?:p\.?|page)\s*(\d+)/i);
@@ -63,14 +68,15 @@ const SOURCES = {
     return n + (prev !== undefined && page > prev ? page - prev : 30);
   }, 0),
 };
-const UNIT = { 'per-day': (n) => Math.min(n, 1), 'per-item': (n) => n, 'per-10-min': (n) => Math.floor(n / 10), 'per-10-pages': (n) => Math.floor(n / 10), share: (n) => n };
+// Time-based rows (minutes in, points per hour) scale with the time measured; give them no cap.
+const UNIT = { 'per-day': (n) => Math.min(n, 1), 'per-item': (n) => n, 'per-hour': (n) => n / 60, 'per-10-min': (n) => Math.floor(n / 10), 'per-10-pages': (n) => Math.floor(n / 10), share: (n) => n };
 
 export function scoreDay(rows, day, sig, ctx) {
   // Rows sharing a name are alternative evidence for one habit (a checkbox or ActivityWatch): the strongest counts once.
   const byName = new Map();
   for (const row of rows.filter((r) => r.active !== false)) {
     const amount = UNIT[row.unit]?.(SOURCES[row.source]?.(row, day, sig, ctx) ?? 0) ?? 0;
-    const pts = Math.min(Math.round(amount * row.points), row.cap ?? Infinity) * (row.side === 'drain' ? -1 : 1);
+    const pts = Math.min(Math.round(amount * row.points), row.cap || Infinity) * (row.side === 'drain' ? -1 : 1);
     const prev = byName.get(row.name);
     if (prev === undefined || Math.abs(pts) > Math.abs(prev)) byName.set(row.name, pts);
   }
@@ -85,7 +91,6 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   // A day is scored once it's over or logged, and only from lock-in on.
   const dates = [...new Set([...logged, ...list('signals', '.json')])].filter((d) => d >= LOCK_IN && (d < today || logged.has(d))).sort();
   const ctx = { lastPage: {} };
-  let streak = 0;
   const detail = [], series = [];
   for (const date of dates) {
     const md = join(DIR, 'days', `${date}.md`), sj = join(DIR, 'signals', `${date}.json`);
@@ -93,11 +98,9 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     const sig = existsSync(sj) ? JSON.parse(readFileSync(sj, 'utf8')) : {};
     const pts = scoreDay(rows, day, sig, ctx);
     const raw = Object.values(pts).reduce((a, b) => a + b, 0);
-    const bonus = Math.min(streak * STREAK.perDay, STREAK.cap);
-    const score = Math.max(0, raw + bonus);
-    streak = score >= STREAK.minScore ? streak + 1 : 0;
+    const score = Math.max(0, raw);
     const grade = GRADES.find(([min]) => score >= min)[1];
-    detail.push({ date, score, grade, streak: bonus, logged: logged.has(date), ...pts });
+    detail.push({ date, score, grade, logged: logged.has(date), ...pts });
     series.push({ date, score, grade });
   }
   mkdirSync(DIR, { recursive: true });

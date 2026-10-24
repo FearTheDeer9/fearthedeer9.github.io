@@ -1,28 +1,29 @@
 # Daily log: habit block
 
-Add this to the Notion daily-log template, below "Today will be good if". Keep the headings and checkbox labels exactly as written; the scorer matches them by text.
+Add this to the Notion daily-log template. Keep the headings and checkbox labels as written; the scorer matches them by text.
 
-Use Notion to-do blocks for the checkboxes (type `[]` then a space). For the numbers, write them right after the colon.
+Use Notion to-do blocks for the checkboxes (type `[]` then a space). Write numbers right after the colon.
 
 ```
 ## Habits
 [] Meditation
 [] Contemplative walk
 [] Good writing session
-[] Lesson:
-[] Fantasy football
+[] Cooking
 
-## Screen time
+## Numbers
 Social media (min):
+Sleep (h):
 ```
 
-- **Lesson:** after the colon, write what it was ("Lesson: chess endgames"). Any deliberate lesson counts.
-- **Good writing session:** tick it only for a real session: focused, at least about 45 minutes, on your own writing.
-- **Social media:** your phone's minutes, from Screen Time. Mac time is captured automatically by ActivityWatch. Blank scores zero, not a penalty.
-- **TV:** keep listing what you watched in the existing "TV Show/Movie" section. NFL, Green Bay, Milwaukee and big live events are neutral there.
+- **Social media:** your phone's minutes, from Screen Time. Mac time is measured automatically by ActivityWatch. Blank scores zero, not a penalty.
+- **Sleep:** hours, decimals fine ("7.5").
+- **Good writing session:** tick it for a real session: focused, about 45 minutes or more, on your own writing.
+- **A bonus for something special:** anywhere in the log, write a line starting with `Bonus` and the points, e.g. `Bonus 5: dinner with friends`. Use it for time with friends, or anything else you decide deserves it that day.
+- **TV:** keep listing what you watched under "TV Show/Movie". Your teams, big live events, and anything you mention watching with Amit are free.
 
-Anki, notes taken and Time Block Writing sessions are captured automatically, so they need no checkbox. Tick "Good writing session" only for writing outside Time Block Writing.
+Captured automatically, with nothing to log: Anki reviews, new notes in the vault, deep-work hours (time in your coding, terminal, notes and paper apps) and Mac social-media and Sleeper time.
 
-What each line is worth lives in the **Scorecard** database in Notion (Pursuits and Drains), not here. Add a row there to start tracking a new habit; a row with the source `checklist` matches a checkbox here by its Match text.
+The rest of the template stays as it is: Workout, Articles Read, Lecture, What I Learned Summary, TV Show/Movie, Other Notes. Each is scored.
 
-The other sections stay as they are: goals, Food, Workout, Articles Read, Book Read, TV Show/Movie, Other Notes. They're scored too. For Book Read, keep writing the page you reached ("Iron Flame, p. 140"); the scorer counts pages since the last entry for that book.
+What every line is worth lives in the **Scorecard** database on your Habit Tracker page in Notion, not here. Add a row there to track something new; a `checklist` row matches a checkbox above by its Match text.
