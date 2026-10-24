@@ -63,6 +63,19 @@ Harel reviewed 175 candidates in the ledger artifact: 114 approve, 43 log only, 
 - `/work`: TwoDelta folders with backlinks and graph.
 - `/inbox`: clips with their `why:` lines and read status.
 
+### M3b: Daily score (decided 2026-10-23)
+
+A daily productivity score from the Notion daily log, graphed publicly at `/progress/`.
+
+- **Capture.** A habit checklist is added to the Notion daily template (`docs/journal-template.md`): Anki, meditation, contemplative walk, good writing session, lesson, fantasy football, plus minutes of social media. The existing sections (goals, workout, articles, book, TV) are scored too, and free text is a fallback.
+- **Sync.** A personal Notion integration token, which Harel creates and stores in the macOS Keychain. `scripts/journal/sync-notion.mjs` runs locally each evening and writes one markdown file per day into `private/journal/days/`. The vault supplies "notes taken" (notes created that day in `AI Theory/`).
+- **Score.** `scripts/journal/score.mjs` applies the rules at the top of that file:
+  - Capped habit points, minus drain points, plus a bonus for the share of daily goals hit, plus a streak bonus.
+  - Grades: S ≥ 80, A ≥ 60, B ≥ 40, C ≥ 20, D below.
+  - Sports: NFL, Green Bay, Milwaukee and key live events are neutral; highlights, recaps and sports podcasts are slightly negative.
+- **Privacy.** Raw days and the per-habit breakdown stay in `private/journal/`. The public `src/data/scores.json` holds only date, score and grade.
+- **Graph.** It starts on the lock-in day: the first day with the habit checklist. Earlier days (the 2023 export) show faded, as a baseline.
+
 ### M4+: Backlog
 
 See `TODO.md`: interests-through-time timeline (embeddings + clustering), knowledge graph across paper clusters, activity logging.

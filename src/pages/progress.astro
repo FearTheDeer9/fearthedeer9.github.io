@@ -1,0 +1,110 @@
+---
+import Base from '../layouts/Base.astro';
+import scores from '../data/scores.json';
+import { RULES, GRADES } from '../../scripts/journal/score.mjs';
+
+// Only date, score and grade are public; what happened on each day stays in the private journal.
+type Day = { date: string; score: number; grade: string; baseline: boolean };
+const days = scores as Day[];
+const live = days.filter((d) => !d.baseline);
+const shown = live.length ? live : days;
+const recent = shown.slice(-90);
+
+const avg = (l: Day[]) => (l.length ? Math.round(l.reduce((a, d) => a + d.score, 0) / l.length) : 0);
+let streak = 0, best = 0, run = 0;
+for (const d of shown) { run = d.score >= RULES.streak.minScore ? run + 1 : 0; best = Math.max(best, run); }
+for (let i = shown.length - 1; i >= 0 && shown[i].score >= RULES.streak.minScore; i--) streak++;
+
+// Weekly averages across everything, for the long view.
+const weeks = new Map<string, Day[]>();
+for (const d of days) {
+  const dt = new Date(d.date); dt.setUTCDate(dt.getUTCDate() - ((dt.getUTCDay() + 6) % 7));
+  const k = dt.toISOString().slice(0, 10);
+  weeks.set(k, [...(weeks.get(k) ?? []), d]);
+}
+const weekly = [...weeks].map(([w, l]) => ({ w, avg: avg(l), baseline: l.every((d) => d.baseline) }));
+
+const H = 160, MAX = 100, y = (v: number) => H - (Math.min(v, MAX) / MAX) * H;
+const BAR = 7, GAP = 2, dayW = recent.length * (BAR + GAP);
+const WW = 6, weekW = weekly.length * WW;
+const gradeColor: Record<string, string> = { S: 'var(--t-evergreen)', A: 'var(--t-paper)', B: 'var(--t-lecture)', C: 'var(--t-concept)', D: 'var(--t-excerpt)' };
+const rows: [string, string][] = [
+  ['Anki review', `+${RULES.anki.points}`], ['Paper read', `+${RULES.paper.points} each, up to ${RULES.paper.cap}`],
+  ['Note taken', `+${RULES.note.points} each, up to ${RULES.note.cap}`], ['Good writing session', `+${RULES.writing.points}`],
+  ['Contemplative walk', `+${RULES.walk.points}`], ['Meditation', `+${RULES.meditate.points}`], ['Lesson (chess or anything deliberate)', `+${RULES.lesson.points}`],
+  ['Workout', `+${RULES.workout.points}`], ['Book reading', `+1 per ${RULES.book.perPages} pages, up to ${RULES.book.cap}`],
+  ['Daily goals hit', `up to +${RULES.goals.bonus}, by share ticked`], ['Streak', `+${RULES.streak.perDay} per day in a row at B or better, up to ${RULES.streak.cap}`],
+  ['TV show or movie', `${RULES.tv.points}`], ['Highlights, recaps, sports podcasts', `${RULES.sportClip.points}`],
+  ['Social media', `${RULES.social.perTenMin} per 10 minutes`], ['Fantasy football', `${RULES.fantasy.points}`],
+];
+---
+<Base title="Progress" wide>
+  <section class="intro">
+    <h1>Daily score</h1>
+    <p>Each day of my journal is scored on the habits I want to keep: reading papers, taking notes, writing, Anki, walks, meditation, lessons, training. Time sinks count against it. Only the score is published here, not the day.</p>
+  </section>
+
+  {!live.length && (
+    <p class="notice">Scoring starts on the first day logged with the new habit checklist. Until then, this page shows my 2023 journal as a baseline. Those days predate the checklist, so they undercount habits and mostly land at C and D.</p>
+  )}
+
+  <div class="stats">
+    <div><span class="label">Last 7 days</span><b>{avg(shown.slice(-7))}</b></div>
+    <div><span class="label">Last 30 days</span><b>{avg(shown.slice(-30))}</b></div>
+    <div><span class="label">Current streak</span><b>{streak}</b><span class="meta">days at B or better</span></div>
+    <div><span class="label">Best streak</span><b>{best}</b></div>
+  </div>
+
+  <section class="block">
+    <h2 class="label">{live.length ? 'Last 90 days' : `Last ${recent.length} days of the baseline`}</h2>
+    <div class="scroll">
+      <svg width={dayW + 40} height={H + 30} role="img" aria-label="Daily scores">
+        {[20, 40, 60, 80].map((g) => <g><line x1="30" x2={dayW + 40} y1={y(g)} y2={y(g)} class="grid" /><text x="0" y={y(g) + 4} class="axis">{g}</text></g>)}
+        {recent.map((d, i) => (
+          <rect x={34 + i * (BAR + GAP)} y={y(d.score)} width={BAR} height={H - y(d.score)} rx="1"
+            fill={gradeColor[d.grade]} opacity={d.baseline ? 0.45 : 1}><title>{d.date}: {d.score} ({d.grade})</title></rect>
+        ))}
+        <text x="34" y={H + 20} class="axis">{recent[0]?.date}</text>
+        <text x={dayW + 34} y={H + 20} class="axis" text-anchor="end">{recent.at(-1)?.date}</text>
+      </svg>
+    </div>
+    <p class="legend meta">{GRADES.map(([min, g]) => <span><i style={`background:${gradeColor[g]}`}></i>{g}{Number.isFinite(min) ? ` ≥ ${min}` : ''}</span>)}</p>
+  </section>
+
+  <section class="block">
+    <h2 class="label">Weekly average, all time</h2>
+    <div class="scroll">
+      <svg width={weekW + 40} height={H + 30} role="img" aria-label="Weekly average score">
+        {[20, 40, 60, 80].map((g) => <g><line x1="30" x2={weekW + 40} y1={y(g)} y2={y(g)} class="grid" /><text x="0" y={y(g) + 4} class="axis">{g}</text></g>)}
+        <polyline fill="none" stroke="var(--accent)" stroke-width="2" points={weekly.map((w, i) => `${34 + i * WW},${y(w.avg)}`).join(' ')} />
+        <text x="34" y={H + 20} class="axis">{weekly[0]?.w}</text>
+        <text x={weekW + 34} y={H + 20} class="axis" text-anchor="end">{weekly.at(-1)?.w}</text>
+      </svg>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2 class="label">How a day is scored</h2>
+    <table class="rules">
+      <tbody>{rows.map(([k, v]) => <tr><td>{k}</td><td class="meta">{v}</td></tr>)}</tbody>
+    </table>
+  </section>
+</Base>
+
+<style>
+  .intro { padding: 72px 0 16px; max-width: 760px; }
+  .intro h1 { margin: 0 0 12px; font-size: 44px; font-weight: 400; }
+  .intro p { margin: 0; color: var(--ink-2); }
+  .notice { max-width: 760px; padding: 12px 16px; border: 1px dashed var(--faint); border-radius: 4px; color: var(--ink-2); font-size: 16px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; padding: 24px 0; }
+  .stats div { display: flex; flex-direction: column; gap: 4px; }
+  .stats b { font-size: 40px; font-weight: 400; font-variant-numeric: tabular-nums; }
+  .scroll { overflow-x: auto; }
+  svg { display: block; }
+  .grid { stroke: var(--rule); stroke-width: 1; }
+  .axis { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+  .legend i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 6px; }
+  .rules { border-collapse: collapse; font-size: 16px; }
+  .rules td { padding: 6px 24px 6px 0; border-bottom: 1px solid var(--rule); }
+</style>
