@@ -16,6 +16,7 @@ import { LOCK_IN } from './score.mjs';
 
 const OUT = 'private/journal/days';
 const STATE = 'private/journal/sync-state.json';
+const CONFIG = 'private/journal/notion.json';
 mkdirSync(OUT, { recursive: true });
 
 // "Daily Log 18.5.25", "Daily Log6.1.23" -> 2025-05-18
@@ -88,13 +89,16 @@ if (process.argv.includes('--init-scorecard')) {
       Name: { title: [{ text: { content: r.name } }] }, Side: { select: { name: r.side } }, Points: { number: r.points }, Cap: { number: r.cap },
       Unit: { select: { name: r.unit } }, Source: { select: { name: r.source } }, Match: rich(r.match), Except: rich(r.except), Active: { checkbox: true } } });
   }
+  writeFileSync(CONFIG, JSON.stringify({ scorecard: db.id }, null, 1));
   console.log(`Scorecard created with ${seed.length} rows: ${db.url}`);
   process.exit(0);
 }
 
 async function readScorecard() {
-  const found = await api('search', { query: 'Scorecard', filter: { property: 'object', value: 'database' } });
-  const db = found.results.find((d) => text(d.title) === 'Scorecard');
+  // The id saved at creation; search is only a fallback, since Notion indexes new databases with a delay.
+  const saved = existsSync(CONFIG) ? JSON.parse(readFileSync(CONFIG, 'utf8')).scorecard : null;
+  const db = saved ? { id: saved } : (await api('search', { query: 'Scorecard', filter: { property: 'object', value: 'database' } }))
+    .results.find((d) => text(d.title) === 'Scorecard');
   if (!db) return console.log('No "Scorecard" database shared with the integration yet; scoring uses the default scorecard.');
   const rows = [];
   let cursor;
