@@ -1,127 +1,15 @@
 [
  {
-  "name": "Personal bonus",
-  "side": "pursuit",
+  "name": "Alcoholic drink",
+  "side": "drain",
   "points": 1,
   "cap": null,
   "unit": "per-item"
  },
  {
-  "name": "Sleep",
-  "side": "pursuit",
-  "points": 2,
-  "cap": null,
-  "unit": "per-hour"
- },
- {
-  "name": "Cooking",
-  "side": "pursuit",
-  "points": 5,
-  "cap": 5,
-  "unit": "per-day"
- },
- {
-  "name": "Deep work",
-  "side": "pursuit",
-  "points": 4,
-  "cap": null,
-  "unit": "per-hour"
- },
- {
-  "name": "Article read",
-  "side": "pursuit",
-  "points": 1,
-  "cap": null,
-  "unit": "per-item"
- },
- {
-  "name": "Anki review",
-  "side": "pursuit",
-  "points": 10,
-  "cap": 10,
-  "unit": "per-day"
- },
- {
-  "name": "Paper read",
-  "side": "pursuit",
+  "name": "Fantasy football",
+  "side": "drain",
   "points": 8,
-  "cap": 16,
-  "unit": "per-item"
- },
- {
-  "name": "Note taken",
-  "side": "pursuit",
-  "points": 2,
-  "cap": 18,
-  "unit": "per-item"
- },
- {
-  "name": "Good writing session",
-  "side": "pursuit",
-  "points": 15,
-  "cap": 15,
-  "unit": "per-day"
- },
- {
-  "name": "Contemplative walk",
-  "side": "pursuit",
-  "points": 6,
-  "cap": 6,
-  "unit": "per-day"
- },
- {
-  "name": "Meditation",
-  "side": "pursuit",
-  "points": 6,
-  "cap": 6,
-  "unit": "per-day"
- },
- {
-  "name": "Lesson",
-  "side": "pursuit",
-  "points": 10,
-  "cap": 10,
-  "unit": "per-day"
- },
- {
-  "name": "What I learned summary",
-  "side": "pursuit",
-  "points": 3,
-  "cap": 3,
-  "unit": "per-day"
- },
- {
-  "name": "Workout",
-  "side": "pursuit",
-  "points": 5,
-  "cap": 5,
-  "unit": "per-day"
- },
- {
-  "name": "TV show or movie",
-  "side": "drain",
-  "points": 6,
-  "cap": 30,
-  "unit": "per-item"
- },
- {
-  "name": "Sports highlights & recaps",
-  "side": "drain",
-  "points": 2,
-  "cap": 10,
-  "unit": "per-item"
- },
- {
-  "name": "Sports podcasts",
-  "side": "drain",
-  "points": 2,
-  "cap": 10,
-  "unit": "per-item"
- },
- {
-  "name": "Social media (phone)",
-  "side": "drain",
-  "points": 6,
   "cap": null,
   "unit": "per-hour"
  },
@@ -133,10 +21,122 @@
   "unit": "per-hour"
  },
  {
-  "name": "Fantasy football",
+  "name": "Social media (phone)",
   "side": "drain",
-  "points": 12,
+  "points": 6,
   "cap": null,
   "unit": "per-hour"
+ },
+ {
+  "name": "Sports podcasts",
+  "side": "drain",
+  "points": 2,
+  "cap": 10,
+  "unit": "per-item"
+ },
+ {
+  "name": "Sports highlights & recaps",
+  "side": "drain",
+  "points": 2,
+  "cap": 10,
+  "unit": "per-item"
+ },
+ {
+  "name": "TV show or movie",
+  "side": "drain",
+  "points": 6,
+  "cap": 30,
+  "unit": "per-item"
+ },
+ {
+  "name": "Workout",
+  "side": "pursuit",
+  "points": 5,
+  "cap": 5,
+  "unit": "per-day"
+ },
+ {
+  "name": "What I learned summary",
+  "side": "pursuit",
+  "points": 3,
+  "cap": 3,
+  "unit": "per-day"
+ },
+ {
+  "name": "Lesson",
+  "side": "pursuit",
+  "points": 10,
+  "cap": 10,
+  "unit": "per-day"
+ },
+ {
+  "name": "Meditation",
+  "side": "pursuit",
+  "points": 6,
+  "cap": 6,
+  "unit": "per-day"
+ },
+ {
+  "name": "Contemplative walk",
+  "side": "pursuit",
+  "points": 6,
+  "cap": 6,
+  "unit": "per-day"
+ },
+ {
+  "name": "Good writing session",
+  "side": "pursuit",
+  "points": 15,
+  "cap": 15,
+  "unit": "per-day"
+ },
+ {
+  "name": "Note taken",
+  "side": "pursuit",
+  "points": 2,
+  "cap": 18,
+  "unit": "per-item"
+ },
+ {
+  "name": "Paper read",
+  "side": "pursuit",
+  "points": 8,
+  "cap": 16,
+  "unit": "per-item"
+ },
+ {
+  "name": "Anki review",
+  "side": "pursuit",
+  "points": 10,
+  "cap": 10,
+  "unit": "per-day"
+ },
+ {
+  "name": "Article read",
+  "side": "pursuit",
+  "points": 1,
+  "cap": null,
+  "unit": "per-item"
+ },
+ {
+  "name": "Deep work",
+  "side": "pursuit",
+  "points": 4,
+  "cap": null,
+  "unit": "per-hour"
+ },
+ {
+  "name": "Cooking",
+  "side": "pursuit",
+  "points": 5,
+  "cap": 5,
+  "unit": "per-day"
+ },
+ {
+  "name": "Personal bonus",
+  "side": "pursuit",
+  "points": 1,
+  "cap": null,
+  "unit": "per-item"
  }
 ]
