@@ -56,17 +56,30 @@ async function activity(date) {
   const afk = Object.keys(buckets).find((b) => b.startsWith('aw-watcher-afk'));
   if (!win || !afk) return null;
   const start = new Date(`${date}T00:00:00`), end = new Date(start); end.setDate(end.getDate() + 1);
-  const query = [`win = flood(query_bucket("${win}"));`, `afk = filter_keyvals(flood(query_bucket("${afk}")), "status", ["not-afk"]);`,
-    'win = filter_period_intersect(win, afk);', 'RETURN = merge_events_by_keys(win, ["app", "title"]);'];
-  const [events] = await fetch(`${AW}/query/`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ timeperiods: [`${start.toISOString()}/${end.toISOString()}`], query }) }).then((r) => r.json());
-  // Keep "app — title" with minutes, rounded; enough to match a row's pattern against.
-  return Object.fromEntries(events.filter((e) => e.duration >= 30)
-    .map((e) => [`${e.data.app} — ${String(e.data.title).slice(0, 120)}`, Math.round(e.duration / 60)]));
+  // Raw events, intersected here: ActivityWatch 0.13's filter_keyvals query function errors server-side.
+  const events = async (bucket) => {
+    const res = await fetch(`${AW}/buckets/${bucket}/events?start=${start.toISOString()}&end=${end.toISOString()}&limit=-1`).then((r) => r.json());
+    if (!Array.isArray(res)) throw new Error(`ActivityWatch events failed: ${res.message ?? JSON.stringify(res)}`);
+    return res.map((e) => ({ data: e.data, from: Date.parse(e.timestamp), to: Date.parse(e.timestamp) + e.duration * 1000 }));
+  };
+  const active = (await events(afk)).filter((e) => e.data.status === 'not-afk');
+  const seconds = {};
+  for (const w of await events(win)) {
+    let overlap = 0;
+    for (const a of active) overlap += Math.max(0, Math.min(w.to, a.to) - Math.max(w.from, a.from));
+    if (!overlap) continue;
+    const key = `${w.data.app} — ${String(w.data.title ?? '').slice(0, 120)}`;
+    seconds[key] = (seconds[key] ?? 0) + overlap / 1000;
+  }
+  // Keep "app — title" with minutes; enough to match a row's pattern against.
+  return Object.fromEntries(Object.entries(seconds).filter(([, s]) => s >= 30).map(([k, s]) => [k, Math.round(s / 60)]));
 }
-let awUp = true;
+let awUp = true, awError = '';
 for (const d of dates) {
-  if (awUp) { try { sig[d].activitywatch = await activity(d); } catch { awUp = false; } }
+  if (awUp) {
+    try { sig[d].activitywatch = await activity(d); }
+    catch (e) { awUp = false; awError = e.cause?.code === 'ECONNREFUSED' ? 'not running' : e.message; }
+  }
   writeFileSync(join(OUT, `${d}.json`), JSON.stringify(sig[d], null, 1));
 }
-console.log(`${dates.length} days collected (${dates[0]} → ${dates.at(-1)}); ActivityWatch ${awUp ? 'read' : 'not running, skipped'}`);
+console.log(`${dates.length} days collected (${dates[0]} → ${dates.at(-1)}); ActivityWatch ${awUp ? 'read' : `skipped (${awError})`}`);
