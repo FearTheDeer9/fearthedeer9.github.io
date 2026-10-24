@@ -63,18 +63,20 @@ Harel reviewed 175 candidates in the ledger artifact: 114 approve, 43 log only, 
 - `/work`: TwoDelta folders with backlinks and graph.
 - `/inbox`: clips with their `why:` lines and read status.
 
-### M3b: Daily score (decided 2026-10-23)
+### M3b: Daily score (decided 2026-10-23, revised 2026-10-24)
 
-A daily productivity score from the Notion daily log, graphed publicly at `/progress/`.
+A daily score against a **Scorecard** of Pursuits (habits being built) and Drains (time sinks), graphed publicly at `/progress/`.
 
-- **Capture.** A habit checklist is added to the Notion daily template (`docs/journal-template.md`): Anki, meditation, contemplative walk, good writing session, lesson, fantasy football, plus minutes of social media. The existing sections (goals, workout, articles, book, TV) are scored too, and free text is a fallback.
-- **Sync.** A personal Notion integration token, which Harel creates and stores in the macOS Keychain. `scripts/journal/sync-notion.mjs` runs locally each evening and writes one markdown file per day into `private/journal/days/`. The vault supplies "notes taken" (notes created that day in `AI Theory/`).
-- **Score.** `scripts/journal/score.mjs` applies the rules at the top of that file:
-  - Capped habit points, minus drain points, plus a bonus for the share of daily goals hit, plus a streak bonus.
-  - Grades: S ≥ 80, A ≥ 60, B ≥ 40, C ≥ 20, D below.
-  - Sports: NFL, Green Bay, Milwaukee and key live events are neutral; highlights, recaps and sports podcasts are slightly negative.
-- **Privacy.** Raw days and the per-habit breakdown stay in `private/journal/`. The public `src/data/scores.json` holds only date, score and grade.
-- **Graph.** It starts on the lock-in day: the first day with the habit checklist. Earlier days (the 2023 export) show faded, as a baseline.
+- **No backfill.** Scoring starts at the lock-in date, 2026-10-24 (`LOCK_IN` in `scripts/journal/score.mjs`). Earlier days would be inferred, not recorded.
+- **The Scorecard is a Notion database.** Harel edits it from the phone, one row per habit: side, points, cap, unit, source, match/except patterns, active. `sync-notion.mjs --init-scorecard <page>` creates it, seeded from `scripts/journal/scorecard.default.json`. Each sync copies it to `private/journal/scorecard.json`. Rows sharing a name are alternative evidence for one habit; the strongest counts once.
+- **Captured automatically** by `scripts/journal/collect.mjs`, local and read-only:
+  - **Anki:** reviews per day, from the collection file.
+  - **Vault:** notes created in AI Theory/ and Daily Learning/, and Time Block Writing sessions, by file dates only.
+  - **ActivityWatch:** Mac app and site minutes for social media and Sleeper, once Harel starts it and grants Accessibility.
+- **Captured by hand** in the Notion daily log (`docs/journal-template.md`): checkboxes for meditation, walk, writing outside Time Block Writing, lesson and fantasy football; phone social-media minutes; plus the existing sections (goals, workout, articles, book pages, TV).
+- **Not automatable here:** phone screen time (Apple offers no API), podcasts (not played on this Mac), TV.
+- **Privacy.** Raw days, signals and the per-row breakdown stay in `private/journal/`. Public files: `src/data/scores.json` (date, score, grade) and `src/data/scorecard.json` (row names and points).
+- **Not built yet:** the nightly job (sync → collect → score → rebuild). It waits on Harel's Notion token, and on whether it may push scores by itself.
 
 ### M4+: Backlog
 

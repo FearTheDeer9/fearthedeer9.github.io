@@ -2,12 +2,14 @@
 // Read-only against Notion. Only pages whose title starts with "Daily Log" are fetched.
 //
 //   node scripts/journal/sync-notion.mjs                 new and edited days since the last run
-//   node scripts/journal/sync-notion.mjs --export <dir>  load an old Notion markdown export instead (no token)
+//   node scripts/journal/sync-notion.mjs --init-scorecard <page-url>   create the "Scorecard" database under that page, once
+//
+// Each run also reads the "Scorecard" database (Pursuits and Drains) into private/journal/scorecard.json.
 //
 // Token: NOTION_TOKEN, or the macOS Keychain item "notion-journal", which Harel creates with
 //   security add-generic-password -s notion-journal -a "$USER" -w
 // (it prompts for the token, so the token never appears in shell history).
-import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 
@@ -21,21 +23,6 @@ function dateOf(title) {
   if (!m) return null;
   const y = m[3].length === 2 ? `20${m[3]}` : m[3];
   return `${y}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`;
-}
-
-const exportDir = process.argv[process.argv.indexOf('--export') + 1];
-if (process.argv.includes('--export')) {
-  let n = 0;
-  for (const f of readdirSync(exportDir)) {
-    const date = dateOf(f);
-    if (!date || !f.endsWith('.md')) continue;
-    const md = readFileSync(join(exportDir, f), 'utf8')
-      .replace(/^(\s*)[-*]\s+\[([ xX])\]/gm, '$1[$2]'); // Notion exports to-dos as "- [x]"; normalise to "[x]"
-    writeFileSync(join(OUT, `${date}.md`), md);
-    n++;
-  }
-  console.log(`${n} days loaded from the export`);
-  process.exit(0);
 }
 
 const token = process.env.NOTION_TOKEN ?? (() => {
@@ -77,6 +64,53 @@ async function toMarkdown(blockId, depth = 0) {
   } while (cursor);
   return lines;
 }
+
+// ---- Scorecard: the Notion database Harel edits; one row per Pursuit or Drain. ----
+const SIDES = ['pursuit', 'drain'];
+const UNITS = ['per-day', 'per-item', 'per-10-min', 'per-10-pages', 'share'];
+const SOURCE_NAMES = ['checklist', 'checklist-minutes', 'anki', 'vault-notes', 'vault-writing', 'activitywatch', 'workout', 'goals', 'tv', 'articles', 'book'];
+const select = (names) => ({ select: { options: names.map((name) => ({ name })) } });
+const rich = (t) => ({ rich_text: t ? [{ text: { content: t } }] : [] });
+
+if (process.argv.includes('--init-scorecard')) {
+  const url = process.argv[process.argv.indexOf('--init-scorecard') + 1] ?? '';
+  const parent = url.replace(/-/g, '').match(/[0-9a-f]{32}/i)?.[0];
+  if (!parent) { console.error('Pass the URL of the Notion page to create the Scorecard under.'); process.exit(1); }
+  const db = await api('databases', {
+    parent: { type: 'page_id', page_id: parent }, title: [{ text: { content: 'Scorecard' } }],
+    properties: { Name: { title: {} }, Side: select(SIDES), Points: { number: {} }, Cap: { number: {} }, Unit: select(UNITS),
+      Source: select(SOURCE_NAMES), Match: { rich_text: {} }, Except: { rich_text: {} }, Active: { checkbox: {} } },
+  });
+  const seed = JSON.parse(readFileSync('scripts/journal/scorecard.default.json', 'utf8'));
+  for (const r of seed) {
+    await api('pages', { parent: { database_id: db.id }, properties: {
+      Name: { title: [{ text: { content: r.name } }] }, Side: { select: { name: r.side } }, Points: { number: r.points }, Cap: { number: r.cap },
+      Unit: { select: { name: r.unit } }, Source: { select: { name: r.source } }, Match: rich(r.match), Except: rich(r.except), Active: { checkbox: true } } });
+  }
+  console.log(`Scorecard created with ${seed.length} rows: ${db.url}`);
+  process.exit(0);
+}
+
+async function readScorecard() {
+  const found = await api('search', { query: 'Scorecard', filter: { property: 'object', value: 'database' } });
+  const db = found.results.find((d) => text(d.title) === 'Scorecard');
+  if (!db) return console.log('No "Scorecard" database shared with the integration yet; scoring uses the default scorecard.');
+  const rows = [];
+  let cursor;
+  do {
+    const res = await api(`databases/${db.id}/query`, { start_cursor: cursor, page_size: 100 });
+    for (const p of res.results) {
+      const v = p.properties;
+      rows.push({ name: text(v.Name?.title), side: v.Side?.select?.name ?? 'pursuit', points: v.Points?.number ?? 0, cap: v.Cap?.number ?? null,
+        unit: v.Unit?.select?.name ?? 'per-day', source: v.Source?.select?.name ?? 'checklist', match: text(v.Match?.rich_text), except: text(v.Except?.rich_text),
+        active: v.Active?.checkbox ?? true });
+    }
+    cursor = res.has_more ? res.next_cursor : null;
+  } while (cursor);
+  writeFileSync('private/journal/scorecard.json', JSON.stringify(rows.filter((r) => r.name), null, 1));
+  console.log(`Scorecard: ${rows.length} rows`);
+}
+await readScorecard();
 
 const state = existsSync(STATE) ? JSON.parse(readFileSync(STATE, 'utf8')) : {};
 let fetched = 0, cursor;

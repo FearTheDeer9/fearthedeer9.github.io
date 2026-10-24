@@ -1,7 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import scores from '../data/scores.json';
-import { RULES, GRADES, LOCK_IN } from '../../scripts/journal/score.mjs';
+import scorecard from '../data/scorecard.json';
+import { GRADES, LOCK_IN, STREAK } from '../../scripts/journal/score.mjs';
 
 // Only date, score and grade are public; what happened on each day stays in the private journal.
 type Day = { date: string; score: number; grade: string };
@@ -12,8 +13,8 @@ const start = new Date(LOCK_IN).toLocaleDateString('en-GB', { day: 'numeric', mo
 
 const avg = (l: Day[]) => (l.length ? Math.round(l.reduce((a, d) => a + d.score, 0) / l.length) : 0);
 let streak = 0, best = 0, run = 0;
-for (const d of shown) { run = d.score >= RULES.streak.minScore ? run + 1 : 0; best = Math.max(best, run); }
-for (let i = shown.length - 1; i >= 0 && shown[i].score >= RULES.streak.minScore; i--) streak++;
+for (const d of shown) { run = d.score >= STREAK.minScore ? run + 1 : 0; best = Math.max(best, run); }
+for (let i = shown.length - 1; i >= 0 && shown[i].score >= STREAK.minScore; i--) streak++;
 
 // Weekly averages across everything, for the long view.
 const weeks = new Map<string, Day[]>();
@@ -28,20 +29,15 @@ const H = 160, MAX = 100, y = (v: number) => H - (Math.min(v, MAX) / MAX) * H;
 const BAR = 7, GAP = 2, dayW = recent.length * (BAR + GAP);
 const WW = 6, weekW = weekly.length * WW;
 const gradeColor: Record<string, string> = { S: 'var(--t-evergreen)', A: 'var(--t-paper)', B: 'var(--t-lecture)', C: 'var(--t-concept)', D: 'var(--t-excerpt)' };
-const rows: [string, string][] = [
-  ['Anki review', `+${RULES.anki.points}`], ['Paper read', `+${RULES.paper.points} each, up to ${RULES.paper.cap}`],
-  ['Note taken', `+${RULES.note.points} each, up to ${RULES.note.cap}`], ['Good writing session', `+${RULES.writing.points}`],
-  ['Contemplative walk', `+${RULES.walk.points}`], ['Meditation', `+${RULES.meditate.points}`], ['Lesson (chess or anything deliberate)', `+${RULES.lesson.points}`],
-  ['Workout', `+${RULES.workout.points}`], ['Book reading', `+1 per ${RULES.book.perPages} pages, up to ${RULES.book.cap}`],
-  ['Daily goals hit', `up to +${RULES.goals.bonus}, by share ticked`], ['Streak', `+${RULES.streak.perDay} per day in a row at B or better, up to ${RULES.streak.cap}`],
-  ['TV show or movie', `${RULES.tv.points}`], ['Highlights, recaps, sports podcasts', `${RULES.sportClip.points}`],
-  ['Social media', `${RULES.social.perTenMin} per 10 minutes`], ['Fantasy football', `${RULES.fantasy.points}`],
-];
+const UNIT: Record<string, string> = { 'per-day': '', 'per-item': ' each', 'per-10-min': ' per 10 min', 'per-10-pages': ' per 10 pages', share: ', by share ticked' };
+const describe = (r: { points: number; cap: number | null; unit: string; side: string }) =>
+  `${r.side === 'drain' ? '−' : '+'}${r.points}${UNIT[r.unit] ?? ''}${r.cap && r.unit !== 'per-day' && r.cap !== r.points ? `, up to ${r.cap}` : ''}`;
+const pursuits = scorecard.filter((r) => r.side === 'pursuit'), drains = scorecard.filter((r) => r.side === 'drain');
 ---
 <Base title="Progress" wide>
   <section class="intro">
     <h1>Daily score</h1>
-    <p>Each day of my journal is scored on the habits I want to keep: reading papers, taking notes, writing, Anki, walks, meditation, lessons, training. Time sinks count against it. Only the score is published here, not the day.</p>
+    <p>Each day is scored against a scorecard of Pursuits, the habits I'm building, and Drains, where time leaks away. Most of it is captured automatically (Anki, my notes, writing sessions, screen time); the rest comes from my daily journal. Only the score is published here, not the day.</p>
   </section>
 
   {!days.length && <p class="notice">Scoring started on {start}. The first scored day appears here once it has been logged.</p>}
@@ -83,9 +79,12 @@ const rows: [string, string][] = [
 
   <section class="block">
     <h2 class="label">How a day is scored</h2>
-    <table class="rules">
-      <tbody>{rows.map(([k, v]) => <tr><td>{k}</td><td class="meta">{v}</td></tr>)}</tbody>
-    </table>
+    <div class="card">
+      <div><h3>Pursuits</h3><table class="rules"><tbody>{pursuits.map((r) => <tr><td>{r.name}</td><td class="meta">{describe(r)}</td></tr>)}
+        <tr><td>Streak</td><td class="meta">+{STREAK.perDay} per day in a row at B or better, up to {STREAK.cap}</td></tr></tbody></table></div>
+      <div><h3>Drains</h3><table class="rules"><tbody>{drains.map((r) => <tr><td>{r.name}</td><td class="meta">{describe(r)}</td></tr>)}</tbody></table></div>
+    </div>
+    <p class="meta">The scorecard changes as my interests do; the score uses whatever it said on each day.</p>
   </section>
 </Base>
 
@@ -103,6 +102,8 @@ const rows: [string, string][] = [
   .axis { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
   .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; }
   .legend i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 6px; }
-  .rules { border-collapse: collapse; font-size: 16px; }
+  .card { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px 48px; }
+  .card h3 { margin: 0 0 8px; font-size: 18px; font-weight: 500; }
+  .rules { border-collapse: collapse; font-size: 16px; width: 100%; }
   .rules td { padding: 6px 24px 6px 0; border-bottom: 1px solid var(--rule); }
 </style>

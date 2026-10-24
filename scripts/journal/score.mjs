@@ -1,44 +1,24 @@
-// Scores each day of the private daily log and writes the public score series.
+// Scores each day since lock-in against the Scorecard: Pursuits earn points, Drains cost them.
 //
 //   node scripts/journal/score.mjs
 //
-// Reads  private/journal/days/YYYY-MM-DD.md   (one daily log per file, from sync-notion.mjs)
-// Writes private/journal/breakdown.json       (per-habit points: private, never committed)
-//        src/data/scores.json                 (date, score, grade only: public)
-import { readFileSync, writeFileSync, readdirSync, statSync, existsSync, mkdirSync } from 'node:fs';
+// Reads  private/journal/scorecard.json        (synced from the Notion "Scorecard" database; falls back to scorecard.default.json)
+//        private/journal/days/<date>.md        (the Notion daily log, from sync-notion.mjs)
+//        private/journal/signals/<date>.json   (automatic signals, from collect.mjs)
+// Writes private/journal/breakdown.json        (points per row: private, never committed)
+//        src/data/scores.json                  (date, score, grade only: public)
+//        src/data/scorecard.json               (row names and points: public, shown on /progress/)
+import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 
-// ---- The formula. Points per occurrence, and the most a habit can earn in one day. ----
-export const RULES = {
-  anki:     { points: 10, cap: 10 },
-  paper:    { points: 8, cap: 16 },  // a research paper in Articles Read
-  note:     { points: 6, cap: 18 },  // a note created that day in the vault (AI Theory, Daily Learning)
-  writing:  { points: 15, cap: 15 }, // a good writing session, or a Time Block Writing entry that day
-  walk:     { points: 8, cap: 8 },   // contemplative walk
-  meditate: { points: 8, cap: 8 },
-  lesson:   { points: 10, cap: 10 }, // chess or any deliberate lesson
-  workout:  { points: 10, cap: 10 },
-  book:     { perPages: 10, cap: 8, noPages: 3 }, // 1 point per 10 pages; 3 if pages weren't logged
-  goals:    { bonus: 15 },           // 15 × share of "Today will be good if" items ticked
-  // Drains (negative). Sport you follow and big live events are neutral.
-  tv:       { points: -6 },
-  sportClip:{ points: -2 },          // highlights, recaps, sports podcasts
-  social:   { perTenMin: -1 },
-  fantasy:  { points: -8 },
-  streak:   { perDay: 2, cap: 10, minScore: 40 }, // consecutive days scoring at least B
-};
 // Scoring starts here. Earlier days are never scored: their habits would have to be inferred, not recorded.
 export const LOCK_IN = '2026-10-24';
 export const GRADES = [[80, 'S'], [60, 'A'], [40, 'B'], [20, 'C'], [-Infinity, 'D']];
+export const STREAK = { perDay: 2, cap: 10, minScore: 40 }; // bonus per consecutive day at B or better
 
-const NEUTRAL_SPORT = /\b(nfl|packers?|green bay|bucks|milwaukee|brewers|super bowl|playoffs?|finals?|world cup|olympics?|wimbledon|us open|grand slam|el clasico|champions league final)\b/i;
-const SPORT_CLIP = /\b(highlights?|recap|pod(cast)?|bs pod|bill simmons|lowe|heavy hands|thinking basketball|kram|ringer|nba|ranking|power rankings|mock draft)\b/i;
-const PAPER = /\b(arxiv|paper|et al\.?)\b|\d{4}\.\d{4,5}/i;
+const DIR = 'private/journal';
 
-const VAULT = process.env.VAULT_DIR ?? `${process.env.HOME}/Library/Mobile Documents/iCloud~md~obsidian/Documents/PKM`;
-const DAYS = 'private/journal/days';
-
-// ---- Parsing: a day file is markdown with the daily-log template's headings. ----
+// ---- The daily log: markdown with the template's headings. ----
 const SECTION = [
   [/today will be good if/i, 'goals'], [/^habits/i, 'habits'], [/screen time/i, 'screen'], [/^food/i, 'food'],
   [/^workout/i, 'workout'], [/articles? read/i, 'articles'], [/books? read/i, 'book'], [/tv|movie/i, 'tv'], [/other notes/i, 'notes'],
@@ -56,106 +36,73 @@ export function parseDay(md) {
   return out;
 }
 const checked = (line) => /^\[x\]|☑️|✅|✔/i.test(line);
-const label = (line) => line.replace(/^\[[ x]\]\s*/i, '').replace(/☑️|✅|✔️?/g, '').trim();
+const re = (s) => (s ? new RegExp(s, 'i') : null);
 
-// Signals from the vault, by date only; file contents are never read here.
-// Notes taken: notes created in AI Theory/ or Daily Learning/. Writing sessions: Time Block Writing entries.
-function vaultDays() {
-  const notes = {}, writing = {};
-  const dated = (name, p) => {
-    const m = name.match(/(\d{1,2})\.(\d{1,2})\.(\d{2})\b/); // "Time Block Writing 22.10.26"
-    return m ? `20${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}` : statSync(p).birthtime.toISOString().slice(0, 10);
-  };
-  (function walk(dir, rel) {
-    if (!existsSync(dir)) return;
-    for (const e of readdirSync(dir, { withFileTypes: true })) {
-      const p = join(dir, e.name), r = rel ? `${rel}/${e.name}` : e.name;
-      if (e.isDirectory()) { if (!e.name.startsWith('.')) walk(p, r); continue; }
-      if (!e.name.endsWith('.md')) continue;
-      if (/(^|\/)Time Block Writing\//.test(r)) { const d = dated(e.name, p); writing[d] = true; }
-      else if (/^(AI Theory|Daily Learning)\//.test(r)) { const d = dated(e.name, p); notes[d] = (notes[d] ?? 0) + 1; }
-    }
-  })(VAULT, '');
-  return { notes, writing };
-}
-
-export function scoreDay(day, ctx) {
-  const pts = {};
-  const add = (k, v, cap = Infinity) => { pts[k] = Math.min((pts[k] ?? 0) + v, cap); };
-  const text = [...(day.notes ?? []), ...(day.preamble ?? []), ...(day.other ?? [])].join('\n');
-  const habits = (day.habits ?? []).filter(checked).map((l) => label(l).toLowerCase());
-  const has = (re) => habits.some((h) => re.test(h));
-  const hasChecklist = !!day.habits;
-
-  // Checklist first; free text only on days without the checklist (the backfill).
-  const habit = (key, re, textRe) => { if (has(re) || (!hasChecklist && textRe?.test(text))) add(key, RULES[key].points, RULES[key].cap); };
-  habit('anki', /^anki/, /\banki\b/i);
-  habit('meditate', /^meditat/, /\bmeditat/i);
-  habit('walk', /walk/, /\bwalk(ed|ing)?\b/i);
-  habit('writing', /writing/, /\bwriting session\b/i);
-  habit('lesson', /^lesson/, /\b(chess|lesson|lecture|course)\b/i);
-  if (has(/fantasy/) || (!hasChecklist && /\bfantasy\b/i.test(text))) add('fantasy', RULES.fantasy.points);
-
-  // Goals the day was set up around ("Today will be good if"), which also count walks and workouts ticked there.
-  const goals = day.goals ?? [];
-  if (goals.length) {
-    pts.goals = Math.round((RULES.goals.bonus * goals.filter(checked).length) / goals.length);
-    for (const g of goals.filter(checked).map((g) => label(g).toLowerCase())) {
-      if (/walk/.test(g) && !pts.walk) add('walk', RULES.walk.points, RULES.walk.cap);
-      if (/medita/.test(g) && !pts.meditate) add('meditate', RULES.meditate.points, RULES.meditate.cap);
-      if (/anki/.test(g) && !pts.anki) add('anki', RULES.anki.points, RULES.anki.cap);
-    }
-  }
-  if ((day.workout ?? []).length) add('workout', RULES.workout.points, RULES.workout.cap);
-
-  for (const a of day.articles ?? []) {
-    if (PAPER.test(a)) add('paper', RULES.paper.points, RULES.paper.cap);
-    else if (SPORT_CLIP.test(a) && !NEUTRAL_SPORT.test(a)) add('sportClip', RULES.sportClip.points);
-  }
-  for (const t of day.tv ?? []) {
-    if (NEUTRAL_SPORT.test(t)) continue;
-    add(SPORT_CLIP.test(t) ? 'sportClip' : 'tv', SPORT_CLIP.test(t) ? RULES.sportClip.points : RULES.tv.points);
-  }
-  const social = (day.screen ?? []).map((l) => l.match(/social media[^0-9]*(\d+)/i)?.[1]).find(Boolean);
-  if (social) add('social', Math.round(+social / 10) * RULES.social.perTenMin);
-
-  // Book pages: the page reached minus the last page logged for that book.
-  for (const b of day.book ?? []) {
-    const m = b.match(/^(.*?)[,\s-]*(?:p\.?|page)\s*(\d+)/i) ?? b.match(/^(.*?)\s+(\d+)\s*$/);
-    if (!m) { add('book', RULES.book.noPages, RULES.book.cap); continue; }
+// ---- How much of a row happened on a day, before the row's unit is applied. ----
+const SOURCES = {
+  checklist: (row, day) => ((day.habits ?? []).some((l) => checked(l) && re(row.match || row.name).test(l)) ? 1 : 0),
+  'checklist-minutes': (row, day) => +((day.screen ?? []).map((l) => re(row.match).test(l) && l.match(/(\d+)\s*$/)?.[1]).find(Boolean) || 0),
+  anki: (row, day, sig) => ((sig.anki ?? 0) >= (+row.match || 1) ? 1 : 0),
+  'vault-notes': (row, day, sig) => sig['vault-notes'] ?? 0,
+  'vault-writing': (row, day, sig) => sig['vault-writing'] ?? 0,
+  activitywatch: (row, day, sig) => Object.entries(sig.activitywatch ?? {})
+    .filter(([k]) => re(row.match).test(k) && !(row.except && re(row.except).test(k))).reduce((n, [, m]) => n + m, 0),
+  workout: (row, day) => ((day.workout ?? []).length ? 1 : 0),
+  goals: (row, day) => { const g = day.goals ?? []; return g.length ? g.filter(checked).length / g.length : 0; },
+  tv: (row, day) => (day.tv ?? []).filter((l) => (!row.match || re(row.match).test(l)) && !(row.except && re(row.except).test(l))).length,
+  articles: (row, day) => (day.articles ?? []).filter((l) => (!row.match || re(row.match).test(l)) && !(row.except && re(row.except).test(l))).length,
+  // Pages since the last page logged for the same book ("Iron Flame, p. 140"); 30 pages assumed when none are given.
+  book: (row, day, sig, ctx) => (day.book ?? []).reduce((n, b) => {
+    const m = b.match(/^(.*?)[,\s-]*(?:p\.?|page)\s*(\d+)/i);
+    if (!m) return n + 30;
     const key = m[1].trim().toLowerCase(), page = +m[2], prev = ctx.lastPage[key];
     ctx.lastPage[key] = page;
-    add('book', prev !== undefined && page > prev ? Math.floor((page - prev) / RULES.book.perPages) : RULES.book.noPages, RULES.book.cap);
-  }
-  if (ctx.notes) add('note', Math.min(ctx.notes * RULES.note.points, RULES.note.cap), RULES.note.cap);
-  if (ctx.writing && !pts.writing) add('writing', RULES.writing.points, RULES.writing.cap);
+    return n + (prev !== undefined && page > prev ? page - prev : 30);
+  }, 0),
+};
+const UNIT = { 'per-day': (n) => Math.min(n, 1), 'per-item': (n) => n, 'per-10-min': (n) => Math.floor(n / 10), 'per-10-pages': (n) => Math.floor(n / 10), share: (n) => n };
 
-  const raw = Object.values(pts).reduce((a, b) => a + b, 0);
-  return { pts, raw, hasChecklist };
+export function scoreDay(rows, day, sig, ctx) {
+  // Rows sharing a name are alternative evidence for one habit (a checkbox or ActivityWatch): the strongest counts once.
+  const byName = new Map();
+  for (const row of rows.filter((r) => r.active !== false)) {
+    const amount = UNIT[row.unit]?.(SOURCES[row.source]?.(row, day, sig, ctx) ?? 0) ?? 0;
+    const pts = Math.min(Math.round(amount * row.points), row.cap ?? Infinity) * (row.side === 'drain' ? -1 : 1);
+    const prev = byName.get(row.name);
+    if (prev === undefined || Math.abs(pts) > Math.abs(prev)) byName.set(row.name, pts);
+  }
+  return Object.fromEntries([...byName].filter(([, v]) => v !== 0));
 }
 
-// ---- Run over every day, in order (book pages and streaks depend on the previous days). ----
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const files = existsSync(DAYS) ? readdirSync(DAYS).filter((f) => /^\d{4}-\d{2}-\d{2}\.md$/.test(f) && f.slice(0, 10) >= LOCK_IN).sort() : [];
-  const vault = vaultDays();
+  const rows = JSON.parse(readFileSync(existsSync(join(DIR, 'scorecard.json')) ? join(DIR, 'scorecard.json') : 'scripts/journal/scorecard.default.json', 'utf8'));
+  const list = (sub, ext) => (existsSync(join(DIR, sub)) ? readdirSync(join(DIR, sub)).filter((f) => f.endsWith(ext)).map((f) => f.slice(0, 10)) : []);
+  const logged = new Set(list('days', '.md'));
+  const today = new Date().toLocaleDateString('en-CA');
+  // A day is scored once it's over or logged, and only from lock-in on.
+  const dates = [...new Set([...logged, ...list('signals', '.json')])].filter((d) => d >= LOCK_IN && (d < today || logged.has(d))).sort();
   const ctx = { lastPage: {} };
   let streak = 0;
   const detail = [], series = [];
-  for (const f of files) {
-    const date = f.slice(0, 10);
-    const { pts, raw } = scoreDay(parseDay(readFileSync(join(DAYS, f), 'utf8')), { ...ctx, notes: vault.notes[date], writing: vault.writing[date] });
-    const bonus = Math.min(streak * RULES.streak.perDay, RULES.streak.cap);
+  for (const date of dates) {
+    const md = join(DIR, 'days', `${date}.md`), sj = join(DIR, 'signals', `${date}.json`);
+    const day = logged.has(date) ? parseDay(readFileSync(md, 'utf8')) : {};
+    const sig = existsSync(sj) ? JSON.parse(readFileSync(sj, 'utf8')) : {};
+    const pts = scoreDay(rows, day, sig, ctx);
+    const raw = Object.values(pts).reduce((a, b) => a + b, 0);
+    const bonus = Math.min(streak * STREAK.perDay, STREAK.cap);
     const score = Math.max(0, raw + bonus);
-    streak = raw + bonus >= RULES.streak.minScore ? streak + 1 : 0;
+    streak = score >= STREAK.minScore ? streak + 1 : 0;
     const grade = GRADES.find(([min]) => score >= min)[1];
-    detail.push({ date, score, grade, streak: bonus, ...pts });
+    detail.push({ date, score, grade, streak: bonus, logged: logged.has(date), ...pts });
     series.push({ date, score, grade });
   }
-  mkdirSync('private/journal', { recursive: true });
-  writeFileSync('private/journal/breakdown.json', JSON.stringify(detail, null, 1));
+  mkdirSync(DIR, { recursive: true });
+  writeFileSync(join(DIR, 'breakdown.json'), JSON.stringify(detail, null, 1));
   mkdirSync('src/data', { recursive: true });
   writeFileSync('src/data/scores.json', JSON.stringify(series) + '\n');
-  const g = series.reduce((c, s) => ((c[s.grade] = (c[s.grade] ?? 0) + 1), c), {});
-  const mean = series.length ? Math.round(series.reduce((a, s) => a + s.score, 0) / series.length) : 0;
-  console.log(`${series.length} days scored, mean ${mean}, grades ${JSON.stringify(g)}`);
+  // Public view of the scorecard: one line per habit, the strongest source's points.
+  const card = [...new Map(rows.filter((r) => r.active !== false).map((r) => [r.name, { name: r.name, side: r.side, points: r.points, cap: r.cap, unit: r.unit }])).values()];
+  writeFileSync('src/data/scorecard.json', JSON.stringify(card, null, 1) + '\n');
+  console.log(`${series.length} days scored since ${LOCK_IN}${series.length ? `, latest ${series.at(-1).date}: ${series.at(-1).score} (${series.at(-1).grade})` : ''}`);
 }

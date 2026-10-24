@@ -1,0 +1,114 @@
+[
+ {
+  "name": "Anki review",
+  "side": "pursuit",
+  "points": 10,
+  "cap": 10,
+  "unit": "per-day"
+ },
+ {
+  "name": "Paper read",
+  "side": "pursuit",
+  "points": 8,
+  "cap": 16,
+  "unit": "per-item"
+ },
+ {
+  "name": "Note taken",
+  "side": "pursuit",
+  "points": 6,
+  "cap": 18,
+  "unit": "per-item"
+ },
+ {
+  "name": "Good writing session",
+  "side": "pursuit",
+  "points": 15,
+  "cap": 15,
+  "unit": "per-day"
+ },
+ {
+  "name": "Contemplative walk",
+  "side": "pursuit",
+  "points": 8,
+  "cap": 8,
+  "unit": "per-day"
+ },
+ {
+  "name": "Meditation",
+  "side": "pursuit",
+  "points": 8,
+  "cap": 8,
+  "unit": "per-day"
+ },
+ {
+  "name": "Lesson",
+  "side": "pursuit",
+  "points": 10,
+  "cap": 10,
+  "unit": "per-day"
+ },
+ {
+  "name": "Workout",
+  "side": "pursuit",
+  "points": 10,
+  "cap": 10,
+  "unit": "per-day"
+ },
+ {
+  "name": "Book reading",
+  "side": "pursuit",
+  "points": 1,
+  "cap": 8,
+  "unit": "per-10-pages"
+ },
+ {
+  "name": "Daily goals hit",
+  "side": "pursuit",
+  "points": 15,
+  "cap": 15,
+  "unit": "share"
+ },
+ {
+  "name": "TV show or movie",
+  "side": "drain",
+  "points": 6,
+  "cap": 30,
+  "unit": "per-item"
+ },
+ {
+  "name": "Sports highlights & recaps",
+  "side": "drain",
+  "points": 2,
+  "cap": 10,
+  "unit": "per-item"
+ },
+ {
+  "name": "Sports podcasts",
+  "side": "drain",
+  "points": 2,
+  "cap": 10,
+  "unit": "per-item"
+ },
+ {
+  "name": "Social media (phone)",
+  "side": "drain",
+  "points": 1,
+  "cap": 30,
+  "unit": "per-10-min"
+ },
+ {
+  "name": "Social media (Mac)",
+  "side": "drain",
+  "points": 1,
+  "cap": 30,
+  "unit": "per-10-min"
+ },
+ {
+  "name": "Fantasy football",
+  "side": "drain",
+  "points": 8,
+  "cap": 8,
+  "unit": "per-day"
+ }
+]
