@@ -13,7 +13,6 @@ Keep the template itself empty: the scorer counts any line written under a headi
 
 ## Numbers
 Deep work (h):
-Social media (min):
 Drinks:
 
 ## Workout
@@ -41,7 +40,6 @@ Drinks:
 
 **Numbers**: write the number right after the colon. Leave a line blank if it doesn't apply; blank scores zero.
 - **Deep work (h):** hours of real focused work. Decimals are fine ("3.5").
-- **Social media (min):** your phone's minutes, from Screen Time. Mac time is measured automatically.
 - **Drinks:** alcoholic drinks.
 
 **Sections**: one item per line.
@@ -55,7 +53,7 @@ Drinks:
 - **What I Learned Summary:** a few lines on what you learned.
 - **TV Show/Movie:** what you watched.
   - Your teams (Packers, Bucks, Brewers, NFL) and big live events are free.
-  - So is anything with "Amit" in the line ("The Bear with Amit").
+  - So is anything you watched with someone: write "with …" in the line ("Severance, 2 episodes with Dad and my brothers").
   - Highlights and recaps cost less than a show.
 - **Food:** not scored; keep it if you like the record.
 - **Other Notes:** anything else.
@@ -64,7 +62,7 @@ Drinks:
 ## Captured automatically, with nothing to log
 - **Anki reviews:** 20 or more in a day.
 - **New notes in your vault:** AI Theory or Daily Learning.
-- **Mac time on social media and in Sleeper:** measured by ActivityWatch.
+- **Social media and Sleeper time on your Mac:** measured by ActivityWatch, from window titles matching x.com, Twitter, Instagram, Facebook, Reddit, TikTok or YouTube Shorts (and the Sleeper app).
 
 ## Where the points live
 The Scorecard database on your Habit Tracker page in Notion holds what every line is worth. Change a number there and it applies from the next sync. To track something new, add a row. A `checklist` row matches a Habits box by its Match text; a `checklist-minutes` row matches a Numbers line.
