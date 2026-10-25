@@ -13,6 +13,8 @@ import { join } from 'node:path';
 
 // Scoring starts here. Earlier days are never scored: their habits would have to be inferred, not recorded.
 export const LOCK_IN = '2026-10-24';
+// A day with no journal page yet is "pending" for this many days (scored only once logged, or once the window passes).
+export const PENDING_DAYS = 7;
 export const GRADES = [[80, 'S'], [60, 'A'], [40, 'B'], [20, 'C'], [-Infinity, 'D']];
 
 const DIR = 'private/journal';
@@ -92,7 +94,9 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const dates = [...new Set([...logged, ...list('signals', '.json')])].filter((d) => d >= LOCK_IN && (d < today || logged.has(d))).sort();
   const ctx = { lastPage: {} };
   const detail = [], series = [];
+  const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - PENDING_DAYS);
   for (const date of dates) {
+    if (!logged.has(date) && date > cutoff.toLocaleDateString('en-CA')) { series.push({ date, pending: true }); continue; }
     const md = join(DIR, 'days', `${date}.md`), sj = join(DIR, 'signals', `${date}.json`);
     const day = logged.has(date) ? parseDay(readFileSync(md, 'utf8')) : {};
     const sig = existsSync(sj) ? JSON.parse(readFileSync(sj, 'utf8')) : {};
@@ -101,7 +105,8 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     const score = Math.max(0, raw);
     const grade = GRADES.find(([min]) => score >= min)[1];
     detail.push({ date, score, grade, logged: logged.has(date), ...pts });
-    series.push({ date, score, grade });
+    // Days never logged are scored on the automatic signals alone, and marked so.
+    series.push({ date, score, grade, ...(logged.has(date) ? {} : { unlogged: true }) });
   }
   mkdirSync(DIR, { recursive: true });
   writeFileSync(join(DIR, 'breakdown.json'), JSON.stringify(detail, null, 1));
@@ -110,5 +115,6 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   // Public view of the scorecard: one line per habit, the strongest source's points.
   const card = [...new Map(rows.filter((r) => r.active !== false).map((r) => [r.name, { name: r.name, side: r.side, points: r.points, cap: r.cap, unit: r.unit }])).values()];
   writeFileSync('src/data/scorecard.json', JSON.stringify(card, null, 1) + '\n');
-  console.log(`${series.length} days scored since ${LOCK_IN}${series.length ? `, latest ${series.at(-1).date}: ${series.at(-1).score} (${series.at(-1).grade})` : ''}`);
+  const scored = series.filter((d) => !d.pending);
+  console.log(`${scored.length} days scored, ${series.length - scored.length} pending since ${LOCK_IN}${scored.length ? `; latest ${scored.at(-1).date}: ${scored.at(-1).score} (${scored.at(-1).grade})` : ''}`);
 }

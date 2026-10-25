@@ -5,13 +5,16 @@ import scorecard from '../data/scorecard.json';
 import { GRADES, LOCK_IN } from '../../scripts/journal/score.mjs';
 
 // Only date, score and grade are public; what happened on each day stays in the private journal.
-type Day = { date: string; score: number; grade: string };
-const days = scores as Day[];
+type Day = { date: string; score?: number; grade?: string; pending?: boolean; unlogged?: boolean };
+const all = scores as Day[];
+// Pending days (not logged yet, within the last week) are drawn but left out of every average.
+const days = all.filter((d) => !d.pending) as (Day & { score: number; grade: string })[];
 const shown = days;
-const recent = shown.slice(-90);
+const recent = all.slice(-90);
+const pendingCount = all.filter((d) => d.pending).length;
 const start = new Date(LOCK_IN).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 
-const avg = (l: Day[]) => (l.length ? Math.round(l.reduce((a, d) => a + d.score, 0) / l.length) : 0);
+const avg = (l: { score: number }[]) => (l.length ? Math.round(l.reduce((a, d) => a + d.score, 0) / l.length) : 0);
 const bestDay = shown.reduce((b, d) => (!b || d.score > b.score ? d : b), null as Day | null);
 
 // Weekly averages across everything, for the long view.
@@ -52,15 +55,19 @@ const pursuits = scorecard.filter((r) => r.side === 'pursuit'), drains = scoreca
     <div class="scroll">
       <svg width={dayW + 40} height={H + 30} role="img" aria-label="Daily scores">
         {[20, 40, 60, 80].map((g) => <g><line x1="30" x2={dayW + 40} y1={y(g)} y2={y(g)} class="grid" /><text x="0" y={y(g) + 4} class="axis">{g}</text></g>)}
-        {recent.map((d, i) => (
-          <rect x={34 + i * (BAR + GAP)} y={y(d.score)} width={BAR} height={H - y(d.score)} rx="1"
-            fill={gradeColor[d.grade]}><title>{d.date}: {d.score} ({d.grade})</title></rect>
+        {recent.map((d, i) => d.pending ? (
+          <rect x={34 + i * (BAR + GAP) + 0.5} y={y(20)} width={BAR - 1} height={H - y(20)} rx="1" fill="none" stroke="var(--faint)" stroke-dasharray="2 2"><title>{d.date}: pending, not logged yet</title></rect>
+        ) : (
+          <rect x={34 + i * (BAR + GAP)} y={y(d.score!)} width={BAR} height={H - y(d.score!)} rx="1"
+            fill={gradeColor[d.grade!]} opacity={d.unlogged ? 0.4 : 1}><title>{d.date}: {d.score} ({d.grade}){d.unlogged ? ', never logged: automatic signals only' : ''}</title></rect>
         ))}
         <text x="34" y={H + 20} class="axis">{recent[0]?.date}</text>
         <text x={dayW + 34} y={H + 20} class="axis" text-anchor="end">{recent.at(-1)?.date}</text>
       </svg>
     </div>
-    <p class="legend meta">{GRADES.map(([min, g]) => <span><i style={`background:${gradeColor[g]}`}></i>{g}{Number.isFinite(min) ? ` ≥ ${min}` : ''}</span>)}</p>
+    <p class="legend meta">{GRADES.map(([min, g]) => <span><i style={`background:${gradeColor[g]}`}></i>{g}{Number.isFinite(min) ? ` ≥ ${min}` : ''}</span>)}
+      <span><i style="border:1px dashed var(--faint)"></i>pending: not logged yet{pendingCount ? ` (${pendingCount})` : ''}</span>
+      <span><i style={`background:${gradeColor.D};opacity:.4`}></i>never logged</span></p>
   </section>
 
   <section class="block">
