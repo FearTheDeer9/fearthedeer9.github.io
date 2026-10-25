@@ -1,96 +1,56 @@
-# Personal Blog
+# fearthedeer9.github.io
 
-This is my personal blog built with Jekyll and hosted on GitHub Pages.
+Harel Lidar's site: paper summaries, evergreen notes and essays. Built with Astro, deployed to GitHub Pages.
 
-## Local Development
+The rebuild plan, including the private workspace still to come, is in `docs/plans/2026-10-22-site-rebuild.md`. The backlog is in `TODO.md`.
 
-### Prerequisites
+## Run it
 
-- Ruby 3.1.6 (recommended to use rbenv for version management)
-- Bundler
-- Python 3.x (for the Obsidian to blog conversion script)
+Needs Node 22.23.4 or newer.
 
-### Setup
+```bash
+npm install
+npm run dev
+```
 
-1. Install Ruby version manager (rbenv):
+The site is at http://localhost:4321. `npm run build` writes the static site to `dist/`, and `node scripts/check-links.mjs` checks its internal links.
 
-   ```bash
-   brew install rbenv ruby-build
-   ```
+## Where things live
 
-2. Install Ruby 3.1.6:
+| Path | What |
+|---|---|
+| `src/content/posts/` | Paper summaries and essays. The filename `YYYY-MM-DD-slug.md` sets the URL `/YYYY/MM/DD/slug/`, which matches the old Jekyll URLs. |
+| `src/content/notes/` | Evergreen notes at `/notes/<filename>/`. Notes link to each other as `other-note.md`. |
+| `src/content/entries/<type>/` | Notes imported from the Obsidian vault by `scripts/import-vault.mjs`, one folder per kind: papers, notes, lectures, concepts, excerpts, essays. Don't edit these by hand; edit the note in Obsidian and re-import. |
+| `src/data/manifest.json` | Every published or logged item with its kind and date, written by the import. Drives the archive, home, timeline and feed. |
+| `src/data/reading.json` | The public reading log (books, articles, podcasts), written by `scripts/build-reading.mjs` from private data. |
+| `src/content/pages/` | Prose for About and the Notes index. |
+| `src/content.config.ts` | Frontmatter schemas. A post with bad frontmatter fails the build. |
+| `src/pages/` | Routes, including `/archive/`, `/reading/`, `/timeline/`, `/papers/`, `/tags/` and `/feed.xml`. |
+| `src/styles/global.css` | Design tokens (light and dark) and prose styles. |
 
-   ```bash
-   rbenv install 3.1.6
-   rbenv local 3.1.6
-   ```
+Math is `$…$` or `$$…$$`, rendered to KaTeX at build time. Put display math on its own lines:
 
-3. Install project dependencies:
-   ```bash
-   gem install bundler
-   bundle install
-   ```
+```
+$$
+x = y
+$$
+```
 
-### Running the Site Locally
+## Publishing from the vault
 
-1. Start the Jekyll server:
+What gets published was decided item by item in a review ledger. The decisions and the vault-derived working data live in `private/`, which is gitignored and exists only on Harel's machine.
 
-   ```bash
-   bundle exec jekyll serve
-   ```
+```bash
+node scripts/import-vault.mjs           # dry run: what would change
+node scripts/import-vault.mjs --write   # copy approved notes and images into the site
+node scripts/build-reading.mjs          # rebuild the public reading log
+```
 
-2. View the site at: http://localhost:4000
+The import refuses private vault folders, and `scripts/check-private.mjs` fails the build if the output mentions one.
 
-The server will automatically rebuild when you make changes to your files.
+## Deploy
 
-## Converting Obsidian Notes to Blog Posts
+Pushing to `main` runs `.github/workflows/pages.yml`: build, link check, private-content check, duplicate-title check, then deploy. Pull requests run the same checks without deploying.
 
-1. Copy your Obsidian notes to a local directory:
-
-   ```bash
-   mkdir -p ~/Documents/Obsidian_Local
-   # Copy your Obsidian notes to this directory
-   ```
-
-2. Update the `OBSIDIAN_DIR` path in `obsidian_to_blog.py` to point to your local Obsidian directory.
-
-3. Run the conversion script:
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   pip install pyyaml anthropic
-   python3 obsidian_to_blog.py --file-list files.txt --api-key="your-api-key"
-   ```
-
-## Deployment
-
-1. Commit your changes:
-
-   ```bash
-   git add .
-   git commit -m "Your commit message"
-   ```
-
-2. Push to GitHub:
-   ```bash
-   git push origin main
-   ```
-
-GitHub Pages will automatically build and deploy your site. The site will be available at: https://fearthedeer9.github.io
-
-## Troubleshooting
-
-- If you encounter Ruby version issues, make sure you're using Ruby 3.1.6:
-
-  ```bash
-  ruby -v  # Should show 3.1.6
-  ```
-
-- If you get permission errors, try:
-
-  ```bash
-  bundle config set --local path 'vendor/bundle'
-  bundle install
-  ```
-
-- If the site doesn't update after pushing to GitHub, check the GitHub Actions tab in your repository for any build errors.
+`obsidian_to_blog.py` is the old Obsidian import script. It gets replaced when the site reads the vault directly (milestone 2 of the plan).

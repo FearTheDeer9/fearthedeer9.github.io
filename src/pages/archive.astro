@@ -1,0 +1,107 @@
+---
+import Base from '../layouts/Base.astro';
+import Link from '../components/ItemLink.astro';
+import { items, TYPES, SUBTYPES, courseOf, type Item, type TypeKey } from '../lib/manifest';
+
+// Logged-only items sit in their kind's section too, as unlinked titles: read or attended, not published.
+const of = (t: TypeKey) => items.filter((i) => i.type === t);
+const newest = (a: Item, b: Item) => (b.date ?? '').localeCompare(a.date ?? '');
+const month = (d: string | null) => (d ? new Date(d).toLocaleDateString('en-GB', { month: 'short', year: 'numeric', timeZone: 'UTC' }) : '');
+
+// Lectures group by course; anything without a lecture number becomes its own one-item course.
+const courses = new Map<string, Item[]>();
+for (const i of of('lecture')) {
+  const name = courseOf(i.title)?.name ?? i.title;
+  courses.set(name, [...(courses.get(name) ?? []), i]);
+}
+for (const list of courses.values()) list.sort((a, b) => (courseOf(a.title)?.n ?? 0) - (courseOf(b.title)?.n ?? 0));
+
+const concepts = of('concept').sort((a, b) => a.title.localeCompare(b.title));
+const counts = (t: TypeKey) => { const l = of(t), p = l.filter((i) => i.url).length; return p === l.length ? `${p}` : `${p} + ${l.length - p} logged`; };
+const order: TypeKey[] = ['essay', 'evergreen', 'paper-summary', 'lecture', 'concept', 'excerpt'];
+---
+<Base title="Archive">
+  <h1 class="title">Archive</h1>
+  <p class="lede">Everything here, by kind. Each kind is a different sort of writing, so each is shown differently. Titles without a link were read or attended and logged, but not published.</p>
+  <nav class="toc" aria-label="Sections">
+    {order.filter((t) => of(t).length).map((t) => <a href={`#${t}`} style={`--kind:${TYPES[t].color}`}><i></i>{TYPES[t].plural} <span class="meta">{counts(t)}</span></a>)}
+  </nav>
+
+  <section class="block" id="essay" style={`--kind:${TYPES.essay.color}`}>
+    <h2 class="label">{TYPES.essay.plural}</h2><p class="blurb">{TYPES.essay.blurb}</p>
+    <ul class="list essays">{of('essay').sort(newest).map((i) => <li><Link i={i} /><span class="meta">{month(i.date)}</span></li>)}</ul>
+  </section>
+
+  <section class="block" id="evergreen" style={`--kind:${TYPES.evergreen.color}`}>
+    <h2 class="label">{TYPES.evergreen.plural}</h2><p class="blurb">{TYPES.evergreen.blurb}</p>
+    <ul class="claims">{of('evergreen').sort((a, b) => a.title.localeCompare(b.title)).map((i) => <li><Link i={i} /></li>)}</ul>
+  </section>
+
+  <section class="block" id="paper-summary" style={`--kind:${TYPES['paper-summary'].color}`}>
+    <h2 class="label">{TYPES['paper-summary'].plural}</h2><p class="blurb">{TYPES['paper-summary'].blurb}</p>
+    <ul class="papers">
+      {of('paper-summary').sort(newest).map((i) => (
+        <li><Link i={i} />
+          <span class="meta">{[i.source_author, i.topic, month(i.date)].filter(Boolean).join(' · ')}</span></li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="block" id="lecture" style={`--kind:${TYPES.lecture.color}`}>
+    <h2 class="label">{TYPES.lecture.plural}</h2><p class="blurb">{TYPES.lecture.blurb}</p>
+    <div class="courses">
+      {[...courses].map(([name, list]) => (
+        <div class="course"><h3>{name}</h3>
+          <ol>{list.map((i) => <li><Link i={i} text={courseOf(i.title) ? i.title.replace(/^.*?(?:Lecture|Tutorial)\s*\d+\s*[-–—:]?\s*/i, '') || `Lecture ${courseOf(i.title)!.n}` : i.title} /></li>)}</ol>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="block" id="concept" style={`--kind:${TYPES.concept.color}`}>
+    <h2 class="label">{TYPES.concept.plural}</h2><p class="blurb">{TYPES.concept.blurb}</p>
+    <dl class="glossary">{concepts.map((i) => <div><dt><Link i={i} /></dt><dd class="meta">{i.topic}</dd></div>)}</dl>
+  </section>
+
+  <section class="block" id="excerpt" style={`--kind:${TYPES.excerpt.color}`}>
+    <h2 class="label">{TYPES.excerpt.plural}</h2><p class="blurb">{TYPES.excerpt.blurb}</p>
+    <ul class="excerpts">
+      {of('excerpt').sort(newest).map((i) => (
+        <li><span class="tag">{SUBTYPES[i.subtype ?? ''] ?? 'Excerpt'}</span>
+          <Link i={i} />{i.source_author && <span class="by"> — {i.source_author}</span>}</li>
+      ))}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .title { font-size: 40px; font-weight: 400; margin: 72px 0 12px; }
+  .lede { color: var(--ink-2); margin: 0 0 24px; }
+  .toc { display: flex; flex-wrap: wrap; gap: 8px 20px; padding-bottom: 24px; font-size: 16px; }
+  .toc a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
+  .toc i, section > h2::before { width: 9px; height: 9px; border-radius: 50%; background: var(--kind); display: inline-block; }
+  section > h2 { display: flex; align-items: center; gap: 8px; margin-bottom: 4px !important; }
+  section > h2::before { content: ''; }
+  .blurb { margin: 0 0 24px; color: var(--muted); font-size: 16px; }
+  ul, ol { margin: 0; padding: 0; list-style: none; }
+  /* Evergreen: the titles are claims, so they read as a list of statements. */
+  .claims { display: flex; flex-direction: column; gap: 10px; font-size: 20px; line-height: 1.35; }
+  .claims li { padding-left: 16px; border-left: 2px solid var(--kind); }
+  /* Papers: title plus source and topic underneath. */
+  .papers { display: flex; flex-direction: column; gap: 14px; }
+  .papers li { display: flex; flex-direction: column; }
+  /* Lectures: one card per course with a numbered list. */
+  .courses { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px 32px; }
+  .course h3 { margin: 0 0 8px; font-size: 18px; font-weight: 500; }
+  .course ol { list-style: decimal; padding-left: 22px; font-size: 16px; display: flex; flex-direction: column; gap: 4px; }
+  .course ol li::marker { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  /* Concepts: a glossary grid. */
+  .glossary { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px 24px; margin: 0; }
+  .glossary dt { font-size: 18px; } .glossary dd { margin: 0; }
+  /* Excerpts: set apart as other people's material. */
+  .excerpts { display: flex; flex-direction: column; gap: 10px; padding-left: 16px; border-left: 2px dashed var(--faint); }
+  .tag { font-family: var(--mono); font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-right: 10px; }
+  .by { color: var(--muted); font-style: italic; }
+  :global(.logged) { color: var(--muted); }
+  :global(.logged)::after { content: ' · logged'; font-family: var(--mono); font-size: 11px; }
+</style>

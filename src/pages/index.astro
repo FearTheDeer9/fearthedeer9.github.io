@@ -1,0 +1,74 @@
+---
+import Base from '../layouts/Base.astro';
+import { notes, fmtMonth } from '../lib/site';
+import { published, TYPES } from '../lib/manifest';
+
+const newest = (a: { date: string | null }, b: { date: string | null }) => (b.date ?? '').localeCompare(a.date ?? '');
+const recent = published.filter((i) => i.type !== 'evergreen').sort(newest).slice(0, 8);
+const essays = published.filter((i) => i.type === 'essay').sort(newest);
+const featuredNotes = [
+  'prefill-is-compute-bound-decode-is-memory-bound',
+  'speculative-decoding-is-provably-exact',
+  'pagedattention-is-virtual-memory-for-the-kv-cache',
+  'batching-is-nearly-free-until-the-ridge-point',
+  'chunked-prefill-trades-ttft-for-itl-stability',
+  'quantization-loss-is-outlier-driven-not-bit-driven',
+];
+const noteById = new Map((await notes()).map((n) => [n.id, n]));
+const month = (d: string | null) => (d ? fmtMonth(new Date(d)) : '');
+---
+<Base>
+  <div class="marks" aria-hidden="true">
+    <i style="top:140px;left:8%"></i><i style="top:420px;right:9%;animation-delay:-4s"></i>
+    <i style="top:760px;left:5%;width:32px;animation-delay:-7s"></i><i style="top:1120px;right:6%;width:80px;animation-delay:-2s"></i>
+  </div>
+
+  <section class="hero">
+    <p class="label">AI researcher · LLM inference</p>
+    <!-- Draft copy: rewrite in your own words. -->
+    <h1>I work on making large models cheaper to run (speculative decoding, batching, the KV cache) and I write to find out what I think.</h1>
+    <p class="lede">These are my working notes: summaries of what I read, evergreen notes that argue one claim each, and longer essays when a thread is ready. <a href="/about/">More about me</a>.</p>
+  </section>
+
+  <section class="block">
+    <h2 class="label">Recently added</h2>
+    <ul class="list">
+      {recent.map((i) => (
+        <li><span class="item"><i class="kind" style={`background:${TYPES[i.type].color}`} title={TYPES[i.type].label}></i><a href={i.url!}>{i.title}</a></span>
+          <span class="meta">{TYPES[i.type].label} · {month(i.date)}</span></li>
+      ))}
+    </ul>
+    <p class="more"><a href="/archive/">Everything, by kind →</a></p>
+  </section>
+
+  <section class="block">
+    <h2 class="label">Evergreen notes</h2>
+    <div class="grid">
+      {featuredNotes.map((id) => noteById.get(id)).filter(Boolean).map((n) => <a href={`/notes/${n!.id}/`}>{n!.data.title}</a>)}
+    </div>
+    <p class="more"><a href="/notes/">All notes →</a></p>
+  </section>
+
+  <section class="block">
+    <h2 class="label">Essays</h2>
+    <ul class="list">
+      {essays.map((i) => <li><a href={i.url!}>{i.title}</a><span class="meta">{month(i.date)}</span></li>)}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .hero { padding: 120px 0 64px; }
+  .hero .label { margin: 0 0 24px; }
+  .hero h1 { margin: 0 0 28px; font-size: 44px; line-height: 1.15; font-weight: 400; }
+  .lede { margin: 0; font-size: 20px; color: var(--ink-2); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px 32px; font-size: 18px; line-height: 1.4; }
+  .more { margin: 24px 0 0; font-size: 17px; }
+  .item { display: inline-flex; align-items: baseline; gap: 10px; }
+  .kind { flex: none; width: 8px; height: 8px; border-radius: 50%; transform: translateY(-1px); }
+  .marks { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: -1; }
+  .marks i { position: absolute; width: 56px; height: 1px; background: var(--faint); animation: drift 14s ease-in-out infinite; }
+  @keyframes drift { 50% { transform: translate(18px, -26px) rotate(8deg); } }
+  @media (prefers-reduced-motion: reduce) { .marks i { animation: none; } }
+  @media (max-width: 600px) { .hero { padding-top: 64px; } .hero h1 { font-size: 32px; } }
+</style>

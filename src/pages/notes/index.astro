@@ -1,0 +1,8 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Article from '../../components/Article.astro';
+const page = (await getEntry('pages', 'notes'))!;
+const { Content } = await render(page);
+---
+<Base title={page.data.title}><Article title={page.data.title}><Content /></Article></Base>

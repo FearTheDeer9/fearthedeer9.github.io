@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import { published } from '../lib/manifest';
+
+const papers = published.filter((i) => i.type === 'paper-summary').sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''));
+const month = (d: string | null) => (d ? new Date(d).toLocaleDateString('en-GB', { month: 'short', year: 'numeric', timeZone: 'UTC' }) : '');
+---
+<Base title="Paper summaries">
+  <h1 class="title">Paper summaries</h1>
+  <p class="lede">{papers.length} papers, written up: the problem, the method, what the results do and don’t show.</p>
+  <section class="block">
+    <ul class="list">
+      {papers.map((p) => <li><a href={p.url!}>{p.title}</a><span class="meta">{[p.topic, month(p.date)].filter(Boolean).join(' · ')}</span></li>)}
+    </ul>
+  </section>
+</Base>
+<style>
+  .title { font-size: 40px; font-weight: 400; margin: 72px 0 12px; }
+  .lede { color: var(--ink-2); margin: 0 0 32px; }
+</style>

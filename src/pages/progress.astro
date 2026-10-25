@@ -1,0 +1,113 @@
+---
+import Base from '../layouts/Base.astro';
+import scores from '../data/scores.json';
+import scorecard from '../data/scorecard.json';
+import { GRADES, LOCK_IN } from '../../scripts/journal/score.mjs';
+
+// Only date, score and grade are public; what happened on each day stays in the private journal.
+type Day = { date: string; score?: number; grade?: string; pending?: boolean; unlogged?: boolean };
+const all = scores as Day[];
+// Pending days (not logged yet, within the last week) are drawn but left out of every average.
+const days = all.filter((d) => !d.pending) as (Day & { score: number; grade: string })[];
+const shown = days;
+const recent = all.slice(-90);
+const pendingCount = all.filter((d) => d.pending).length;
+const start = new Date(LOCK_IN).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+
+const avg = (l: { score: number }[]) => (l.length ? Math.round(l.reduce((a, d) => a + d.score, 0) / l.length) : 0);
+const bestDay = shown.reduce((b, d) => (!b || d.score > b.score ? d : b), null as Day | null);
+
+// Weekly averages across everything, for the long view.
+const weeks = new Map<string, Day[]>();
+for (const d of days) {
+  const dt = new Date(d.date); dt.setUTCDate(dt.getUTCDate() - ((dt.getUTCDay() + 6) % 7));
+  const k = dt.toISOString().slice(0, 10);
+  weeks.set(k, [...(weeks.get(k) ?? []), d]);
+}
+const weekly = [...weeks].map(([w, l]) => ({ w, avg: avg(l) }));
+
+const H = 160, MAX = 100, y = (v: number) => H - (Math.min(v, MAX) / MAX) * H;
+const BAR = 7, GAP = 2, dayW = recent.length * (BAR + GAP);
+const WW = 6, weekW = weekly.length * WW;
+const gradeColor: Record<string, string> = { S: 'var(--t-evergreen)', A: 'var(--t-paper)', B: 'var(--t-lecture)', C: 'var(--t-concept)', D: 'var(--t-excerpt)' };
+const UNIT: Record<string, string> = { 'per-day': '', 'per-item': ' each', 'per-hour': ' per hour', 'per-10-min': ' per 10 min', 'per-10-pages': ' per 10 pages', share: ', by share ticked' };
+const describe = (r: { points: number; cap: number | null; unit: string; side: string }) =>
+  `${r.side === 'drain' ? '−' : '+'}${r.points}${UNIT[r.unit] ?? ''}${r.cap && r.unit !== 'per-day' && r.cap !== r.points ? `, up to ${r.cap}` : ''}`;
+const pursuits = scorecard.filter((r) => r.side === 'pursuit'), drains = scorecard.filter((r) => r.side === 'drain');
+---
+<Base title="Progress" wide>
+  <section class="intro">
+    <h1>Daily score</h1>
+    <p>Each day is scored against a scorecard of Pursuits, the habits I'm building, and Drains, where time leaks away. Most of it is captured automatically (Anki, my notes, writing sessions, screen time); the rest comes from my daily journal. Only the score is published here, not the day.</p>
+  </section>
+
+  {!days.length && <p class="notice">Scoring started on {start}. The first scored day appears here once it has been logged.</p>}
+
+  <div class="stats">
+    <div><span class="label">Last 7 days</span><b>{avg(shown.slice(-7))}</b></div>
+    <div><span class="label">Last 30 days</span><b>{avg(shown.slice(-30))}</b></div>
+    <div><span class="label">Best day</span><b>{bestDay?.score ?? '–'}</b><span class="meta">{bestDay?.date ?? ''}</span></div>
+    <div><span class="label">Days scored</span><b>{shown.length}</b></div>
+  </div>
+
+  <section class="block">
+    <h2 class="label">Last 90 days</h2>
+    <div class="scroll">
+      <svg width={dayW + 40} height={H + 30} role="img" aria-label="Daily scores">
+        {[20, 40, 60, 80].map((g) => <g><line x1="30" x2={dayW + 40} y1={y(g)} y2={y(g)} class="grid" /><text x="0" y={y(g) + 4} class="axis">{g}</text></g>)}
+        {recent.map((d, i) => d.pending ? (
+          <rect x={34 + i * (BAR + GAP) + 0.5} y={y(20)} width={BAR - 1} height={H - y(20)} rx="1" fill="none" stroke="var(--faint)" stroke-dasharray="2 2"><title>{d.date}: pending, not logged yet</title></rect>
+        ) : (
+          <rect x={34 + i * (BAR + GAP)} y={y(d.score!)} width={BAR} height={H - y(d.score!)} rx="1"
+            fill={gradeColor[d.grade!]} opacity={d.unlogged ? 0.4 : 1}><title>{d.date}: {d.score} ({d.grade}){d.unlogged ? ', never logged: automatic signals only' : ''}</title></rect>
+        ))}
+        <text x="34" y={H + 20} class="axis">{recent[0]?.date}</text>
+        <text x={dayW + 34} y={H + 20} class="axis" text-anchor="end">{recent.at(-1)?.date}</text>
+      </svg>
+    </div>
+    <p class="legend meta">{GRADES.map(([min, g]) => <span><i style={`background:${gradeColor[g]}`}></i>{g}{Number.isFinite(min) ? ` ≥ ${min}` : ''}</span>)}
+      <span><i style="border:1px dashed var(--faint)"></i>pending: not logged yet{pendingCount ? ` (${pendingCount})` : ''}</span>
+      <span><i style={`background:${gradeColor.D};opacity:.4`}></i>never logged</span></p>
+  </section>
+
+  <section class="block">
+    <h2 class="label">Weekly average, since {start}</h2>
+    <div class="scroll">
+      <svg width={weekW + 40} height={H + 30} role="img" aria-label="Weekly average score">
+        {[20, 40, 60, 80].map((g) => <g><line x1="30" x2={weekW + 40} y1={y(g)} y2={y(g)} class="grid" /><text x="0" y={y(g) + 4} class="axis">{g}</text></g>)}
+        <polyline fill="none" stroke="var(--accent)" stroke-width="2" points={weekly.map((w, i) => `${34 + i * WW},${y(w.avg)}`).join(' ')} />
+        <text x="34" y={H + 20} class="axis">{weekly[0]?.w}</text>
+        <text x={weekW + 34} y={H + 20} class="axis" text-anchor="end">{weekly.at(-1)?.w}</text>
+      </svg>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2 class="label">How a day is scored</h2>
+    <div class="card">
+      <div><h3>Pursuits</h3><table class="rules"><tbody>{pursuits.map((r) => <tr><td>{r.name}</td><td class="meta">{describe(r)}</td></tr>)}</tbody></table></div>
+      <div><h3>Drains</h3><table class="rules"><tbody>{drains.map((r) => <tr><td>{r.name}</td><td class="meta">{describe(r)}</td></tr>)}</tbody></table></div>
+    </div>
+    <p class="meta">The scorecard changes as my interests do; the score uses whatever it said on each day.</p>
+  </section>
+</Base>
+
+<style>
+  .intro { padding: 72px 0 16px; max-width: 760px; }
+  .intro h1 { margin: 0 0 12px; font-size: 44px; font-weight: 400; }
+  .intro p { margin: 0; color: var(--ink-2); }
+  .notice { max-width: 760px; padding: 12px 16px; border: 1px dashed var(--faint); border-radius: 4px; color: var(--ink-2); font-size: 16px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; padding: 24px 0; }
+  .stats div { display: flex; flex-direction: column; gap: 4px; }
+  .stats b { font-size: 40px; font-weight: 400; font-variant-numeric: tabular-nums; }
+  .scroll { overflow-x: auto; }
+  svg { display: block; }
+  .grid { stroke: var(--rule); stroke-width: 1; }
+  .axis { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+  .legend i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 6px; }
+  .card { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px 48px; }
+  .card h3 { margin: 0 0 8px; font-size: 18px; font-weight: 500; }
+  .rules { border-collapse: collapse; font-size: 16px; width: 100%; }
+  .rules td { padding: 6px 24px 6px 0; border-bottom: 1px solid var(--rule); }
+</style>
