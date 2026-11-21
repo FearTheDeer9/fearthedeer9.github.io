@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
       - run: npm ci
       # Frontmatter is validated by the content schema in src/content.config.ts; a bad post fails here.
