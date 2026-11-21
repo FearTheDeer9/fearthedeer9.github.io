@@ -1,0 +1,48 @@
+---
+import { TYPES, SUBTYPES, type TypeKey } from '../lib/manifest';
+
+interface Props {
+  title: string; type?: TypeKey; subtype?: string | null; date?: string; tags?: string[];
+  source?: { title?: string | null; author?: string | null; url?: string | null };
+}
+const { title, type, subtype, date, tags = [], source } = Astro.props;
+const t = type ? TYPES[type] : null;
+const label = [subtype ? SUBTYPES[subtype] ?? t?.label : t?.label, date].filter(Boolean).join(' · ');
+const hasSource = source && (source.title || source.url);
+---
+<article class={`prose kind-${type ?? 'page'}`} style={t ? `--kind:${t.color}` : undefined}>
+  <header>
+    {label && <p class="label kind"><i aria-hidden="true"></i>{label}</p>}
+    <h1>{title}</h1>
+    {type === 'excerpt' && (
+      <p class="excerpt-note">
+        Mostly someone else’s words{source?.author ? <>, from <strong>{source.author}</strong></> : ''}{source?.title && source.title !== title ? <>: <em>{source.title}</em></> : ''}. I keep it as reading, not as my own writing.
+        {source?.url && <> <a href={source.url} rel="noopener">Read the original ↗</a></>}
+      </p>
+    )}
+    {type === 'paper-summary' && hasSource && (
+      <p class="source meta">Summary of {source!.title ? <em>{source!.title}</em> : 'the paper'}{source!.author ? ` by ${source!.author}` : ''}{source!.url && <> · <a href={source!.url} rel="noopener">paper ↗</a></>}</p>
+    )}
+    {tags.length > 0 && <p class="tags meta">{tags.map((tag) => <a href={`/tags/#${encodeURIComponent(tag)}`}>{tag}</a>)}</p>}
+  </header>
+  <slot />
+</article>
+<slot name="after" />
+
+<style>
+  article { padding-top: 72px; }
+  header { margin-bottom: 40px; }
+  .kind { display: flex; align-items: center; gap: 8px; margin: 0 0 16px; }
+  .kind i { width: 9px; height: 9px; border-radius: 50%; background: var(--kind, var(--muted)); }
+  .kind-evergreen .kind i { border-radius: 2px; }
+  .kind-concept .kind i, .kind-lecture .kind i { border-radius: 1px; transform: rotate(45deg); }
+  .tags { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 0; }
+  .tags a { text-decoration: none; }
+  .source { margin: 4px 0 0; }
+  .excerpt-note { margin: 8px 0 0; padding: 12px 16px; border: 1px dashed var(--faint); border-radius: 4px; font-size: 16px; color: var(--ink-2); }
+  /* Excerpts read as quoted material; concepts as a compact glossary entry; essays get a drop cap. */
+  .kind-excerpt > :not(header) { padding-left: 20px; border-left: 2px solid var(--rule); color: var(--ink-2); }
+  .kind-concept h1 { font-size: 32px; }
+  .kind-concept { max-width: 620px; }
+  .kind-essay > p:first-of-type::first-letter { float: left; font-size: 3.4em; line-height: 0.9; padding: 4px 8px 0 0; color: var(--accent); }
+</style>

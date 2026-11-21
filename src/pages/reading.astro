@@ -1,0 +1,143 @@
+---
+import Base from '../layouts/Base.astro';
+import reading from '../data/reading.json';
+import { items, TYPES } from '../lib/manifest';
+
+const { books, articles, podcasts } = reading;
+const y = (d: string | null) => (d ? +d.slice(0, 4) : null);
+
+// Papers and posts I read and took notes on: excerpts, plus logged paper summaries. Logged lectures live in the archive.
+const readNotes = items.filter((i) => i.type === 'excerpt' || (i.status === 'logged' && i.type === 'paper-summary')).sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''));
+
+// Items per year, by medium, for the chart. Podcasts count episodes.
+const media = [
+  { key: 'books', label: 'Books', color: 'var(--t-essay)', years: books.map((b) => b.year_read) },
+  { key: 'podcasts', label: 'Podcast episodes', color: 'var(--t-lecture)', years: podcasts.flatMap((p) => p.episodes.map((e) => y(e.date))) },
+  { key: 'articles', label: 'Articles & videos', color: 'var(--t-paper)', years: articles.map((a) => y(a.date)) },
+  { key: 'notes', label: 'Papers & notes', color: 'var(--t-evergreen)', years: readNotes.map((i) => y(i.date)) },
+];
+const years = [...new Set(media.flatMap((m) => m.years).filter((v): v is number => !!v))].sort();
+const perYear = years.map((yr) => ({ yr, counts: media.map((m) => m.years.filter((v) => v === yr).length) }));
+const maxYear = Math.max(1, ...perYear.map((p) => p.counts.reduce((a, b) => a + b, 0)));
+
+const booksByYear = new Map<string, typeof books>();
+for (const b of [...books].sort((a, b) => Number(b.favorite) - Number(a.favorite) || (b.rating ?? 0) - (a.rating ?? 0))) {
+  const k = b.year_read ? String(b.year_read) : 'Undated';
+  booksByYear.set(k, [...(booksByYear.get(k) ?? []), b]);
+}
+const bookYears = [...booksByYear.keys()].sort((a, b) => (a === 'Undated' ? 1 : b === 'Undated' ? -1 : +b - +a));
+const shows = [...podcasts].sort((a, b) => b.episodes.length - a.episodes.length);
+const articleYears = [...new Set(articles.map((a) => y(a.date) ?? 0))].sort((a, b) => b - a);
+---
+<Base title="Reading" wide>
+  <section class="intro">
+    <h1>What I’ve read</h1>
+    <p>Books, podcasts, articles and papers, from my reading log. {books.length} books, {shows.reduce((n, s) => n + s.episodes.length, 0)} podcast episodes, {articles.length} articles and videos, and {readNotes.length} papers and posts I took notes on.</p>
+  </section>
+
+  <figure class="chart" aria-label="Items read per year, by medium">
+    <div class="bars">
+      {perYear.map((p) => (
+        <div class="col">
+          <span class="meta n">{p.counts.reduce((a, b) => a + b, 0)}</span>
+          <div class="stack" style={`height:${(150 * p.counts.reduce((a, b) => a + b, 0)) / maxYear}px`}>
+            {p.counts.map((c, i) => c > 0 && <i title={`${media[i].label}: ${c}`} style={`flex:${c};background:${media[i].color}`}></i>)}
+          </div>
+          <span class="meta">{p.yr}</span>
+        </div>
+      ))}
+    </div>
+    <figcaption class="legend meta">{media.map((m) => <span><i style={`background:${m.color}`}></i>{m.label}</span>)}</figcaption>
+  </figure>
+
+  <nav class="toc" aria-label="Sections"><a href="#books">Books</a><a href="#notes">Papers & notes</a><a href="#podcasts">Podcasts</a><a href="#articles">Articles & videos</a></nav>
+
+  <section class="block" id="books">
+    <h2 class="label">Books</h2>
+    {bookYears.map((yr) => (
+      <div class="year">
+        <h3 class="meta">{yr} · {booksByYear.get(yr)!.length}</h3>
+        <ul class="books">
+          {booksByYear.get(yr)!.map((b) => (
+            <li class={b.favorite ? 'fav' : ''}>
+              <div><a href={b.url ?? undefined} rel="noopener" class="bt">{b.title}</a> <span class="by">{b.authors.join(', ')}</span>
+                {b.favorite && <span class="star meta">favourite</span>}</div>
+              <div class="meta">{[b.rating ? '★'.repeat(b.rating) : null, b.subjects.join(' · '), b.status && b.status !== 'Finished' ? b.status.toLowerCase() : null].filter(Boolean).join(' · ')}</div>
+              {b.take ? <p class="take">{b.take}</p> : b.blurb && <p class="blurb">{b.blurb}</p>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </section>
+
+  <section class="block" id="notes">
+    <h2 class="label">Papers & posts I took notes on</h2>
+    <p class="sub">Excerpts are published with their source credited; the rest are logged here only, without the note.</p>
+    <ul class="list">
+      {readNotes.map((i) => (
+        <li><span>{i.url ? <a href={i.url}>{i.title}</a> : i.title}<span class="kind meta"> {i.status === 'logged' ? `${TYPES[i.type].label}, not published` : TYPES[i.type].label}</span></span>
+          <span class="meta">{i.date?.slice(0, 7)}</span></li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="block" id="podcasts">
+    <h2 class="label">Podcasts</h2>
+    <div class="shows">
+      {shows.map((s) => (
+        <details>
+          <summary><span class="show">{s.show}</span> <span class="meta">{s.episodes.length} episode{s.episodes.length === 1 ? '' : 's'} · {[s.first, s.last].filter(Boolean).map((d) => d!.slice(0, 7)).filter((v, i, a) => a.indexOf(v) === i).join(' – ')}</span></summary>
+          <ul>{s.episodes.map((e) => <li><span>{e.title}</span> <span class="meta">{e.date}</span></li>)}</ul>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <section class="block" id="articles">
+    <h2 class="label">Articles & videos</h2>
+    {articleYears.map((yr) => {
+      const list = articles.filter((a) => (y(a.date) ?? 0) === yr).sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''));
+      return (
+        <details open={yr === articleYears[0]}>
+          <summary><span class="show">{yr || 'Undated'}</span> <span class="meta">{list.length}</span></summary>
+          <ul class="arts">{list.map((a) => <li>{a.url ? <a href={a.url} rel="noopener">{a.title}</a> : a.title}{a.medium !== 'article' && <span class="meta"> · {a.medium}</span>} <span class="meta">{a.date}</span></li>)}</ul>
+        </details>
+      );
+    })}
+  </section>
+</Base>
+
+<style>
+  .intro { padding: 72px 0 24px; max-width: 760px; }
+  .intro h1 { margin: 0 0 12px; font-size: 44px; font-weight: 400; line-height: 1.15; }
+  .intro p { margin: 0; color: var(--ink-2); }
+  .chart { margin: 8px 0 32px; }
+  .bars { display: flex; align-items: flex-end; gap: 10px; overflow-x: auto; padding-bottom: 4px; border-bottom: 1px solid var(--rule); }
+  .col { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 44px; }
+  .stack { width: 30px; display: flex; flex-direction: column-reverse; border-radius: 2px 2px 0 0; overflow: hidden; }
+  .stack i { display: block; min-height: 1px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; padding-top: 10px; }
+  .legend i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 6px; }
+  .toc { display: flex; flex-wrap: wrap; gap: 8px 24px; padding-bottom: 16px; }
+  .year { padding-bottom: 20px; }
+  .year h3 { margin: 0 0 10px; }
+  .books { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px 32px; }
+  .books li { min-width: 0; padding-left: 14px; border-left: 2px solid var(--rule); }
+  .books li.fav { border-left-color: var(--accent); }
+  .bt { font-size: 18px; }
+  .books a:not([href]) { text-decoration: none; }
+  .by { color: var(--muted); font-style: italic; }
+  .star { color: var(--accent); margin-left: 6px; }
+  .take { margin: 4px 0 0; color: var(--ink-2); }
+  .blurb { margin: 4px 0 0; color: var(--muted); font-size: 15px; }
+  .sub { margin: -16px 0 20px; color: var(--muted); font-size: 16px; }
+  .kind { margin-left: 8px; }
+  .shows { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 4px 32px; }
+  details { border-bottom: 1px solid var(--rule); padding: 8px 0; min-width: 0; }
+  summary { cursor: pointer; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+  .show { font-size: 18px; }
+  details ul { list-style: none; margin: 8px 0 4px; padding: 0 0 0 4px; display: flex; flex-direction: column; gap: 4px; font-size: 15px; }
+  .arts { columns: 2 320px; column-gap: 40px; display: block; }
+  .arts li { break-inside: avoid; margin-bottom: 6px; }
+</style>

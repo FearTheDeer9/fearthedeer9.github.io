@@ -1,0 +1,126 @@
+---
+import Base from '../layouts/Base.astro';
+import { items as all, TYPES, type TypeKey } from '../lib/manifest';
+
+// Colour = kind of item. Logged-only items (read, not published) appear as hollow marks with no link.
+type Topic = Exclude<TypeKey, 'other'>;
+const TOPICS = Object.fromEntries((['essay', 'evergreen', 'paper-summary', 'lecture', 'concept', 'excerpt'] as Topic[])
+  .map((t) => [t, [TYPES[t].plural, TYPES[t].color]])) as Record<Topic, readonly [string, string]>;
+
+const items = all.filter((i) => i.date && i.type !== 'other').map((i) => ({
+  title: i.title, href: i.url, date: new Date(i.date!), kind: i.status, topic: i.type as Topic,
+})).sort((a, b) => +a.date - +b.date);
+
+const years = [...new Set(items.map((i) => i.date.getUTCFullYear()))];
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const PER_ROW = 5, DOT = 14;
+const slot = new Map<string, number>();
+const dots = items.map((it) => {
+  const key = `${it.date.getUTCFullYear()}-${it.date.getUTCMonth()}`;
+  const k = slot.get(key) ?? 0;
+  slot.set(key, k + 1);
+  return { ...it, row: years.indexOf(it.date.getUTCFullYear()), month: it.date.getUTCMonth(), dx: (k % PER_ROW) * DOT, dy: Math.floor(k / PER_ROW) * DOT };
+});
+// Each year row is as tall as its busiest month's stack of dots.
+const rowH = years.map((_, r) => 56 + DOT * Math.ceil(Math.max(...dots.filter((d) => d.row === r).map((d) => d.dy / DOT + 1)) ));
+const rowTop = rowH.map((_, r) => 32 + rowH.slice(0, r).reduce((a, b) => a + b, 0));
+
+const quarters = years.flatMap((y) => [0, 1, 2, 3].map((q) => {
+  const inQ = items.filter((i) => i.date.getUTCFullYear() === y && Math.floor(i.date.getUTCMonth() / 3) === q);
+  return { label: `Q${q + 1} ${y}`, n: inQ.length, segs: (Object.keys(TOPICS) as Topic[]).map((t) => ({ t, n: inQ.filter((i) => i.topic === t).length })).filter((s) => s.n) };
+}));
+const count = (t: Topic) => items.filter((i) => i.topic === t).length;
+---
+<Base title="Timeline" wide>
+  <section class="intro">
+    <h1>Everything I've read and written, laid out in time.</h1>
+    <p>Each mark is something I wrote or read, coloured by kind. Filled marks are published and link to the page; hollow marks were read and logged but not published. Pick a kind to follow it.</p>
+  </section>
+
+  <div class="chips" role="group" aria-label="Filter by kind">
+    {(Object.entries(TOPICS) as [Topic, readonly [string, string]][]).map(([t, [label, color]]) => (
+      <button type="button" data-topic={t} aria-pressed="false"><span class="sw" style={`background:${color}`}></span>{label} <span class="meta">{count(t)}</span></button>
+    ))}
+  </div>
+
+  <div class="scroller">
+    <div class="plot" style={`height:${rowTop.at(-1)! + rowH.at(-1)! + 8}px`}>
+      {MONTHS.map((m, i) => <span class="month meta" style={`left:${80 + i * 86}px`}>{m}</span>)}
+      {years.map((y, r) => (
+        <>
+          <div class="rule" style={`top:${rowTop[r]}px`}></div>
+          <span class="year meta" style={`top:${rowTop[r] + 20}px`}>{y}</span>
+        </>
+      ))}
+      {dots.map((d) => {
+        const Tag = d.href ? 'a' : 'span';
+        const paint = d.href ? `background:${TOPICS[d.topic][1]}` : `border:2px solid ${TOPICS[d.topic][1]}`;
+        return (
+          <Tag href={d.href ?? undefined} tabindex={d.href ? undefined : 0} class={`dot ${d.kind}`} data-topic={d.topic}
+            data-label={`${d.date.toISOString().slice(0, 7)} · ${d.title}${d.href ? '' : ' (read, not published)'}`} aria-label={d.title} title={d.title}
+            style={`left:${90 + d.month * 86 + d.dx}px;top:${rowTop[d.row] + 24 + d.dy}px;${paint}`}></Tag>
+        );
+      })}
+    </div>
+  </div>
+  <p class="readout meta" aria-live="polite">Hover or focus a mark to see what it is.</p>
+
+  <section class="block">
+    <h2 class="label">How the mix shifted</h2>
+    <p class="sub">Share of items per quarter, by kind.</p>
+    <div class="bars">
+      {quarters.map((q) => (
+        <div class="q">
+          <div class="stack">
+            {q.segs.map((s) => <div data-topic={s.t} title={`${TOPICS[s.t][0]}: ${s.n}`} style={`height:${(100 * s.n) / q.n}%;background:${TOPICS[s.t][1]}`}></div>)}
+          </div>
+          <span class="meta">{q.label} · {q.n}</span>
+        </div>
+      ))}
+    </div>
+    <p class="meta foot">By kind of item, published and logged together.</p>
+  </section>
+</Base>
+
+<script>
+  let active: string | null = null;
+  const chips = document.querySelectorAll<HTMLButtonElement>('.chips button');
+  chips.forEach((b) => b.addEventListener('click', () => {
+    active = active === b.dataset.topic ? null : b.dataset.topic!;
+    chips.forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.topic === active)));
+    document.querySelectorAll<HTMLElement>('.dot, .stack > div').forEach((el) => el.classList.toggle('dim', !!active && el.dataset.topic !== active));
+  }));
+  const readout = document.querySelector('.readout')!;
+  document.querySelectorAll<HTMLElement>('.dot').forEach((d) => {
+    const show = () => (readout.textContent = d.dataset.label!);
+    d.addEventListener('mouseenter', show);
+    d.addEventListener('focus', show);
+  });
+</script>
+
+<style>
+  .intro { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; align-items: end; padding: 72px 0 32px; }
+  .intro h1 { margin: 0; font-size: 44px; line-height: 1.15; font-weight: 400; }
+  .intro p { margin: 0; color: var(--ink-2); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; padding-bottom: 24px; }
+  .chips button { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 22px; border: 1px solid var(--rule);
+    background: var(--bg); color: var(--ink); font: 400 13px var(--mono); letter-spacing: 0.02em; cursor: pointer; }
+  .chips button[aria-pressed='true'] { border-color: var(--ink); background: var(--code-bg); }
+  .sw { width: 10px; height: 10px; border-radius: 50%; }
+  .scroller { overflow-x: auto; border: 1px solid var(--rule); border-radius: 2px; }
+  .plot { position: relative; width: 1120px; }
+  .month { position: absolute; top: 8px; }
+  .year { position: absolute; left: 20px; color: var(--ink); }
+  .rule { position: absolute; left: 0; right: 0; border-top: 1px solid var(--rule); }
+  .dot { position: absolute; width: 12px; height: 12px; border-radius: 50%; transition: opacity 0.2s; }
+  .dot.logged { box-sizing: border-box; }
+  .dot:hover, .dot:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
+  .dim { opacity: 0.15; }
+  .readout { min-height: 24px; padding: 16px 0 32px; }
+  .sub { margin: -16px 0 24px; color: var(--ink-2); font-size: 16px; }
+  .bars { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 12px; }
+  .q { display: flex; flex-direction: column; gap: 8px; }
+  .stack { display: flex; flex-direction: column-reverse; height: 160px; border-radius: 2px; overflow: hidden; background: var(--code-bg); }
+  .stack > div { transition: opacity 0.2s; }
+  .foot { margin-top: 20px; }
+</style>

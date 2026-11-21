@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import { posts, postUrl, displayTitle } from '../lib/site';
+const all = await posts();
+const tags = [...new Set(all.flatMap((p) => p.data.tags))].sort((a, b) => a.localeCompare(b));
+---
+<Base title="Tags">
+  <h1 class="title">Tags</h1>
+  {tags.map((t) => (
+    <section class="block" id={t}>
+      <h2 class="label">{t}</h2>
+      <ul class="list">
+        {all.filter((p) => p.data.tags.includes(t)).map((p) => <li><a href={postUrl(p)}>{displayTitle(p.data.title)}</a></li>)}
+      </ul>
+    </section>
+  ))}
+</Base>
+<style>.title { font-size: 40px; font-weight: 400; margin: 72px 0 40px; }</style>

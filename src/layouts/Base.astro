@@ -1,0 +1,81 @@
+---
+import '@fontsource-variable/newsreader/opsz.css';
+import '@fontsource-variable/newsreader/opsz-italic.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import 'katex/dist/katex.min.css';
+import '../styles/global.css';
+
+interface Props { title?: string; description?: string; wide?: boolean }
+const { title, description = 'Harel Lidar — AI researcher working on LLM inference.', wide = false } = Astro.props;
+const fullTitle = title ? `${title} — Harel Lidar` : 'Harel Lidar';
+const nav = [
+  ['Archive', '/archive/'], ['Notes', '/notes/'], ['Papers', '/papers/'], ['Reading', '/reading/'], ['Timeline', '/timeline/'], ['Progress', '/progress/'], ['About', '/about/'],
+];
+const here = Astro.url.pathname;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <link rel="canonical" href={new URL(here, Astro.site)} />
+    <link rel="alternate" type="application/rss+xml" title="Harel Lidar" href="/feed.xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <script is:inline>
+      try { const t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch {}
+    </script>
+  </head>
+  <body>
+    <header class={wide ? 'wide' : 'wrap'}>
+      <div class="bar">
+        <a href="/" class="name">Harel Lidar</a>
+        <nav aria-label="Main">
+          {nav.map(([label, href]) => (
+            <a href={href} aria-current={here.startsWith(href) ? 'page' : undefined}>{label}</a>
+          ))}
+        </nav>
+      </div>
+    </header>
+    <main class={wide ? 'wide' : 'wrap'}>
+      <slot />
+    </main>
+    <footer class={wide ? 'wide' : 'wrap'}>
+      <div class="bar">
+        <span>Harel Lidar</span>
+        <span class="links">
+          <a href="https://github.com/fearthedeer9">GitHub</a>
+          <a href="https://linkedin.com/in/harel-lidar-3759b518a">LinkedIn</a>
+          <a href="mailto:rllidar9@gmail.com">Email</a>
+          <a href="/feed.xml">RSS</a>
+          <button type="button" id="theme" aria-label="Toggle dark mode">◐</button>
+        </span>
+      </div>
+    </footer>
+    <script is:inline>
+      document.getElementById('theme').addEventListener('click', () => {
+        const root = document.documentElement;
+        const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+        root.dataset.theme = dark ? 'light' : 'dark';
+        try { localStorage.setItem('theme', root.dataset.theme); } catch {}
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  .bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px; }
+  header .bar { padding: 40px 0 0; }
+  .name { font-size: 19px; text-decoration: none; }
+  nav { display: flex; flex-wrap: wrap; gap: 4px 24px; font-size: 17px; }
+  nav a { text-decoration: none; }
+  nav a[aria-current='page'] { text-decoration: underline; text-decoration-color: var(--accent); }
+  main { padding-bottom: 32px; }
+  footer .bar { padding: 40px 0 56px; border-top: 1px solid var(--rule); font-size: 16px; color: var(--muted); }
+  .links { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; }
+  #theme { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; min-width: 44px; min-height: 44px; }
+</style>
