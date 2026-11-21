@@ -10,6 +10,7 @@ import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync } from 
 import { join } from 'node:path';
 
 const all = JSON.parse(readFileSync('private/reading/reading-all.json', 'utf8'));
+mergeJournal(all, existsSync('private/reading/journal-additions.json') ? JSON.parse(readFileSync('private/reading/journal-additions.json', 'utf8')) : null);
 const dir = process.argv[2];
 const notes = dir && existsSync(dir)
   ? Object.fromEntries(readdirSync(dir).filter((f) => f.endsWith('.json')).map((f) => [f.slice(0, -5), JSON.parse(readFileSync(join(dir, f), 'utf8'))]))
@@ -39,6 +40,26 @@ const podcasts = (all.podcasts ?? []).filter((p) => p.show).map((p) => ({
   show: p.show, topic: p.topic ?? null, first: p.first ?? null, last: p.last ?? null,
   episodes: (p.episodes ?? []).filter((e) => e.title && !WORK.test(e.title)).map((e) => ({ title: e.title, date: e.date ?? null })),
 }));
+
+// New reading from journal days (scripts/journal/reading-from-journal.mjs), folded into the extracted log.
+// Books match by title prefix; a book seen only in the journal is added as "Started" without catalogue details.
+function mergeJournal(all, add) {
+  if (!add) return;
+  const key = (t) => String(t ?? '').toLowerCase().replace(/[^a-z0-9א-ת]+/g, ' ').trim();
+  const seen = new Set(all.articles.map((a) => `${key(a.title)}|${a.date}`));
+  for (const a of add.articles) if (!seen.has(`${key(a.title)}|${a.date}`)) { all.articles.push({ ...a, author: null, topic: null, url: null }); seen.add(`${key(a.title)}|${a.date}`); }
+  for (const e of add.episodes) {
+    let show = all.podcasts.find((p) => key(p.show) === key(e.show));
+    if (!show) all.podcasts.push(show = { show: e.show, topic: null, first: e.date, last: e.date, episodes: [] });
+    if (!show.episodes.some((x) => key(x.title) === key(e.title) && x.date === e.date)) show.episodes.push({ title: e.title, date: e.date });
+    show.last = show.last && show.last > e.date ? show.last : e.date;
+  }
+  for (const b of add.books) {
+    let book = all.books.find((x) => [x.title, x.canonical_title].some((t) => t && (key(t).startsWith(key(b.title)) || key(b.title).startsWith(key(t)))));
+    if (!book) all.books.push(book = { id: key(b.title).replace(/ /g, '-'), title: b.title, status: 'Started', date_started: b.date, log: { first: b.date, last: b.date } });
+    book.log = { ...(book.log ?? {}), last: book.log?.last && book.log.last > b.date ? book.log.last : b.date };
+  }
+}
 
 mkdirSync('src/data', { recursive: true });
 writeFileSync('src/data/reading.json', JSON.stringify({ books, articles, podcasts }, null, 1) + '\n');
