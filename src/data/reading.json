@@ -4204,22 +4204,6 @@
    "idea": null,
    "for": null,
    "favorite": false
-  },
-  {
-   "id": "stone-sky-2-chapters",
-   "title": "Stone Sky - 2 Chapters",
-   "authors": [],
-   "year_published": null,
-   "year_read": 2026,
-   "status": "Started",
-   "subjects": [],
-   "blurb": null,
-   "url": null,
-   "rating": null,
-   "take": null,
-   "idea": null,
-   "for": null,
-   "favorite": false
   }
  ],
  "articles": [
@@ -11592,14 +11576,6 @@
    "url": null
   },
   {
-   "title": "MLST - Tom Mgrath How models Learn",
-   "medium": "article",
-   "author": null,
-   "date": "2026-10-24",
-   "topic": null,
-   "url": null
-  },
-  {
    "title": "Science in a High Dimensional World",
    "medium": "article",
    "author": null,
@@ -11648,31 +11624,7 @@
    "url": null
   },
   {
-   "title": "BS Pod + NFL fantasy Pod",
-   "medium": "article",
-   "author": null,
-   "date": "2026-11-04",
-   "topic": null,
-   "url": null
-  },
-  {
-   "title": "BS Pod",
-   "medium": "article",
-   "author": null,
-   "date": "2026-11-05",
-   "topic": null,
-   "url": null
-  },
-  {
    "title": "Components of agent memory, the importance of sleep for salience calibration - anthropic",
-   "medium": "article",
-   "author": null,
-   "date": "2026-11-07",
-   "topic": null,
-   "url": null
-  },
-  {
-   "title": "Why opsd doesn’t work - bias over variance",
    "medium": "article",
    "author": null,
    "date": "2026-11-07",
@@ -11728,58 +11680,18 @@
    "url": null
   },
   {
-   "title": "Ringer nfl show",
-   "medium": "article",
-   "author": null,
-   "date": "2026-11-14",
-   "topic": null,
-   "url": null
-  },
-  {
-   "title": "Dwarkesh pod",
-   "medium": "article",
-   "author": null,
-   "date": "2026-11-14",
-   "topic": null,
-   "url": null
-  },
-  {
    "title": "Desiderata for agents - descriptive, meta reflective",
    "medium": "article",
    "author": null,
    "date": "2026-11-14",
    "topic": null,
-   "url": null
+   "url": "https://www.lesswrong.com/posts/sqjti8dxcKSvZJikd/desiderata-for-the-theory-of-agents"
   },
   {
    "title": "Memories from early anthropic - memoir from early safety researcher",
    "medium": "article",
    "author": null,
    "date": "2026-11-14",
-   "topic": null,
-   "url": null
-  },
-  {
-   "title": "BS pod",
-   "medium": "article",
-   "author": null,
-   "date": "2026-11-16",
-   "topic": null,
-   "url": null
-  },
-  {
-   "title": "Ringer nfl pod",
-   "medium": "article",
-   "author": null,
-   "date": "2026-11-17",
-   "topic": null,
-   "url": null
-  },
-  {
-   "title": "Ringer NFL Pod",
-   "medium": "article",
-   "author": null,
-   "date": "2026-11-18",
    "topic": null,
    "url": null
   }
@@ -11789,7 +11701,7 @@
    "show": "The Bill Simmons Podcast",
    "topic": "Sports",
    "first": "2023-01-11",
-   "last": "2026-11-09",
+   "last": "2026-11-16",
    "episodes": [
     {
      "title": "State of NBA",
@@ -12620,8 +12532,20 @@
      "date": "2026-10-30"
     },
     {
+     "title": "Episode not logged",
+     "date": "2026-11-04"
+    },
+    {
+     "title": "Episode not logged",
+     "date": "2026-11-05"
+    },
+    {
      "title": "NFL Recap",
      "date": "2026-11-09"
+    },
+    {
+     "title": "Episode not logged",
+     "date": "2026-11-16"
     }
    ]
   },
@@ -12629,7 +12553,7 @@
    "show": "The Lowe Post",
    "topic": "Sports",
    "first": "2023-01-17",
-   "last": "2026-10-08",
+   "last": "2026-11-10",
    "episodes": [
     {
      "title": "Bill Simmons Western All Stars",
@@ -13034,6 +12958,14 @@
     {
      "title": "summer recap",
      "date": "2026-09-01"
+    },
+    {
+     "title": "NBA Reactions",
+     "date": "2026-10-27"
+    },
+    {
+     "title": "NBA tiers",
+     "date": "2026-11-10"
     }
    ]
   },
@@ -14129,7 +14061,7 @@
    "show": "The Ringer NFL Show",
    "topic": "Sports",
    "first": "2023-02-11",
-   "last": "2026-08-29",
+   "last": "2026-11-18",
    "episodes": [
     {
      "title": "Super Bowl preview",
@@ -14294,6 +14226,18 @@
     {
      "title": "Top sleepers",
      "date": "2026-08-23"
+    },
+    {
+     "title": "Episode not logged",
+     "date": "2026-11-14"
+    },
+    {
+     "title": "Episode not logged",
+     "date": "2026-11-17"
+    },
+    {
+     "title": "Episode not logged",
+     "date": "2026-11-18"
     }
    ]
   },
@@ -14934,6 +14878,10 @@
     {
      "title": "noah smith",
      "date": "2026-10-15"
+    },
+    {
+     "title": "Episode not logged",
+     "date": "2026-11-14"
     },
     {
      "title": "The AI revolution is coming for",
@@ -16069,7 +16017,7 @@
    "show": "The Ringer Fantasy Football Show",
    "topic": "Sports",
    "first": "2025-09-19",
-   "last": "2026-10-07",
+   "last": "2026-11-06",
    "episodes": [
     {
      "title": "week 2 reactions",
@@ -16094,6 +16042,14 @@
     {
      "title": "week 5 waivers",
      "date": "2026-10-07"
+    },
+    {
+     "title": "Episode not logged",
+     "date": "2026-11-04"
+    },
+    {
+     "title": "Week 9 Preview",
+     "date": "2026-11-06"
     }
    ]
   },
@@ -16450,18 +16406,14 @@
    ]
   },
   {
-   "show": "Lowe Pod",
+   "show": "Machine Learning Street Talk",
    "topic": null,
-   "first": "2026-10-27",
-   "last": "2026-11-10",
+   "first": "2026-10-24",
+   "last": "2026-10-24",
    "episodes": [
     {
-     "title": "NBA Reactions",
-     "date": "2026-10-27"
-    },
-    {
-     "title": "NBA tiers",
-     "date": "2026-11-10"
+     "title": "Tom Mgrath How models Learn",
+     "date": "2026-10-24"
     }
    ]
   },
@@ -16474,18 +16426,6 @@
     {
      "title": "Bell Labs",
      "date": "2026-11-01"
-    }
-   ]
-  },
-  {
-   "show": "NFL Fantasy Pod",
-   "topic": null,
-   "first": "2026-11-06",
-   "last": "2026-11-06",
-   "episodes": [
-    {
-     "title": "Week 9 Preview",
-     "date": "2026-11-06"
     }
    ]
   }
