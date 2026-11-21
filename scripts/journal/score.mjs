@@ -59,6 +59,13 @@ const SOURCES = {
   goals: (row, day) => { const g = day.goals ?? []; return g.length ? g.filter(checked).length / g.length : 0; },
   tv: (row, day) => (day.tv ?? []).filter((l) => (!row.match || re(row.match).test(l)) && !(row.except && re(row.except).test(l))).length,
   articles: (row, day) => (day.articles ?? []).filter((l) => (!row.match || re(row.match).test(l)) && !(row.except && re(row.except).test(l))).length,
+  // Alcoholic drinks mentioned under Food ("2 beers", "Cocktail", "wine x2"); a row with this source shares its
+  // name with the Numbers "Drinks:" row, so whichever is larger counts and a drink is never counted twice.
+  'food-drinks': (row, day) => (day.food ?? []).reduce((n, l) => {
+    if (!re(row.match).test(l)) return n;
+    const q = l.match(/^(\d+)\s|x\s*(\d+)\b|\b(\d+)\s*x\b/i);
+    return n + (q ? +(q[1] ?? q[2] ?? q[3]) : 1);
+  }, 0),
   // Per-case points Harel writes himself, anywhere in the log: "Bonus 5: cooked dinner with friends".
   bonus: (row, day) => Object.values(day).flat().reduce((n, l) => n + (+(String(l).match(/^bonus\s*[:+]?\s*(\d+)/i)?.[1] ?? 0)), 0),
   // Pages since the last page logged for the same book ("Iron Flame, p. 140"); 30 pages assumed when none are given.

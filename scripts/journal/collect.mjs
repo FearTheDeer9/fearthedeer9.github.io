@@ -36,6 +36,7 @@ const dated = (name, p) => {
   const m = name.match(/(\d{1,2})\.(\d{1,2})\.(\d{2})\b/); // "Time Block Writing 22.10.26"
   return m ? `20${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}` : statSync(p).birthtime.toLocaleDateString('en-CA');
 };
+const noteMinutes = {}; // date -> birth minute -> notes created in it
 (function walk(dir, rel) {
   if (!existsSync(dir)) return;
   for (const e of readdirSync(dir, { withFileTypes: true })) {
@@ -45,16 +46,22 @@ const dated = (name, p) => {
     const key = /(^|\/)Time Block Writing\//.test(r) ? 'vault-writing' : /^(AI Theory|Daily Learning)\//.test(r) ? 'vault-notes' : null;
     if (!key) continue;
     const d = dated(e.name, p);
-    if (sig[d]) sig[d][key] = key === 'vault-writing' ? 1 : sig[d][key] + 1;
+    if (!sig[d]) continue;
+    if (key === 'vault-writing') { sig[d][key] = 1; continue; }
+    const minute = statSync(p).birthtime.toISOString().slice(0, 16);
+    ((noteMinutes[d] ??= {})[minute] ??= []).push(r);
   }
 })(VAULT, '');
+// Three or more notes born in the same minute are an import or a copy, not note-taking: they count as one.
+for (const [d, mins] of Object.entries(noteMinutes)) sig[d]['vault-notes'] = Object.values(mins).reduce((n, l) => n + (l.length >= 3 ? 1 : l.length), 0);
 
 // ActivityWatch: active (not AFK) window time per app and title. Skipped quietly if the app isn't running.
 async function activity(date) {
   const buckets = await fetch(`${AW}/buckets/`).then((r) => r.json());
-  const win = Object.keys(buckets).find((b) => b.startsWith('aw-watcher-window'));
-  const afk = Object.keys(buckets).find((b) => b.startsWith('aw-watcher-afk'));
-  if (!win || !afk) return null;
+  // Bucket names embed the hostname, which changes with the network, so every window and afk bucket is read.
+  const wins = Object.keys(buckets).filter((b) => b.startsWith('aw-watcher-window'));
+  const afks = Object.keys(buckets).filter((b) => b.startsWith('aw-watcher-afk'));
+  if (!wins.length || !afks.length) return null;
   const start = new Date(`${date}T00:00:00`), end = new Date(start); end.setDate(end.getDate() + 1);
   // Raw events, intersected here: ActivityWatch 0.13's filter_keyvals query function errors server-side.
   const events = async (bucket) => {
@@ -62,9 +69,9 @@ async function activity(date) {
     if (!Array.isArray(res)) throw new Error(`ActivityWatch events failed: ${res.message ?? JSON.stringify(res)}`);
     return res.map((e) => ({ data: e.data, from: Date.parse(e.timestamp), to: Date.parse(e.timestamp) + e.duration * 1000 }));
   };
-  const active = (await events(afk)).filter((e) => e.data.status === 'not-afk');
+  const active = (await Promise.all(afks.map(events))).flat().filter((e) => e.data.status === 'not-afk');
   const seconds = {};
-  for (const w of await events(win)) {
+  for (const w of (await Promise.all(wins.map(events))).flat()) {
     let overlap = 0;
     for (const a of active) overlap += Math.max(0, Math.min(w.to, a.to) - Math.max(w.from, a.from));
     if (!overlap) continue;

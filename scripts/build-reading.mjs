@@ -33,8 +33,12 @@ const books = (all.books ?? []).filter((b) => !WORK.test(b.title ?? '')).map((b)
   };
 }).filter(Boolean);
 
-const articles = (all.articles ?? []).filter((a) => a.title && !WORK.test(a.title)).map((a) => ({
-  title: a.title, medium: a.medium ?? 'article', author: a.author ?? null, date: a.date ?? null, topic: a.topic ?? null, url: a.url ?? null,
+// Harel's per-title calls: titles to keep off the site, and links to add (private/reading/overrides.json).
+const over = existsSync('private/reading/overrides.json') ? JSON.parse(readFileSync('private/reading/overrides.json', 'utf8')) : { hide: [], urls: {} };
+const hidden = (t) => over.hide.some((h) => new RegExp(h, 'i').test(t));
+const linkFor = (t) => Object.entries(over.urls).find(([h]) => new RegExp(h, 'i').test(t))?.[1] ?? null;
+const articles = (all.articles ?? []).filter((a) => a.title && !WORK.test(a.title) && !hidden(a.title)).map((a) => ({
+  title: a.title, medium: a.medium ?? 'article', author: a.author ?? null, date: a.date ?? null, topic: a.topic ?? null, url: a.url ?? linkFor(a.title),
 }));
 const podcasts = (all.podcasts ?? []).filter((p) => p.show).map((p) => ({
   show: p.show, topic: p.topic ?? null, first: p.first ?? null, last: p.last ?? null,
@@ -45,13 +49,13 @@ const podcasts = (all.podcasts ?? []).filter((p) => p.show).map((p) => ({
 // Books match by title prefix; a book seen only in the journal is added as "Started" without catalogue details.
 function mergeJournal(all, add) {
   if (!add) return;
-  const key = (t) => String(t ?? '').toLowerCase().replace(/[^a-z0-9א-ת]+/g, ' ').trim();
+  const key = (t) => String(t ?? '').toLowerCase().replace(/[^a-z0-9א-ת]+/g, ' ').trim().replace(/^(the|a) /, '');
   const seen = new Set(all.articles.map((a) => `${key(a.title)}|${a.date}`));
   for (const a of add.articles) if (!seen.has(`${key(a.title)}|${a.date}`)) { all.articles.push({ ...a, author: null, topic: null, url: null }); seen.add(`${key(a.title)}|${a.date}`); }
   for (const e of add.episodes) {
     let show = all.podcasts.find((p) => key(p.show) === key(e.show));
     if (!show) all.podcasts.push(show = { show: e.show, topic: null, first: e.date, last: e.date, episodes: [] });
-    if (!show.episodes.some((x) => key(x.title) === key(e.title) && x.date === e.date)) show.episodes.push({ title: e.title, date: e.date });
+    if (!show.episodes.some((x) => key(x.title) === key(e.title) && x.date === e.date)) show.episodes.push({ title: e.title || 'Episode not logged', date: e.date });
     show.last = show.last && show.last > e.date ? show.last : e.date;
   }
   for (const b of add.books) {

@@ -9,7 +9,9 @@ const DAYS = 'private/journal/days';
 const all = JSON.parse(readFileSync('private/reading/reading-all.json', 'utf8'));
 const shows = all.podcasts.map((p) => p.show);
 // Journal shorthand for shows, as the extraction resolved them.
-const ALIAS = { 'bs pod': 'The Bill Simmons Podcast', bs: 'The Bill Simmons Podcast', lowe: 'The Lowe Post', jre: 'The Joe Rogan Experience', 'heavy hands': 'Heavy Hands', 'latent space': 'Latent Space', dwarkesh: 'Dwarkesh Podcast', lex: 'Lex Fridman Podcast', huberman: 'Huberman Lab' };
+const ALIAS = { 'bs pod': 'The Bill Simmons Podcast', bs: 'The Bill Simmons Podcast', lowe: 'The Lowe Post', 'lowe pod': 'The Lowe Post', jre: 'The Joe Rogan Experience',
+  'heavy hands': 'Heavy Hands', 'latent space': 'Latent Space', dwarkesh: 'Dwarkesh Podcast', 'dwarkesh pod': 'Dwarkesh Podcast', lex: 'Lex Fridman Podcast', huberman: 'Huberman Lab',
+  'ringer nfl show': 'The Ringer NFL Show', 'ringer nfl pod': 'The Ringer NFL Show', 'nfl fantasy pod': 'The Ringer Fantasy Football Show', mlst: 'Machine Learning Street Talk' };
 
 function showOf(prefix) {
   const p = prefix.trim().toLowerCase();
@@ -23,13 +25,17 @@ for (const f of days) {
   const date = f.slice(0, 10), day = parseDay(readFileSync(join(DAYS, f), 'utf8'));
   for (const line of day.articles ?? []) {
     const [prefix, ...rest] = line.split(/\s+[-–]\s+/);
+    // "Show - Episode", or a show logged by name alone ("BS Pod + NFL fantasy Pod").
+    const bare = rest.length ? [] : line.split(/\s*\+\s*/).map(showOf);
     const show = rest.length ? showOf(prefix) : null;
     if (show) out.episodes.push({ show, title: rest.join(' - '), date });
+    else if (bare.length && bare.every(Boolean)) for (const s of bare) out.episodes.push({ show: s, title: '', date });
     else out.articles.push({ title: line.replace(/^(youtube( video)?|video)\s*[-–:]\s*/i, ''), medium: /^(youtube|video)/i.test(line) ? 'video' : 'article', date });
   }
   for (const line of day.book ?? []) {
     const m = line.match(/^(.*?)[,\s-]*(?:p\.?|page)\s*(\d+)/i);
-    out.books.push({ title: (m?.[1] ?? line).trim(), page: m ? +m[2] : null, date });
+    // "Stone Sky - 2 Chapters": the amount read is not part of the title.
+    out.books.push({ title: (m?.[1] ?? line).replace(/\s*[-–,]\s*\d+\s*(chapters?|pages?|pp)\b.*$/i, '').trim(), page: m ? +m[2] : null, date });
   }
 }
 writeFileSync('private/reading/journal-additions.json', JSON.stringify(out, null, 1));
