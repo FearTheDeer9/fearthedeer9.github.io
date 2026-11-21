@@ -34,7 +34,7 @@ jobs:
         run: |
           dupes=$(grep -h '^title:' src/content/posts/*.md | sort | uniq -d)
           [ -z "$dupes" ] || { echo "Duplicate titles:"; echo "$dupes"; exit 1; }
-      - uses: actions/upload-pages-artifact@v4
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
 
